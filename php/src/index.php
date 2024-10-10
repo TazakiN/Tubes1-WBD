@@ -1,4 +1,6 @@
 <?php
 
-echo 'Hello World!';
-echo '<script src="/public/index.js"></script>';
+require_once __DIR__ . '/app/core/App.php';
+require_once __DIR__ . '/app/core/Controller.php';
+
+$app = new App();
