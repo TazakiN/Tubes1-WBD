@@ -1,0 +1,20 @@
+.global-nav_content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-buttons {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.nav-buttons li {
+  display: inline;
+}
+
+.nav-buttons a {
+  text-decoration: none;
+  color: #000;
+}
