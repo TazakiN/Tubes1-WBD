@@ -1,20 +1,60 @@
+/* Global Navbar Styles */
+.global-nav {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 0.5rem 2rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
+
 .global-nav_content {
+  width: 100%;
+  max-width: 1200px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }
 
-.nav-buttons {
-  list-style: none;
+/* Logo Styles */
+.global-nav_branding-logo {
+  width: 120px;
+}
+
+.logo-image {
+  width: 100%;
+  height: auto;
+}
+
+/* Navigation Buttons */
+.global-nav_nav ul {
   display: flex;
-  gap: 15px;
-}
-
-.nav-buttons li {
-  display: inline;
+  list-style: none;
+  gap: 2rem;
 }
 
 .nav-buttons a {
   text-decoration: none;
-  color: #000;
+  color: #333;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.nav-buttons a:hover {
+  color: #0073b1; /* LinkedIn's signature blue */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .nav-buttons {
+    gap: 1rem;
+  }
+
+  .global-nav_content {
+    padding: 0 1rem;
+  }
 }

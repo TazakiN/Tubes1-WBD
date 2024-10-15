@@ -5,6 +5,8 @@ namespace app\database;
 use PDO;
 use PDOException;
 
+require_once __DIR__ . '/../config/config.php';
+
 class DatabaseConnection
 {
     private static $instance;
@@ -12,16 +14,17 @@ class DatabaseConnection
 
     private function __construct()
     {
-        $DB_HOST = "db";
-        $DB_USERNAME = $_ENV['MYSQL_USER'];
-        $DB_PASSWORD = $_ENV['MYSQL_PASSWORD'];
-        $DB_NAME = $_ENV['MYSQL_DATABASE'];
+        $DB_HOST = $_ENV['DB_HOST'];
+        $DB_PORT = $_ENV['DB_PORT'];
+        $DB_USERNAME = $_ENV['DB_USERNAME'];
+        $DB_PASSWORD = $_ENV['DB_PASSWORD'];
+        $DB_NAME = $_ENV['DB_NAME'];
 
         try {
-            $this->pdo = new PDO("mysql:host=$DB_HOST;dbname=$DB_NAME", $DB_USERNAME, $DB_PASSWORD);
+            $this->pdo = new PDO("pgsql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME", $DB_USERNAME, $DB_PASSWORD);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
-            die("ERROR: Could not connect. " . $e . " >>>");
+            die("ERROR: Could not connect. " . $e->getMessage());
         }
     }
 
