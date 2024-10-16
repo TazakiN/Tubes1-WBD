@@ -9,8 +9,8 @@
         </p>
 
         <div class="role-selection">
-            <button type="button" id="btnJobSeeker" class="role-button">JobSeeker</button>
-            <button type="button" id="btnCompany" class="role-button active">Company</button>
+            <button type="button" id="btnJobSeeker" class="role-button active">JobSeeker</button>
+            <button type="button" id="btnCompany" class="role-button">Company</button>
         </div>
 
         <form class="form" method="post" id="registerForm">
