@@ -4,6 +4,8 @@ namespace app;
 
 use app\Router;
 use app\controllers\HomeController;
+use app\controllers\LoginController;
+use app\controllers\RegisterController;
 
 class App
 {
@@ -19,5 +21,8 @@ class App
     private function init_router()
     {
         $this->router->addRoute('/', HomeController::class);
+        $this->router->addRoute('/login', LoginController::class);
+        $this->router->addRoute('/logout', LoginController::class);
+        $this->router->addRoute('/register', RegisterController::class);
     }
 }
