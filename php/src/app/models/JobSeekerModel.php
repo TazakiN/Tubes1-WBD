@@ -15,7 +15,6 @@ class JobSeekerModel extends BaseModel
     public function __construct()
     {
         $this->_primary_key = 'user_id';
-        return $this;
     }
 
     public function constructFromArray($array)
