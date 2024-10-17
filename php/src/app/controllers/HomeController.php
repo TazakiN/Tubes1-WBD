@@ -16,7 +16,10 @@ class HomeController extends BaseController
 
     protected function get($urlParams)
     {
-        parent::render($urlParams, "home", "layouts/base");
-        // echo $_SESSION["role"];
+        if (isset($_SESSION['user_id'])) {
+            parent::render($urlParams, "home", "layouts/base");
+        } else {
+            parent::redirect("/login");
+        }
     }
 }
