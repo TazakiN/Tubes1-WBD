@@ -1,3 +1,7 @@
+<?php
+ $__headContent = '<link rel="stylesheet" href="/public/css/form.css">';
+?>
+
 <section class="form-section">
     <div class="form-container">
         <h2 class="header-title">LinkInPurry</h2>

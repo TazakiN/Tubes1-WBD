@@ -15,7 +15,8 @@
 
     <link rel="stylesheet" href="/public/css/global.css">
     <link rel="stylesheet" href="/public/css/header.css">
-    <link rel="stylesheet" href="/public/css/form.css">
+
+    <?= $__headContent ?>
     <title>LinkInPurry</title>
 </head>
 
