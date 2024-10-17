@@ -11,7 +11,7 @@ class RegisterController extends BaseController
 {
     public function __construct()
     {
-        parent::__construct(UserService::getInstance(), CompanyDetailRepository::getInstance());
+        parent::__construct(UserService::getInstance());
     }
 
     public function get($urlParams)
@@ -50,9 +50,7 @@ class RegisterController extends BaseController
             $msg = $e->getMessage();
             echo "<script>console.error('Error: " . addslashes($msg) . "');</script>";
             parent::redirect("/register");
-            parent::render($urlParams, "register", "layouts/base", array(
-                'msg' => $msg
-            ));
+            parent::render($urlParams, "register", "layouts/base");
         }
     }
 };

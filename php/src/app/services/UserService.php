@@ -25,8 +25,7 @@ class UserService extends BaseService
     {
         if (!isset(self::$instance)) {
             self::$instance = new static(
-                UserRepository::getInstance(),
-                CompanyDetailRepository::getInstance()
+                UserRepository::getInstance()
             );
         }
         return self::$instance;
