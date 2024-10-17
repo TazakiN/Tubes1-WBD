@@ -1,12 +1,14 @@
 <?php
 $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">
-<script src="/public/js/profile-edit.js" defer></script>';
+<script src="/public/js/profile-edit-jobseeker.js" defer></script>';
 ?>
 
 <section class="profile-section">
     <div class="profile-header">
         <h1 class="profile-title">Job Seeker Profile</h1>
-        
+        <p class="error-msg"><?php if (isset($errorMsg)) {
+                                    echo "$errorMsg";
+                                } ?></p>
     </div>
 
     <div class="profile-content">
@@ -16,8 +18,8 @@ $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">
             </div>
 
             <div class="profile-details">
-                <h2 class="profile-name"><?php echo $data['nama']; ?></h2>
-                <p class="profile-email"><?php echo $data['email']; ?></p>
+                <h2 class="profile-name" id="displayNama"><?php echo $data['nama']; ?></h2>
+                <p class="profile-email" id="displayEmail"><?php echo $data['email']; ?></p>
             </div>
         </div>
     </div>
@@ -36,9 +38,9 @@ $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">
         <span class="close-btn" id="closeModal">&times;</span>
         <h2>Edit Profile</h2>
 
-        <form action="/update-profile" method="POST" class="edit-form">
-            <label for="name">Company Name</label>
-            <input type="text" id="name" name="name" value="<?php echo $data['nama']; ?>" required>
+        <form class="edit-form" id="editForm">
+            <label for="nama">Your Name</label>
+            <input type="text" id="nama" name="nama" value="<?php echo $data['nama']; ?>" required>
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email" value="<?php echo $data['email']; ?>" required>

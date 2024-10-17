@@ -303,10 +303,18 @@ class UserService extends BaseService
         return null;
     }
 
-    // public function update($user)
-    // {
-
-    // }
+    public function updateJobSeeker($user): mixed
+    {
+        $arrParams = [
+            "user_id" => PDO::PARAM_INT,
+            "role" => PDO::PARAM_STR,
+            "nama" => PDO::PARAM_STR,
+            "email" => PDO::PARAM_STR,
+            "password" => PDO::PARAM_STR
+        ];
+        return $this->repository->update($user, $arrParams);
+            
+    }
 
     // public function deleteById($user_id)
     // {
