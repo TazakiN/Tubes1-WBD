@@ -1,7 +1,7 @@
 <?php
 function loadEnv($path)
 {
-    echo "Mencari file .env... di $path\n";
+    // echo "Mencari file .env... di $path\n";
 
     if (!file_exists($path)) {
         throw new Exception("File .env tidak ditemukan!");
