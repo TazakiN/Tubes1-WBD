@@ -1,12 +1,13 @@
-CREATE DATABASE LinkInPurry;
-\c LinkInPurry;
+DROP DATABASE IF EXISTS linkinpurry;
+CREATE DATABASE linkinpurry;
+\c linkinpurry;
 
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     role VARCHAR(255) CHECK (role IN ('company', 'jobseeker')) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    nama VARCHAR(255) NOT NULL
-    password VARCHAR(255) NOT NULL,
+    nama VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Company_Detail (
@@ -25,7 +26,7 @@ CREATE TABLE Lowongan (
     jenis_lokasi VARCHAR(255) CHECK (jenis_lokasi IN ('on-site', 'remote', 'hybrid')) NOT NULL,
     is_open BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (company_id) REFERENCES Users(user_id)
 );
 

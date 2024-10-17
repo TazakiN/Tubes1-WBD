@@ -1,7 +1,7 @@
 <?php
 function loadEnv($path)
 {
-    // echo "Mencari file .env... di $path\n";
+    echo "Mencari file .env... di $path\n";
 
     if (!file_exists($path)) {
         throw new Exception("File .env tidak ditemukan!");
@@ -26,4 +26,4 @@ function loadEnv($path)
     // echo "File .env berhasil di-load!\n " . $_ENV["DB_HOST"];
 }
 
-loadEnv(__DIR__ . '\..\..\..\..\.env');
+loadEnv(__DIR__ . '/../../../../.env');
