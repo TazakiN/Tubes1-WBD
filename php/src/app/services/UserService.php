@@ -275,6 +275,34 @@ class UserService extends BaseService
         return null;
     }
 
+    public function getCompanyById($id)
+    {
+        $user = new CompanyModel();
+        $response = $this->repository->getById($id);
+        $array = $response;
+
+        $response = CompanyDetailRepository::getInstance()->getByID($array['user_id']);
+        $array = array_merge($array, $response);
+
+        if ($array) {
+            $user->constructFromArray($array);
+        }
+        return $user;
+    }
+
+    public function getJobSeekerById($id)
+    {
+        $user = $this->repository->getById($id);
+
+        if ($user) {
+            $userModel = new JobSeekerModel();
+            $userModel->constructFromArray($user);
+            return $userModel;
+        }
+
+        return null;
+    }
+
     // public function update($user)
     // {
 
