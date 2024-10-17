@@ -1,5 +1,10 @@
+header {
+  position: fixed;
+  width: 100%;
+}
+
 header.global-nav {
-  background-color: #0a66c2;
+  background-color: var(--blue);
   padding: 2px 20px;
   display: flex;
   justify-content: center;
@@ -21,8 +26,8 @@ header.global-nav {
   text-decoration: none;
 }
 
-.global-nav_branding-logo svg {
-  width: 40px;
+.global-nav_branding-logo img {
+  width: auto;
   height: 40px;
 }
 
@@ -201,7 +206,7 @@ header.global-nav {
 
 /* Primary nav-button styling */
 .nav-button {
-  background-color: #0a66c2; /* LinkedIn blue */
+  background-color: #0a66c2;
   color: white;
   border: none;
 }
@@ -229,6 +234,6 @@ header.global-nav {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .nav-button {
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
   }
 }
