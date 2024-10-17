@@ -29,7 +29,7 @@
                 <div class="user-menu">
                     <button id="user-button" class="user-button" aria-haspopup="true">
                         <img src="/public/svg/person.svg" alt="User Profile Picture" class="profile-pic">
-                        <span>Hello, <?php echo $_SESSION['nama']; ?></span>
+                        <span>Hello, <span id="displayNama"><?php echo $_SESSION['nama']; ?></span></span>
                     </button>
 
                     <div id="dropdown-menu" class="dropdown-menu">
