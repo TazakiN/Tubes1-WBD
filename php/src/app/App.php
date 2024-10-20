@@ -26,5 +26,6 @@ class App
         $this->router->addRoute('/logout', LoginController::class);
         $this->router->addRoute('/register', RegisterController::class);
         $this->router->addRoute('/profile', ProfileController::class);
+        $this->router->addRoute('/edit-profile', ProfileController::class);
     }
 }
