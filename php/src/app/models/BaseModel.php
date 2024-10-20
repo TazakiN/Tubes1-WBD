@@ -6,11 +6,6 @@ abstract class BaseModel
 {
     public $_primary_key = '';
 
-    public function __construct()
-    {
-        return $this;
-    }
-
     public function set($attr, $value)
     {
         $this->$attr = $value;
