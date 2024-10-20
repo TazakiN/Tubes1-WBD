@@ -24,7 +24,6 @@ class LoginController extends BaseController
             }
         } else if ($uri == "/logout") {
             $this->service->logout();
-            echo "logout";
             parent::redirect("/login");
         }
     }
