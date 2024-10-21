@@ -4,7 +4,7 @@ namespace app\models;
 
 use app\models\BaseModel;
 
-class LamaranModel extends BaseModel
+class LowonganModel extends BaseModel
 {
     public $lowongan_id;
     public $company_id;
