@@ -17,7 +17,7 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 650px;
   text-align: center;
 }
 
@@ -57,7 +57,7 @@
 .role-button.active {
   background-color: #4f46e5;
   color: #fff;
-  transform: scale(1.05);
+  /* transform: scale(1.05); */
 }
 
 .role-button:hover {
@@ -143,4 +143,9 @@
 
 .text-link:hover {
   text-decoration: underline;
+}
+
+.ql-editor {
+  font-weight: normal;
+  font-family: inherit;
 }

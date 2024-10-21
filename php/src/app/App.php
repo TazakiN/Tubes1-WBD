@@ -5,6 +5,7 @@ namespace app;
 use app\Router;
 use app\controllers\HomeController;
 use app\controllers\LoginController;
+use app\controllers\ProfileController;
 use app\controllers\RegisterController;
 
 class App
@@ -24,5 +25,7 @@ class App
         $this->router->addRoute('/login', LoginController::class);
         $this->router->addRoute('/logout', LoginController::class);
         $this->router->addRoute('/register', RegisterController::class);
+        $this->router->addRoute('/profile', ProfileController::class);
+        $this->router->addRoute('/edit-profile', ProfileController::class);
     }
 }

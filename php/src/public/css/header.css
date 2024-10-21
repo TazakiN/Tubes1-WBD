@@ -124,13 +124,15 @@ header.global-nav {
   display: flex;
   align-items: center;
   cursor: pointer;
-  color: black;
+  font-family: "Source Sans 3", sans-serif;
+  color: white;
+  font-size: large;
   gap: 8px;
 }
 
 .profile-pic {
-  width: 40px;
-  height: 40px;
+  width: auto;
+  height: 25px;
   border-radius: 30%;
   object-fit: cover;
 }

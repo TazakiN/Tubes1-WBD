@@ -179,17 +179,19 @@ class UserService extends BaseService
     {
         $user = new CompanyModel();
         $response = $this->repository->getByEmail($email);
-        $array = $response;
-
-        $response = CompanyDetailRepository::getInstance()->getByID($array['user_id']);
-        $array = array_merge($array, $response);
-
-        if ($response) {
+        if (!$response) {
+            $response = [];
+        }
+        $companyDetail = CompanyDetailRepository::getInstance()->getByID($response['user_id'] ?? 0);
+        if (!$companyDetail) {
+            $companyDetail = [];
+        }
+        $array = array_merge($response, $companyDetail);
+        if (!empty($array)) {
             $user->constructFromArray($array);
         }
-
         return $user;
-    }
+    }    
 
     public function getByNama($nama)
     {
@@ -215,12 +217,15 @@ class UserService extends BaseService
     {
         $user = new CompanyModel();
         $response = $this->repository->getByNama($nama);
-        $array = $response;
-
-        $response = CompanyDetailRepository::getInstance()->getByID($array['user_id']);
-        $array = array_merge($array, $response);
-
-        if ($array) {
+        if (!$response) {
+            $response = [];
+        }
+        $companyDetail = CompanyDetailRepository::getInstance()->getByID($response['user_id'] ?? 0);
+        if (!$companyDetail) {
+            $companyDetail = [];
+        }
+        $array = array_merge($response, $companyDetail);
+        if (!empty($array)) {
             $user->constructFromArray($array);
         }
         return $user;
@@ -258,8 +263,8 @@ class UserService extends BaseService
 
     public function isEmailCompanyExist($email)
     {
-        $user = $this->getCompanyByEmail($email);
-        return !is_null($user->get('user_id'));
+        $company = $this->getCompanyByEmail($email);
+        return !is_null($company->get('user_id'));
     }
 
     public function getUserById($id)
@@ -276,19 +281,22 @@ class UserService extends BaseService
     }
 
     public function getCompanyById($id)
-    {
-        $user = new CompanyModel();
-        $response = $this->repository->getById($id);
-        $array = $response;
-
-        $response = CompanyDetailRepository::getInstance()->getByID($array['user_id']);
-        $array = array_merge($array, $response);
-
-        if ($array) {
-            $user->constructFromArray($array);
+        {
+            $user = new CompanyModel();
+            $response = $this->repository->getById($id);
+            if (!$response) {
+                $response = [];
+            }
+            $companyDetail = CompanyDetailRepository::getInstance()->getByID($response['user_id'] ?? 0);
+            if (!$companyDetail) {
+                $companyDetail = [];
+            }
+            $array = array_merge($response, $companyDetail);
+            if (!empty($array)) {
+                $user->constructFromArray($array);
+            }
+            return $user;
         }
-        return $user;
-    }
 
     public function getJobSeekerById($id)
     {
@@ -303,11 +311,39 @@ class UserService extends BaseService
         return null;
     }
 
-    // public function update($user)
-    // {
+    public function updateJobSeeker($user): mixed
+    {
+        $arrParams = [
+            "user_id" => PDO::PARAM_INT,
+            "role" => PDO::PARAM_STR,
+            "nama" => PDO::PARAM_STR,
+            "email" => PDO::PARAM_STR,
+            "password" => PDO::PARAM_STR
+        ];
+        return $this->repository->update($user, $arrParams);
+    }
 
-    // }
+    public function updateCompany($company): mixed
+    {
+        $arrParamsUsers = [
+            "user_id" => PDO::PARAM_INT,
+            "role" => PDO::PARAM_STR,
+            "nama" => PDO::PARAM_STR,
+            "email" => PDO::PARAM_STR,
+            "password" => PDO::PARAM_STR
+        ];
+        $response = $this->repository->update($company, $arrParamsUsers);
 
+        $arrParamsCompanyDetails = [
+            "user_id" => PDO::PARAM_INT,
+            "lokasi" => PDO::PARAM_STR,
+            "about" => PDO::PARAM_STR
+        ];
+
+        $response = CompanyDetailRepository::getInstance()->update($company, $arrParamsCompanyDetails);
+        
+        return $response;
+    }
     // public function deleteById($user_id)
     // {
 
