@@ -1,5 +1,5 @@
 <?php
- $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
+$__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
 ?>
 
 <section class="profile-section">

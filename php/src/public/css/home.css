@@ -1,0 +1,140 @@
+.home-page-container{
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+}
+
+.home-container{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.line {
+    height: 10px;
+}
+
+.profile-card {
+    margin-top: 10px;
+    display: flex;
+    width: 544px;
+    height: 226px;
+    border-radius: 25px;
+    background-color: #CACCCE;
+    padding: 20px;
+}
+
+.profile-picture {
+    margin-right: 20px;
+    background-color: white;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 20px;
+    display: flex;
+}
+
+.card-description {
+    margin-top: auto;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container{
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn, .history-btn {
+    background-color: transparent;
+    border: 2px solid black;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 20px;
+    width: 95px;
+    height: 40px;
+}
+
+.prof {
+    margin: auto;
+    width: 65px;
+    height: 65px;
+}
+
+.search-input {
+    display: flex;
+    border: 0px;
+    overflow: hidden;
+    border-radius: 15px;
+    width: 780px;
+    height: 60px;
+    background: transparent url("/public/svg/search.svg") no-repeat 13px center;
+    background-color: #CACCCE;
+    color: #86888A;
+    padding: 10px;
+    padding-left: 60px;
+    font-size: 24px;
+    box-shadow: 2px 2px 4px;
+}
+
+.button-container .job-listing-button{
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+    margin: auto;
+    display: flex;
+    background-color: #00A0DC;
+    border: transparent;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    width: 180px;
+    height: 60px;
+}
+
+.button-container .purry-search-button{
+    border: 2px solid black;
+    padding: 10px;
+    gap: 10px;
+    margin: auto;
+    background-color: transparent;
+    cursor: pointer;
+    color: black;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    width: 180px;
+    height: 60px;
+}
+
+.highlight{
+    color: #00A0DC;
+}
+
+h1 {
+    margin: 0;
+    font-size: 96px;
+}
+
+h2 {
+    font-size: 48px;
+}
+
+p {
+    font-size: 32px;
+}
+
+
+p1 {
+    font-size: 24px;
+}
