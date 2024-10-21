@@ -6,22 +6,23 @@
     <div class="form-container">
         <h1 class="header-title">Applying for</h1>
         <h2 class="subheader-title"> Senior HR </h2>
-        <p class="error-msg">
+        <p class="error-msg" id="error-msg">
             <?php if (isset($errorMsg)) {
                 echo "$errorMsg";
             } ?>
         </p>
 
-        <form class="form" method="post" id="lamarform">
-
+        <form class="form" method="post" id="lamarform" enctype="multipart/form-data">
             <div class="upload-container"> 
                 <div class="upload-group">
-                    <button class="upload-button"> CV Upload </button>
-                    <label class="file-name"> NAMA FILE </label>
+                    <input type="file" name="cvInput" id="cvInput"  style="display: none;" accept="application/pdf"/>
+                    <button type="button" class="upload-button" id="cvInputButton"> CV Upload </button>
+                    <label class="file-name" id="cvNameLabel"> Upload PDF file </label>
                 </div>
                 <div class="upload-group">
-                    <button class="upload-button"> Video Upload </button>
-                    <label class="file-name"> NAMA FILE </label>
+                    <input type="file" name="videoInput" id="videoInput" style="display: none;" accept="video/mp4"/>
+                    <button type="button" class="upload-button" id="videoInputButton"> Video Upload </button>
+                    <label class="file-name" id="videoNameLabel"> Upload MP4 Video (Optional) </label>
                 </div>
             </div>
 
@@ -29,47 +30,50 @@
 
             <div class="editor-container" id="notes-container" style="height: 360px;"></div>
 
-            <input type="hidden" name="editorContent" id="editorContent">
+            <input type="hidden" name="noteInput" id="editorContent">
 
             <div class="submit-button-container">
-                <button class="submit-button" type="submit"> Submit </button>
+                <button class="submit-button" type="submit" id="submit-button"> Submit </button>
             </div>
         </form>
     </div>
 </section>
 
 <script>
+
     var quill = new Quill('#notes-container', {
         theme: 'snow'
     });
 
-    function submitForm() {
-        var editorContent = quill.root.innerHTML;
-        document.getElementById('editorContent').value = editorContent;
-    }
+    document.getElementById('lamarform').addEventListener('submit', function(event) {
+        var quillContent = quill.root.innerHTML;
+        document.getElementById('editorContent').value = quillContent;
+    });
 
-    const btnJobSeeker = document.getElementById('btnJobSeeker');
-    const btnCompany = document.getElementById('btnCompany');
-    const roleInput = document.getElementById('role');
-    const companyFields = document.getElementById('companyFields');
+    document.getElementById('cvInputButton').addEventListener('click', function() {
+        document.getElementById('cvInput').click();
+    });
 
-    const switchRole = (role) => {
-        roleInput.value = role;
-        if (role === 'jobseeker') {
-            companyFields.classList.add('hidden');
-            btnJobSeeker.classList.add('active');
-            btnCompany.classList.remove('active');
-            document.getElementById('lokasi').required = false;
-            document.getElementById('about').required = false;
+    document.getElementById('videoInputButton').addEventListener('click', function() {
+        document.getElementById('videoInput').click();
+    });
+
+    document.getElementById('cvInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            document.getElementById('cvNameLabel').textContent = 'No File Selected';
         } else {
-            companyFields.classList.remove('hidden');
-            btnCompany.classList.add('active');
-            btnJobSeeker.classList.remove('active');
-            document.getElementById('lokasi').required = true;
-            document.getElementById('about').required = true;
+            document.getElementById('cvNameLabel').textContent = file.name;
         }
-    };
+    });
 
-    btnJobSeeker.addEventListener('click', () => switchRole('jobseeker'));
-    btnCompany.addEventListener('click', () => switchRole('company'));
+    document.getElementById('videoInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) {
+            document.getElementById('videoNameLabel').textContent = 'No File Selected';
+        } else {
+            document.getElementById('videoNameLabel').textContent = file.name;
+        }
+    });
+
 </script>

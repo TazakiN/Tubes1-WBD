@@ -40,8 +40,7 @@
   /* Error Message */
   .error-msg {
     color: var(--error-red);
-    margin-bottom: 1rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
   }
   
   /* Form Styles */
@@ -113,7 +112,7 @@
     background-color: var(--light-blue);
     border-radius: 10px;
     font-size: 1.25rem;
-    margin: 25px;
+    margin: 24px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
   }
