@@ -16,6 +16,11 @@
     <link rel="stylesheet" href="/public/css/global.css">
     <link rel="stylesheet" href="/public/css/header.css">
 
+    <!-- Quill.js -->
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+    <link href="/public/css/richtextarea.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
     <?= $__headContent ?>
     <title>LinkInPurry</title>
 </head>
