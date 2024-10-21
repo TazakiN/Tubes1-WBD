@@ -43,12 +43,12 @@
                     <textarea id="quillTextArea" name="deskripsi" style="display:none"></textarea>
             </div>
             <!-- TODO: Add media upload -->
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label for="media">Media</label>\
                 <div class="media-upload">
                     <span>+</span>
                 </div>
-            </div> -->
+            </div>
             <div class="form-actions">
                 <button type="submit" class="btn add">Add</button>
                 <button type="button" class="btn discard">Discard</button>
