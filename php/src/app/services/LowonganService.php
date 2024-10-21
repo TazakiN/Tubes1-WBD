@@ -39,8 +39,16 @@ class LowonganService extends BaseService
     }
 
     public function postNewLowongan($data) {
-        $lowonganModel = new LowonganModel();
-        $lowonganModel->constructFromArray($data);
-        return $this->repository->insertNewLowongan($lowonganModel);
+        $lowongan = new LowonganModel();
+        $lowongan
+            ->set("company_id", $data["company_id"])
+            ->set("posisi", $data["posisi"])
+            ->set("deskripsi", $data["deskripsi"])
+            ->set("jenis_pekerjaan", $data["jenis_pekerjaan"])
+            ->set("jenis_lokasi", $data["jenis_lokasi"])
+            ->set("is_open", $data["is_open"]);
+
+        // echo var_dump($lowongan);
+        return $this->repository->insertNewLowongan($lowongan);
     }
 }

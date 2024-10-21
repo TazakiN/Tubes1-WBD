@@ -1,11 +1,7 @@
 <?php
     $__headContent = 
     '<link rel="stylesheet" href="/public/css/form.css">
-    <script src="/public/js/richText.js" defer></script>
-    <!-- Include stylesheet -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-    <!-- Include the Quill library -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>';
+    <script src="/public/js/richText.js" defer></script>';
 ?>
 
 <section class="form-section">
@@ -47,8 +43,7 @@
                     <div id="editor-container">
                         <div id="editor"></div>
                     </div>
-                    <!-- <input type="hidden" id="about" name="about"> -->
-                    <textarea id="about" name="about" style="visibility:hidden"></textarea>
+                    <textarea id="quillTextArea" name="about" style="visibility:hidden"></textarea>
                 </div>
             </div>
 

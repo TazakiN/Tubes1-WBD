@@ -3,6 +3,7 @@
     justify-content: center;
     margin-left: auto;
     margin-right: auto;
+    padding-top: 100px;
     padding-top: 120px;
 }
 
@@ -70,11 +71,12 @@
 }
 
 .search-input {
+    width: 100%;
     display: flex;
     border: 0px;
     overflow: hidden;
     border-radius: 15px;
-    width: 780px;
+    max-width: 780px;
     height: 60px;
     background: transparent url("/public/svg/search.svg") no-repeat 13px center;
     background-color: #CACCCE;
@@ -83,6 +85,7 @@
     padding-left: 60px;
     font-size: 24px;
     box-shadow: 2px 2px 4px;
+    transition: width 0.3s ease-in-out;
 }
 
 .button-container .job-listing-button{
@@ -137,4 +140,130 @@ p {
 
 p1 {
     font-size: 24px;
+}
+
+@media (max-width: 1024px) {
+    .profile-card {
+        width: 400px;
+        height: auto;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .profile-picture {
+        margin: auto;
+    }
+
+    .card-description {
+        margin: 10px 0;
+    }
+
+    .search-input {
+        height: 50px;
+        font-size: 20px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .job-listing-button, .purry-search-button {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 72px;
+    }
+
+    h2 {
+        font-size: 36px;
+    }
+
+    p {
+        font-size: 24px;
+    }
+
+    p1 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profile-card {
+        width: 300px;
+        height: auto;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+    }
+
+    .search-input {
+        width: 90%;
+        height: 45px;
+        font-size: 18px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    h1 {
+        font-size: 48px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    p1 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-card {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .profile-picture {
+        width: 80px;
+        height: 80px;
+    }
+
+    .search-input {
+        width: 100%;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 18px;
+    }
+
+    p1 {
+        font-size: 14px;
+    }
+
+    .job-listing-button, .purry-search-button {
+        width: 100%;
+    }
 }
