@@ -7,6 +7,7 @@ use app\controllers\HomeController;
 use app\controllers\LoginController;
 use app\controllers\ProfileController;
 use app\controllers\RegisterController;
+use app\controllers\LamaranController;
 
 class App
 {
@@ -27,5 +28,6 @@ class App
         $this->router->addRoute('/register', RegisterController::class);
         $this->router->addRoute('/profile', ProfileController::class);
         $this->router->addRoute('/edit-profile', ProfileController::class);
+        $this->router->addRoute('/lamaran', LamaranController::class);
     }
 }

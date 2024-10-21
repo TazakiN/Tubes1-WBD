@@ -1,0 +1,124 @@
+/* General Styles */
+.form-section {
+    margin: 0;
+    padding: 4rem;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  /* Form Container */
+  .form-container {
+    background-color: white;
+    padding: 3rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-width: 360px;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  /* Header Title */
+  .header-title {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    color: var(--light-blue);
+    font-weight: bold;
+  }
+
+  /* Subeader Title */
+  .subheader-title {
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    color: var(--black);
+    font-weight: bold;
+  }
+  
+  /* Error Message */
+  .error-msg {
+    color: var(--error-red);
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Form Styles */
+  .form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .upload-container {
+    margin-left: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+
+  .upload-group {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+  }
+
+  .upload-group label {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-left: 4px;
+  }
+
+  /* Upload Button */
+  .upload-button {
+    width: 120px;
+    padding: 0.6rem;
+    color: black;
+    background-color: white;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .upload-button:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: scale(0.95);
+  }
+
+  h3 {
+    color: var(--light-blue);
+    margin: 12px;
+  }
+
+  .submit-button-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .submit-button {
+    border: none;
+    width: 150px;
+    padding: 0.4rem;
+    color: white;
+    background-color: var(--light-blue);
+    border-radius: 10px;
+    font-size: 1.25rem;
+    margin: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .submit-button:hover {
+    background-color: var(--blue);
+    transform: scale(0.95);
+  }
