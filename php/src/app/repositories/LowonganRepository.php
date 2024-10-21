@@ -9,7 +9,7 @@ use PDO;
 class LowonganRepository extends BaseRepository
 {
     protected static $instance;
-    protected $tableName = 'lowongan_id';
+    protected $tableName = 'lowongan';
 
     private function __construct()
     {
@@ -29,17 +29,15 @@ class LowonganRepository extends BaseRepository
         return $this->findOne(['lowongan_id' => [$id, PDO::PARAM_INT]]);
     }
 
-    public function postNewLowongan($lowonganModel) {
+    public function insertNewLowongan($lowonganModel) {
+        // var_dump($lowonganModel);
         $id = $this->insert($lowonganModel, array(
-            'lowongan_id'=> PDO::PARAM_INT,
             'company_id'=> PDO::PARAM_INT,
             'posisi'=> PDO::PARAM_STR,
             'deskripsi'=> PDO::PARAM_STR,
             'jenis_pekerjaan'=> PDO::PARAM_STR,
             'jenis_lokasi'=> PDO::PARAM_STR,
-            'is_open'=> PDO::PARAM_STR,
-            'created_at'=> PDO::PARAM_STR,
-            'updated_at'=> PDO::PARAM_STR
+            'is_open'=> PDO::PARAM_BOOL
         ));
 
         $response = $this->getByID($id);
