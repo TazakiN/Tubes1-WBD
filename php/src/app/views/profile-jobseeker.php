@@ -10,18 +10,16 @@ $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
                                 } ?></p>
     </div>
 
-    <div class="profile-content">
-        <div class="profile-info">
-            <div class="profile-picture">
-                <img src="/public/svg/personHitam.svg" alt="Person Logo" class="profile-pic">
+    <section class="profile-content">
+            <div class="profile-picture-profile">
+                <img src="/public/svg/personHitam.svg" alt="Person Logo" class="profile-pic-profile">
             </div>
 
             <div class="profile-details">
                 <h2 class="profile-name" id="displayNama"><?php echo $data['nama']; ?></h2>
                 <p class="profile-email" id="displayEmail"><?php echo $data['email']; ?></p>
             </div>
-        </div>
-    </div>
+    </section>
 
     <div class="profile-about">
     </div>
