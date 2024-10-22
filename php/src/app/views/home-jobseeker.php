@@ -17,7 +17,9 @@
                     <a href='/edit-profile'>
                         <button class="edit-btn">Edit</button>
                     </a>
-                    <button class="history-btn">History</button>
+                    <a href="/riwayat">
+                        <button class="history-btn">History</button>
+                    </a>
                 </div> 
             </div>
         </div>
