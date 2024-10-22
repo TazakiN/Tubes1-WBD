@@ -3,7 +3,7 @@
 namespace app\controllers;
 
 use app\services\LamaranService;
-use app\services\LowoService;
+use app\services\LowonganService;
 use app\Request;
 use Exception;
 
@@ -34,22 +34,17 @@ class LamaranController extends BaseController
         // }
     }
 
+    protected function post($urlParams)
+    {
+        $note = $_POST['noteInput'];
+        $cv_file = $_FILES['cvInput'];
+        $video_file = $_FILES['videoInput'];
 
-
-
-    
-    // protected function post($urlParams)
-    // {
-    //     $username_email = $_POST['username-email'];
-    //     $password = $_POST['password'];
-    //     try {
-    //         $this->service->login($username_email, $password);
-    //     } catch (Exception $e) {
-    //         $msg = $e->getMessage();
-    //         parent::render(["errorMsg" => $msg], "login", "layouts/base");
-    //     }
-    //     if (isset($_SESSION['user_id'])) {
-    //         parent::redirect("/");
-    //     }
-    // }
+        try {
+            $this->service->createLamaran($note, $cv_file, $video_file);
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            parent::render(["errorMsg" => $msg], "lamaran", "layouts/base");
+        }
+    }
 }
