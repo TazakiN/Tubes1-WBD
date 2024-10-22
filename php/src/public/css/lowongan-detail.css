@@ -3,6 +3,7 @@
 .lowongan-detail-section {
   width: 100%;
   padding-top: 70px;
+  padding-bottom: 30px;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
