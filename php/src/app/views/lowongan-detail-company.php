@@ -8,8 +8,9 @@
             include "lowongan-detail.php";
         ?>
 
+        <a href="/lowongan/edit?lowongan_id=<?php echo $data['lowongan_id']?>">
         <button class="action-button">Edit</button>
-        
+        </a>
         <!-- TODO: Masih Placeholder -->
         <div class="applicants">
             <h2>Applicants</h2>
