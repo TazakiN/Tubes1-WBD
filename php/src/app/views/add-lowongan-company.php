@@ -1,13 +1,14 @@
 <?php
     $__headContent = '<link rel="stylesheet" href="/public/css/addLowongan.css">
-    <script src="/public/js/richText.js" defer></script>';
+    <script src="/public/js/richText.js" defer></script>
+    <script src="/public/js/addLowongan.js" defer></script>';
     ?>
 
 <section class="add-lowongan-section">
     <div class="add-lowongan-container">
 
         <h1>Add Vacancy</h1>
-        <form id="lowonganForm" method="POST">
+        <form id="lowonganForm">
             <div class="form-group">
                 <label for="vacancy-name">Vacancy Name</label>
                 <input type="text" id="vacancy-name" name="vacancy-name">
@@ -42,13 +43,23 @@
                     </div>
                     <textarea id="quillTextArea" name="deskripsi" style="display:none"></textarea>
             </div>
-            <!-- TODO: Add media upload -->
-            <!-- <div class="form-group">
-                <label for="media">Media</label>\
-                <div class="media-upload">
-                    <span>+</span>
+            <div class="form-group media-upload-section">
+                <label for="media-upload">Media Upload</label>
+                <div class="upload-container" id="uploadContainer">
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
+                        <div class="upload-content">
+                            <i class="upload-icon">📁</i>
+                            <p>Drag and drop files here or <span class="browse-text">browse</span></p>
+                            <p class="file-support">Supports: Images, PDF, DOC, DOCX</p>
+                        </div>
+                    </div>
+                    <div class="file-preview-container" id="filePreviewContainer">
+                        <!-- Preview items will be added here dynamically -->
+                    </div>
                 </div>
-            </div> -->
+            </div>
+
             <div class="form-actions">
                 <button type="submit" class="btn add">Add</button>
                 <button type="button" class="btn discard">Discard</button>
