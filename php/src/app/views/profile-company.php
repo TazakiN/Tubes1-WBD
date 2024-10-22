@@ -15,10 +15,10 @@ $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
         <div class="profile-details">
             <h2 class="profile-name"><?php echo $data['nama']; ?></h2>
             <p class="profile-email"><?php echo $data['email']; ?></p>
-            <p class="profile-lokasi">
+            <div class="profile-lokasi">
                 <img src="/public/svg/location.svg" alt="Location Logo" class="icon-profile">
                 <?php echo $data['lokasi']; ?>
-            </p>
+            </div>
         </div>
 
         <div class="profile-about">
