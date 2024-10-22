@@ -1,0 +1,177 @@
+/* Global Styles */
+
+.lowongan-detail-section {
+  width: 100%;
+  padding-top: 70px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  max-width: 60%;
+}
+
+.header {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header img {
+  width: 60px;
+  height: 60px;
+}
+
+.status {
+  color: white;
+  padding: 5px 15px;
+  border-radius: 4px;
+  font-size: larger;
+  width: fit-content;
+}
+
+.status.open {
+  background-color: #4caf50;
+}
+
+.status.closed {
+  background-color: #f44336;
+}
+
+.job-title {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.job-info {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  font-size: 20px;
+  align-items: center;
+  font-weight: 500;
+}
+
+.job-info img {
+  width: 30px;
+  height: 30px;
+}
+
+.job-info span {
+  padding: 5px 10px;
+  border-radius: 4px;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.description {
+  margin-bottom: 20px;
+}
+
+.description h2 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.attachments {
+  margin-top: 20px;
+}
+
+.images {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.image-container {
+  text-align: center;
+  width: 150px;
+}
+
+.attachment-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.file-name {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+  word-wrap: break-word;
+}
+
+.action-button {
+  display: block;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  justify-content: center;
+  margin: auto auto 20px auto;
+}
+
+.action-button:hover {
+  background-color: #1976d2;
+}
+
+.applicants {
+  border-top: 1px solid black;
+  margin-top: 10px;
+  padding-top: 20px;
+}
+
+.applicant {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.applicant-name {
+  font-weight: bold;
+}
+
+.applicant-status {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.status.waiting {
+  background-color: var(--light-blue);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: medium;
+}
+
+.details-button {
+  background-color: var(--dark-grey);
+  color: white;
+  border: none;
+  font-size: medium;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.details-button:hover {
+  background-color: var(--grey);
+}
