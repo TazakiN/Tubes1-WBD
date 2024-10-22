@@ -23,7 +23,11 @@ class LowonganController extends BaseController
         if ($_SESSION["role"] == "company") {
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
-            } else if ($uri == "/lowongan") {
+            } else if ($uri == "/lowongan/edit") {
+                # TODO : Validate apakah company pemilik dari lowongan tersebut
+                $data = $this->getLowonganDetail($urlParams['lowongan_id']);
+                return parent::render($data, "edit-lowongan-company", "layouts/base");
+            }else if ($uri == "/lowongan") {
                 # TODO : Validate apakah company pemilik dari lowongan tersebut
                 $data = $this->getLowonganDetail($urlParams['lowongan_id']);
                 return parent::render($data, "lowongan-detail-company", "layouts/base");
@@ -34,11 +38,37 @@ class LowonganController extends BaseController
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
-            return parent::render(null, "login", "layouts/base");
+            return parent::render(null, "/", "layouts/base");
         }
     }
 
     protected function post($urlParams) {
+        $uri = Request::getURL();
+
+        if ($uri == "/lowongan/add") {
+            $this->postNewLowongan($urlParams);
+        } else if ($uri == "/lowongan/edit") {
+            $this->postEditLowongan($urlParams);
+        }
+    }
+
+    private function getLowonganDetail($lowongan_id) {
+        $lowongan = $this->service->getLowonganByID($lowongan_id);
+        $lowongan->set('created_at', date("Y-m-d", strtotime($lowongan->get('created_at'))));
+        $lowongan->set('updated_at', date("Y-m-d", strtotime($lowongan->get('updated_at'))));
+        $dataLowongan = $lowongan->toResponse();
+        
+        $company = $this->userService->getCompanyById($lowongan->get('company_id'));
+        $dataCompany = $company->toResponse();
+
+        $dataAttachments = $this->service->getAttachmentLowonganByLowonganID($lowongan_id);
+
+        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments]);
+
+        return $data;
+    }
+
+    private function postNewLowongan($urlParams) {
         $posisi = $_POST['vacancy-name'];
         $jenis_pekerjaan = $_POST['type'];
         $is_open = $_POST['status'] == "open" ? true : false;
@@ -59,23 +89,38 @@ class LowonganController extends BaseController
             echo json_encode(['id' => $id]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["errorMsg" => $msg], "login", "layouts/base");
+            parent::render(["alert" => $msg], "add-lowongan-company", "layouts/base");
         }
     }
 
-    private function getLowonganDetail($lowongan_id) {
-        $lowongan = $this->service->getLowonganByID($lowongan_id);
-        $lowongan->set('created_at', date("Y-m-d", strtotime($lowongan->get('created_at'))));
-        $lowongan->set('updated_at', date("Y-m-d", strtotime($lowongan->get('updated_at'))));
-        $dataLowongan = $lowongan->toResponse();
-        
-        $company = $this->userService->getCompanyById($lowongan->get('company_id'));
-        $dataCompany = $company->toResponse();
+    private function postEditLowongan($urlParams) {
+        $posisi = $_POST['vacancy-name'];
+        $jenis_pekerjaan = $_POST['type'];
+        $is_open = $_POST['status'] === "open";
+        $jenis_lokasi = $_POST['lokasi'];
+        $deskripsi = $_POST['deskripsi'];
+        $lowongan_id = $urlParams['lowongan_id'];
+        $deletedAttachments = explode(",", $_POST['deleted_attachments']);
+        $files = $_FILES['files'];
+    
+        try {
+            $this->service->postEditLowongan([
+                'lowongan_id' => $lowongan_id,
+                'posisi' => $posisi,
+                'deskripsi' => $deskripsi,
+                'jenis_pekerjaan' => $jenis_pekerjaan,
+                'jenis_lokasi' => $jenis_lokasi,    
+                'is_open' => $is_open,
+                'files' => $files,
+                'deleted_attachments' => $deletedAttachments,
+            ]);
 
-        $dataAttachments = $this->service->getAttachmentLowonganByLowonganID($lowongan_id);
-
-        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments]);
-
-        return $data;
+            error_log("Lowongan with ID $lowongan_id has been edited successfully.");
+    
+            echo json_encode(['id' => $lowongan_id]);
+        } catch (Exception $e) {
+            $msg = $e->getMessage();
+            parent::render(["alert" => $msg], "edit-lowongan-company", "layouts/base");
+        }
     }
 }
