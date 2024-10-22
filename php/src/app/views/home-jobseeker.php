@@ -8,7 +8,7 @@
         <div class="line"></div>
         <div class="profile-card">
             <div class="profile-picture">
-                <img src="/public/svg/profile.svg" alt="profile" class="prof">
+                <img src="/public/svg/profile.svg" alt="profile">
             </div>
             
             <div class="card-description">

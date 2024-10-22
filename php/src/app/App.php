@@ -9,6 +9,7 @@ use app\controllers\ProfileController;
 use app\controllers\RegisterController;
 use app\controllers\LamaranController;
 use app\controllers\LowonganController;
+use app\controllers\RiwayatController;
 
 class App
 {
@@ -25,6 +26,7 @@ class App
     {
         $this->router->addRoute('/', HomeController::class);
         $this->router->addRoute('/home', HomeController::class);
+        $this->router->addRoute('/riwayat', RiwayatController::class);
         $this->router->addRoute('/login', LoginController::class);
         $this->router->addRoute('/logout', LoginController::class);
         $this->router->addRoute('/register', RegisterController::class);

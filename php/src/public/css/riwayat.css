@@ -1,0 +1,95 @@
+.riwayat-page-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 75px;
+    align-items: center;
+    height: 100vh;
+}
+
+.sort-button{
+    justify-items: center;
+    text-align: center;
+    margin: auto;
+    background-color: #00A0DC;
+    border: transparent;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    width: 95px;
+    height: 34px;
+}
+
+.riwayat-container{
+    margin-top: 10px;
+    gap: 20px;
+    width: 600px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.riwayat {
+    display: flex;
+    align-items: center;
+    padding: 34px;
+    width: 580px;
+    height: 226px;
+    border-radius: 25px;
+    background-color: #CACCCE;
+}
+
+.company-pic{
+    width: 150px;
+    height: 150px;
+    background-color: #FFFFFF;
+    border-radius: 50%;
+    margin-right: 24px;
+    align-items: center;
+    justify-items: center;
+    display: flex;
+}
+
+.company-pic img {
+    border-radius: 0;
+    margin: auto;
+    width: 60%;
+    height: 60%;
+    background-color: transparent;
+}
+
+.riwayat-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.riwayat-text h2{
+    font-size: 28px;
+    color: #00A0DC;
+}
+
+.riwayat-text p{
+    font-size: 24px;
+}
+
+.riwayat-text .status {
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 10px;
+    background-color: #00A0DC;
+    border-radius: 10px;
+    font-weight: bold;
+    color: #FFFFFF;
+}
+
+.riwayat-text p1 {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+h1 {
+    font-size: 48px;
+}
