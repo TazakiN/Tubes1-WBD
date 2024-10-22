@@ -36,7 +36,7 @@ class ProfileController extends BaseController {
                 }
                 parent::render($data, "profile-jobseeker", "layouts/base");
             }
-        } else if ($uri = "/edit-profile") {
+        } else if ($uri == "/edit-profile") {
             if ($_SESSION["role"] == "company") {
                 $company = $this->service->getCompanyById($_SESSION['user_id']);
                 if ($company) {
@@ -54,7 +54,18 @@ class ProfileController extends BaseController {
                 }
                 parent::render($data, "edit-profile-jobseeker", "layouts/base");
             }
-        }
+        } else if ($uri == "/company-profile") {
+            $company_id_url = $urlParams["company_id"];
+            if ($_SESSION["user_id"] == $company_id_url) {
+                parent::redirect("/profile");
+            } else {
+                $company = $this->service->getCompanyById($urlParams["company_id"]);
+                if ($company) {
+                    $data = $company->toResponse();
+                }
+                parent::render($data, "profile-company-for-jobseeker", "layouts/base");
+            }
+        } 
     }
 
     protected function post($urlParams): void {
