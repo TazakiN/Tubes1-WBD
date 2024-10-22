@@ -45,6 +45,7 @@
 .card-description {
     margin-top: auto;
     margin-bottom: auto;
+    align-items: flex-start;
     display: flex;
     flex-direction: column;
 }
@@ -131,6 +132,10 @@ h1 {
 
 h2 {
     font-size: 48px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    max-width: 300px;
 }
 
 p {
@@ -252,6 +257,8 @@ p1 {
     }
 
     h2 {
+        max-width: 300px;
+
         font-size: 24px;
     }
 

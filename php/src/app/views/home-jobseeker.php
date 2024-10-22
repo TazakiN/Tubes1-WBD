@@ -3,7 +3,7 @@
 ?>
 <section class="home-page-container">
     <div class="home-container">
-        <h1><span class="highlight">Welcome,</span> Tazki</h1>
+        <h1><span class="highlight">Welcome,</span> <?php echo $data['nama']; ?></h1>
         <p>Ready to find your dream job ?</p>
         <div class="line"></div>
         <div class="profile-card">
@@ -12,9 +12,11 @@
             </div>
             
             <div class="card-description">
-                <h2> Tazkia Nizami </h2>
+                <h2> <?php echo $data['nama']; ?> </h2>
                 <div class="button-container">
-                    <button class="edit-btn">Edit</button>
+                    <a href='/edit-profile'>
+                        <button class="edit-btn">Edit</button>
+                    </a>
                     <button class="history-btn">History</button>
                 </div> 
             </div>
