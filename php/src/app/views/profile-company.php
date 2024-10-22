@@ -22,7 +22,7 @@ $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
         </div>
 
         <div class="profile-about">
-            <p class="profile-description"><?php echo $data['about']; ?> asdjsalkdjlkadsdasjdlksajdlasjdlsadklasjdlksajdlksajdlkasjlkdjsalkd sajdlkasjdlk asjlk asjdlksaj lksaj lksajdklajlks jsalkdjlkajdlkasjlk ajlksadjlasjk dlajdlk sajlkdsajlk jalk sj</p>
+            <p class="profile-description"><?php echo $data['about']; ?></p>
         </div>
 
         <a href="/edit-profile" class="edit-profile">
