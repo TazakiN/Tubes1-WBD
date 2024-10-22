@@ -31,6 +31,23 @@ class LamaranService extends BaseService
         return self::$instance;
     }
 
+    public function getLamaranByUser($user_id, $ordered = null) {
+        $all_lamaran_data = $this->repository->getAllByUserID($user_id, $ordered);
+
+        if ($all_lamaran_data) {
+            $all_lamaran_model = [];
+            foreach($all_lamaran_data as $lamaran_data){
+                $lamaran_model = new LamaranModel();
+                $lamaran_model->constructFromArray($lamaran_data);
+                $all_lamaran_model[] = $lamaran_model;
+            }
+
+            return $all_lamaran_model;
+        }
+
+        return null;
+    }
+
     public function createLamaran($note, $cv_file, $video_file, $lowongan_id): LamaranModel | null
     {
         $uploadDir = 'uploads/';

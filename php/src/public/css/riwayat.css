@@ -56,7 +56,7 @@
 .company-pic img {
     border-radius: 0;
     margin: auto;
-    width: 60%;
+    /* width: 60%; */
     height: 60%;
     background-color: transparent;
 }
