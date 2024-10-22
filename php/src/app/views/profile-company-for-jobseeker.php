@@ -1,0 +1,28 @@
+<?php
+$__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
+?>
+
+<section class="profile-section">
+    <div class="profile-header">
+        <h1 class="profile-title">Company Profile</h1>    
+    </div>
+
+    <section class="profile-content">
+        <div class="profile-picture-profile">
+            <img src="/public/svg/company.svg" alt="Company Logo" class="profile-pic-profile">
+        </div>
+
+        <div class="profile-details">
+            <h2 class="profile-name"><?php echo $data['nama']; ?></h2>
+            <p class="profile-email"><?php echo $data['email']; ?></p>
+            <div class="profile-lokasi">
+                <img src="/public/svg/location.svg" alt="Location Logo" class="icon-profile">
+                <?php echo $data['lokasi']; ?>
+            </div>
+        </div>
+
+        <div class="profile-about">
+            <p class="profile-description"><?php echo $data['about']; ?></p>
+        </div>
+    </section>
+</section>
