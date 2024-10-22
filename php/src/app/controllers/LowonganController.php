@@ -99,7 +99,7 @@ class LowonganController extends BaseController
         $is_open = $_POST['status'] === "open";
         $jenis_lokasi = $_POST['lokasi'];
         $deskripsi = $_POST['deskripsi'];
-        $lowongan_id = $urlParams['lowongan_id'];
+        $lowongan_id = (int)$urlParams['lowongan_id'];
         $deletedAttachments = explode(",", $_POST['deleted_attachments']);
         $files = $_FILES['files'];
     
