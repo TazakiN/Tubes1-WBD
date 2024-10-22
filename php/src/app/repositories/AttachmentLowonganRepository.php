@@ -4,7 +4,6 @@ namespace app\repositories;
 
 use app\models\AttachmentLowonganModel;
 use app\repositories\BaseRepository;
-use app\models\CompanyModel;
 use PDO;
 
 class AttachmentLowonganRepository extends BaseRepository
@@ -25,14 +24,14 @@ class AttachmentLowonganRepository extends BaseRepository
         return self::$instance;
     }
 
-    public function getByID($id)
+    public function getAttachmentByID($id)
     {
         return $this->findOne(['attachment_id' => [$id, PDO::PARAM_INT]]);
     }
 
     public function getByLowonganID($lowongan_id)
     {
-        return $this->findAll(['lowongan_id' => [$lowongan_id, PDO::PARAM_INT]]);
+        return $this->findAll(where: ['lowongan_id' => [$lowongan_id, PDO::PARAM_INT]]);
     }
 
     public function insertNewAttachmentLowongan($attachmentLowonganData) {
@@ -41,7 +40,7 @@ class AttachmentLowonganRepository extends BaseRepository
             'file_path'=> PDO::PARAM_STR
         ));
 
-        $response = $this->getByID($id);
+        $response = $this->getAttachmentByID($id);
         $attachmentLowongan = new AttachmentLowonganModel();
 
         return $attachmentLowongan->constructFromArray($response);
@@ -49,9 +48,9 @@ class AttachmentLowonganRepository extends BaseRepository
 
     public function deleteByID($id)
     {
-        $user = $this->getById($id);
-        $companyModel = new CompanyModel();
-        $companyModel->constructFromArray($user);
-        return $this->delete($companyModel);
+        $user = $this->getAttachmentByID($id);
+        $attachmentLowonganModel = new AttachmentLowonganModel();
+        $attachmentLowonganModel->constructFromArray($user);
+        return $this->delete($attachmentLowonganModel);
     }
 }
