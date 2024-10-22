@@ -4,16 +4,17 @@ namespace app\controllers;
 
 use app\controllers\BaseController;
 use app\services\LowonganService;
-use app\models\LowonganModel;
 use app\Request;
+use app\services\UserService;
 use Exception;
 
 class LowonganController extends BaseController
 {
-
+    protected $userService;
     public function __construct()
     {
         parent::__construct(LowonganService::getInstance());
+        $this->userService = UserService::getInstance();
     }
 
     protected function get($urlParams)
@@ -23,14 +24,14 @@ class LowonganController extends BaseController
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
             } else if ($uri == "/lowongan") {
-                $lowonganData = $this->service->getLowonganByID((int)$urlParams['lowongan_id']);
-                $data = $lowonganData->toResponse();
+                # TODO : Validate apakah company pemilik dari lowongan tersebut
+                $data = $this->getLowonganDetail($urlParams['lowongan_id']);
                 return parent::render($data, "lowongan-detail-company", "layouts/base");
             }
         } else if ($_SESSION["role"] == "jobseeker") {
             if ($uri == "/lowongan") {
-                $lowonganData = $this->service->getLowonganByID($urlParams['lowongan_id']);
-                return parent::render($lowonganData, "lowongan-detail-jobseeker", "layouts/base");
+                $data = $this->getLowonganDetail($urlParams['lowongan_id']);
+                return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
             return parent::render(null, "login", "layouts/base");
@@ -60,5 +61,21 @@ class LowonganController extends BaseController
             $msg = $e->getMessage();
             parent::render(["errorMsg" => $msg], "login", "layouts/base");
         }
+    }
+
+    private function getLowonganDetail($lowongan_id) {
+        $lowongan = $this->service->getLowonganByID($lowongan_id);
+        $lowongan->set('created_at', date("Y-m-d", strtotime($lowongan->get('created_at'))));
+        $lowongan->set('updated_at', date("Y-m-d", strtotime($lowongan->get('updated_at'))));
+        $dataLowongan = $lowongan->toResponse();
+        
+        $company = $this->userService->getCompanyById($lowongan->get('company_id'));
+        $dataCompany = $company->toResponse();
+
+        $dataAttachments = $this->service->getAttachmentLowonganByLowonganID($lowongan_id);
+
+        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments]);
+
+        return $data;
     }
 }

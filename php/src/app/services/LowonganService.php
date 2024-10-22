@@ -43,6 +43,19 @@ class LowonganService extends BaseService
         return null;
     }
 
+    public function getAttachmentLowonganByLowonganID($lowongan_id) {
+        $attachments = $this->attachmentLowonganRepository->getByLowonganID($lowongan_id);
+
+        $attachmentLowonganModels = [];
+        foreach ($attachments as $attachment) {
+            $attachmentLowonganModel = new AttachmentLowonganModel();
+            $attachmentLowonganModel->constructFromArray($attachment);
+            $attachmentLowonganModels[] = $attachmentLowonganModel;
+        }
+
+        return $attachmentLowonganModels;
+    }
+
     public function postNewLowongan($data) {
         $lowongan = new LowonganModel();
         $attachment_lowongan = new AttachmentLowonganModel();

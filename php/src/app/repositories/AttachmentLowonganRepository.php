@@ -30,6 +30,11 @@ class AttachmentLowonganRepository extends BaseRepository
         return $this->findOne(['attachment_id' => [$id, PDO::PARAM_INT]]);
     }
 
+    public function getByLowonganID($lowongan_id)
+    {
+        return $this->findAll(['lowongan_id' => [$lowongan_id, PDO::PARAM_INT]]);
+    }
+
     public function insertNewAttachmentLowongan($attachmentLowonganData) {
         $id = $this->insert($attachmentLowonganData, array(
             'lowongan_id'=> PDO::PARAM_INT,
