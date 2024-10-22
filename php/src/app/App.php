@@ -30,6 +30,7 @@ class App
         $this->router->addRoute('/register', RegisterController::class);
         $this->router->addRoute('/profile', ProfileController::class);
         $this->router->addRoute('/edit-profile', ProfileController::class);
+        $this->router->addRoute('/company-profile', ProfileController::class);
         $this->router->addRoute('/lamaran', LamaranController::class);
         $this->router->addRoute('/lowongan', LowonganController::class);
         $this->router->addRoute('/lowongan/add', LowonganController::class);

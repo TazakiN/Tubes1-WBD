@@ -5,9 +5,6 @@ $__headContent = '<link rel="stylesheet" href="/public/css/profile.css">';
 <section class="profile-section">
     <div class="profile-header">
         <h1 class="profile-title">Job Seeker Profile</h1>
-        <p class="error-msg"><?php if (isset($errorMsg)) {
-                                    echo "$errorMsg";
-                                } ?></p>
     </div>
 
     <section class="profile-content">
