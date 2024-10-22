@@ -46,6 +46,24 @@ class LowonganRepository extends BaseRepository
         return $lowongan->constructFromArray($response);
     }
 
+    public function updateLowongan($lowonganModel) {
+
+        $response = $this->update($lowonganModel, array(
+            'lowongan_id'=> PDO::PARAM_INT,
+            'company_id'=> PDO::PARAM_INT,
+            'posisi'=> PDO::PARAM_STR,
+            'deskripsi'=> PDO::PARAM_STR,
+            'jenis_pekerjaan'=> PDO::PARAM_STR,
+            'jenis_lokasi'=> PDO::PARAM_STR,
+            'is_open'=> PDO::PARAM_BOOL
+        ));
+
+        $lowonganData = $this->getByID($lowonganModel->get('lowongan_id'));
+        $lowongan = new LowonganModel();
+
+        return $lowongan->constructFromArray($lowonganData);
+    }
+
     public function deleteByID($id)
     {
         $user = $this->getById($id);

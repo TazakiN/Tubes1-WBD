@@ -100,4 +100,67 @@ class LowonganService extends BaseService
 
         return $lowongan_id;
     }
+
+    public function postEditLowongan($data) {
+    
+        $lowongan = $this->getLowonganByID($data["lowongan_id"]);
+        $attachment_lowongan = new AttachmentLowonganModel();
+        $uploadDirectory = __DIR__ . "/../../uploads/";
+    
+        $lowongan
+            ->set("posisi", $data["posisi"])
+            ->set("deskripsi", $data["deskripsi"])
+            ->set("jenis_pekerjaan", $data["jenis_pekerjaan"])
+            ->set("jenis_lokasi", $data["jenis_lokasi"])
+            ->set("is_open", $data["is_open"]);
+    
+        $this->repository->updateLowongan($lowongan);
+
+        if($data['deleted_attachments'] == [""]) {
+            $data['deleted_attachments'] = [];
+        } 
+
+        foreach ($data['deleted_attachments'] as $attachmentId) {
+            $attachment_model = new AttachmentLowonganModel();
+            $attachment = $this->attachmentLowonganRepository->getAttachmentByID($attachmentId);
+            $attachment_model->constructFromArray($attachment);
+            error_log("Attachment: " . json_encode($attachment));
+            if ($attachment) {
+                $filePath = $uploadDirectory . $attachment_model->get("file_path");
+                
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+
+                $response = $this->attachmentLowonganRepository->deleteByID($attachmentId);
+            }
+        }
+        
+        if ($data["files"]["name"][0] == "") {
+            return;
+        }
+        
+        foreach ($data["files"]["name"] as $index => $name) {
+            $tmp_name = $data["files"]["tmp_name"][$index];
+            $error = $data["files"]["error"][$index];
+    
+            if ($error === UPLOAD_ERR_OK) {
+                $uniqueFileName = uniqid() . "_" . basename($name);
+                $uploadPath = $uploadDirectory . $uniqueFileName;
+    
+                if (move_uploaded_file($tmp_name, $uploadPath)) {
+                    $attachment_lowongan = new AttachmentLowonganModel();
+                    $attachment_lowongan
+                        ->set("lowongan_id", $data["lowongan_id"])
+                        ->set("file_path", $uniqueFileName);
+    
+                    $this->attachmentLowonganRepository->insertNewAttachmentLowongan($attachment_lowongan);
+                } else {
+                    throw new Exception("Gagal mengupload file: " . $name);
+                }
+            } else {
+                throw new Exception("Terjadi error saat mengupload file: " . $name);
+            }
+        }
+    }
 }
