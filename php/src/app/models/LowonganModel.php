@@ -18,7 +18,7 @@ class LowonganModel extends BaseModel
 
     public function __construct()
     {
-        $this->_primary_key = 'user_id';
+        $this->_primary_key = 'lowongan_id';
     }
 
     public function constructFromArray($array)
