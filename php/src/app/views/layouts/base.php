@@ -37,6 +37,28 @@
         </div>
     </main>
 
+    <div id="customAlert" class="custom-alert">
+        <p class="alert-message"></p>
+        <button onclick="closeCustomAlert()">OK</button>
+    </div>
 </body>
+
+<script>
+    window.onload = function() {
+        <?php if (isset($alert)): ?>
+            showCustomAlert('<?php echo $alert; ?>');
+            <?php unset($alert); ?>
+        <?php endif; ?>
+    };
+
+    function showCustomAlert(message) {var customAlert = document.getElementById("customAlert");
+        customAlert.querySelector(".alert-message").innerText = message;
+        customAlert.style.display = "block";
+    }
+
+    function closeCustomAlert() {
+        document.getElementById("customAlert").style.display = "none";
+    }
+</script>
 
 </html>

@@ -31,23 +31,27 @@ class LamaranService extends BaseService
         return self::$instance;
     }
 
-    public function createLamaran($note, $cv_file, $video_file): LamaranModel | null
+    public function createLamaran($note, $cv_file, $video_file, $lowongan_id): LamaranModel | null
     {
         $uploadDir = 'uploads/';
         $maxCVSize = 2 * 1024 * 1024;
         $maxVideoSize = 100 * 1024 * 1024;
-
-        $lamaran = new LamaranModel();
+        $cvSuccess = false;
+        $videoSuccess = false;
+        $noteSuccess = false;
+        $cv_destination = '';
+        $video_destination = '';
 
         // CV
         if ($cv_file['error'] === UPLOAD_ERR_OK){
             if ($cv_file['type'] == 'application/pdf'){
                 if ($cv_file['size'] <= $maxCVSize){
                     $fileName = $cv_file['name'];
-                    $destination = $uploadDir . basename($fileName);
+                    $cv_destination = $uploadDir . basename($fileName);
                     $temporaryPath = $cv_file['tmp_name'];
-                    if (move_uploaded_file($temporaryPath, $destination)) {
-                        echo "CV File uploaded successfully: $fileName";
+                    if (move_uploaded_file($temporaryPath, $cv_destination)) {
+                        // echo "CV File uploaded successfully: $fileName";
+                        $cvSuccess = true;
                     } else {
                         throw new FileMoveFailedException("Error saving CV file");
                     }
@@ -67,10 +71,11 @@ class LamaranService extends BaseService
                 if ($video_file['type'] == 'video/mp4'){
                     if ($video_file['size'] <= $maxVideoSize){
                         $fileName = $video_file['name'];
-                        $destination = $uploadDir . basename($fileName);
+                        $video_destination = $uploadDir . basename($fileName);
                         $temporaryPath = $video_file['tmp_name'];
-                        if (move_uploaded_file($temporaryPath, $destination)) {
-                            echo "Video File uploaded successfully: $fileName";
+                        if (move_uploaded_file($temporaryPath, $video_destination)) {
+                            // echo "Video File uploaded successfully: $fileName";
+                            $videoSuccess = true;
                         } else {
                             throw new FileMoveFailedException("Error saving Video file");
                         }
@@ -83,15 +88,41 @@ class LamaranService extends BaseService
             } else {
                 throw new FileNotUploadedException("Error occured while uploading Video");
             }
+        } else {
+            $videoSuccess = true;
         }
 
         //Note
         $allowedTags = '<p><b><i><u><strong><em><br>';
         $sanitized_note = strip_tags($note, $allowedTags);
         $sanitized_note = htmlentities($sanitized_note, ENT_QUOTES, 'UTF-8');
+        $noteSuccess = true;
 
-        // TODO: save in database
+        if (($cvSuccess && $videoSuccess) && $noteSuccess) {
+            $lamaran = new LamaranModel();
+            $lamaran
+                ->set('user_id', $_SESSION["user_id"])
+                ->set('lowongan_id', $lowongan_id)
+                ->set('cv_path', $cv_destination)
+                ->set('video_path', $video_destination)
+                ->set('note', $note)
+                ->set('status', 'waiting')
+                ->set('status_reason', null);
 
+            $id = $this->repository->insert($lamaran, array(
+                'user_id' => PDO::PARAM_INT,
+                'lowongan_id' => PDO::PARAM_INT,
+                'cv_path' => PDO::PARAM_STR,
+                'video_path' => PDO::PARAM_STR,
+                'note' => PDO::PARAM_STR,
+                'status' => PDO::PARAM_STR,
+                'status_reason' => PDO::PARAM_STR,
+            ));
+        } 
+
+        $response = $this->repository->getByLamaranID($id);
+        $lamaran = new LamaranModel();
+        $lamaran->constructFromArray($response);
         return $lamaran;
     }
 }

@@ -55,9 +55,10 @@ CREATE TABLE Lamaran (
     user_id INT NOT NULL,
     lowongan_id INT NOT NULL,
     cv_path VARCHAR(255) NOT NULL,
-    video_path VARCHAR(255) NOT NULL,
+    video_path VARCHAR(255) DEFAULT NULL,
+    note TEXT DEFAULT NULL,
     status VARCHAR(255) CHECK (status IN ('accepted', 'rejected', 'waiting')),
-    status_reason TEXT,
+    status_reason TEXT DEFAULT NULL, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
     FOREIGN KEY (lowongan_id) REFERENCES Lowongan(lowongan_id)

@@ -5,7 +5,7 @@
 <section class="form-section">
     <div class="form-container">
         <h1 class="header-title">Applying for</h1>
-        <h2 class="subheader-title"> Senior HR </h2>
+        <h2 class="subheader-title"> <?php echo $data['position'] . " at " . $data['company_name']; ?> </h2>
         <p class="error-msg" id="error-msg">
             <?php if (isset($errorMsg)) {
                 echo "$errorMsg";
@@ -40,7 +40,6 @@
 </section>
 
 <script>
-
     var quill = new Quill('#notes-container', {
         theme: 'snow'
     });
@@ -75,5 +74,4 @@
             document.getElementById('videoNameLabel').textContent = file.name;
         }
     });
-
 </script>

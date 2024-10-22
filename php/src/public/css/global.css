@@ -1,6 +1,7 @@
 :root {
   --blue: #0077b5;
   --light-blue: #00a0dc;
+  --darker-blue: #005582;
   --black: #000000;
   --dark-grey: #313335;
   --grey: #86888a;
@@ -17,4 +18,41 @@
 
 body {
   background-color: #f5f5f5;
+}
+
+.custom-alert {
+  position: fixed;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 5%);
+  background-color: var(--light-blue);
+  color: var(--darker-blue);
+  border: 3px solid var(--darker-blue);
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  text-align: center;
+  z-index: 10;
+  display: none;
+}
+
+.alert-message {
+  font-size: 24px;
+}
+
+.custom-alert button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: var(--lighter-blue);
+  border: 1px solid var(--darker-blue);
+  cursor: pointer;
+  color: var(--darker-blue);
+  border-radius: 2px;
+}
+
+.custom-alert button:hover {
+  background-color: var(--lighter-blue);
 }

@@ -211,7 +211,11 @@ abstract class BaseRepository
         $stmt = $this->pdo->prepare($sql);
         // Hydrating and sanitizing
         foreach ($arrParams as $key => $value) {
-            $stmt->bindValue(":$key", $model->get($key), $value);
+            if (is_null($value)) {
+                $stmt->bindValue(":$key", null, PDO::PARAM_NULL);
+            } else {
+                $stmt->bindValue(":$key", $model->get($key));
+            }
         }
 
         $stmt->execute();
