@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+  quill.root.innerHTML = window.initialContent || "";
+
   let addedFiles = new Set();
   const deletedAttachments = new Set();
   const deletedAttachmentsInput = document.getElementById("deletedAttachments");
