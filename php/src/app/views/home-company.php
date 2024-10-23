@@ -9,15 +9,14 @@
         </div>
         <h1>Position Listing at, <?php echo $_SESSION["nama"] ?></h1>
     </div>
-    
 
     <a href="/lowongan/add" class="add-position">
         <span class="add-icon">+</span>
-        add new hiring position
+        Add new hiring position
     </a>
-    
+
     <div class="job-grid">
-        <?php foreach($data["lowongans"] as $k => $v): ?>
+        <?php foreach ($data["lowongans"] as $v): ?>
             <div class="job-card-container">
                 <a class="job-card" href="/lowongan?lowongan_id=<?= $v->lowongan_id ?>">
                     <div class="profile-icon">
@@ -39,55 +38,92 @@
                         </div>
                     </div>
                 </a>
-                <a href="/lowongan/delete?lowongan_id=<?= $v->lowongan_id?>" class="delete-btn">
+                <button class="delete-btn" data-id="<?= $v->lowongan_id ?>">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 6h18"></path>
                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
                         <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                     </svg>
-                </a>
+                </button>
             </div>
         <?php endforeach; ?>
     </div>
 
     <div class="pagination">
-    <?php 
-        $currentPage = $data['page'];
-        $totalPages = $data['totalPage'];
+        <?php 
+            $currentPage = $data['page'];
+            $totalPages = $data['totalPage'];
 
-        if ($currentPage > 1): ?>
-            <a href="/?page=<?= $currentPage - 1 ?>" class="pagination-btn">&larr;</a>
-        <?php else: ?>
-            <a href="#" class="pagination-btn disabled">&larr;</a>
-        <?php endif;
-
-        if ($currentPage > 3): ?>
-            <a href="/?page=1" class="pagination-btn">1</a>
-            <?php if ($currentPage > 4): ?>
-                <span class="pagination-dots">...</span>
+            if ($currentPage > 1): ?>
+                <a href="/?page=<?= $currentPage - 1 ?>" class="pagination-btn">&larr;</a>
+            <?php else: ?>
+                <a href="#" class="pagination-btn disabled">&larr;</a>
             <?php endif;
-        endif;
 
-        for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++): ?>
-            <a href="/?page=<?= $i ?>" 
-               class="pagination-btn <?= $currentPage === $i ? 'active' : '' ?>">
-                <?= $i ?>
-            </a>
-        <?php endfor;
+            if ($currentPage > 3): ?>
+                <a href="/?page=1" class="pagination-btn">1</a>
+                <?php if ($currentPage > 4): ?>
+                    <span class="pagination-dots">...</span>
+                <?php endif;
+            endif;
 
-        if ($currentPage < $totalPages - 2): ?>
-            <?php if ($currentPage < $totalPages - 3): ?>
-                <span class="pagination-dots">...</span>
+            for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++): ?>
+                <a href="/?page=<?= $i ?>" 
+                   class="pagination-btn <?= $currentPage === $i ? 'active' : '' ?>">
+                    <?= $i ?>
+                </a>
+            <?php endfor;
+
+            if ($currentPage < $totalPages - 2): ?>
+                <?php if ($currentPage < $totalPages - 3): ?>
+                    <span class="pagination-dots">...</span>
+                <?php endif; ?>
+                <a href="/?page=<?= $totalPages ?>" class="pagination-btn">
+                    <?= $totalPages ?>
+                </a>
+            <?php endif;
+
+            if ($currentPage < $totalPages): ?>
+                <a href="/?page=<?= $currentPage + 1 ?>" class="pagination-btn">&rarr;</a>
+            <?php else: ?>
+                <a href="#" class="pagination-btn disabled">&rarr;</a>
             <?php endif; ?>
-            <a href="/?page=<?= $totalPages ?>" class="pagination-btn">
-                <?= $totalPages ?>
-            </a>
-        <?php endif;
-
-        if ($currentPage < $totalPages): ?>
-            <a href="/?page=<?= $currentPage + 1 ?>" class="pagination-btn">&rarr;</a>
-        <?php else: ?>
-            <a href="#" class="pagination-btn disabled">&rarr;</a>
-        <?php endif; ?>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const lowonganId = this.getAttribute('data-id');
+
+                if (confirm('Are you sure you want to delete this position?')) {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/lowongan/delete?lowongan_id=' + lowonganId, true);
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+
+                    xhr.onload = function () {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            alert('Position deleted successfully');
+                            window.location.reload();
+                        } else {
+                            alert('Failed to delete position');
+                            console.error('Error:', xhr.statusText);
+                        }
+                    };
+
+                    xhr.onerror = function () {
+                        alert('An error occurred. Please try again.');
+                    };
+
+                    const payload = JSON.stringify({ lowongan_id: lowonganId });
+                    xhr.send(payload);
+                }
+            });
+        });
+    });
+</script>
+
