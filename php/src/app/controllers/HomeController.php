@@ -35,7 +35,7 @@ class HomeController extends BaseController
                 $data['lowongans'] = $this->lowonganService->getLowonganByCompanyIDandPage($_SESSION['user_id'], (int)$page, $limit);
                 $data['page'] = (int)$page;
                 $data['totalPage'] = (int)ceil($countData / $limit);
-                $data['alert'] = $urlParams['alert'] ?? null;
+                $data = $this->getToastContent($urlParams, $data);
                 parent::render($data, "home-company", "layouts/base");
             } else {
                 $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
@@ -43,9 +43,11 @@ class HomeController extends BaseController
                     $data['email'] = $jobseeker->email;
                     $data['nama'] = $jobseeker->nama;
                 }
+                $data = $this->getToastContent($urlParams, $data);
                 parent::render($data, "home-jobseeker", "layouts/base");
             }
         } else {
+            $data = $this->getToastContent($urlParams, $data);
             parent::redirect("/login");
         }
     }
