@@ -48,6 +48,23 @@ class LamaranService extends BaseService
         return null;
     }
 
+    public function getLamaranByLowonganID($lowongan_id, $ordered = null) {
+        $all_lamaran_data = $this->repository->getAllByLowonganID($lowongan_id, $ordered);
+
+        if ($all_lamaran_data) {
+            $all_lamaran_model = [];
+            foreach($all_lamaran_data as $lamaran_data){
+                $lamaran_model = new LamaranModel();
+                $lamaran_model->constructFromArray($lamaran_data);
+                $all_lamaran_model[] = $lamaran_model;
+            }
+
+            return $all_lamaran_model;
+        }
+
+        return null;
+    }
+
     public function createLamaran($note, $cv_file, $video_file, $lowongan_id): LamaranModel | null
     {
         $uploadDir = 'uploads/';
