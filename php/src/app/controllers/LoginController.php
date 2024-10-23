@@ -18,13 +18,14 @@ class LoginController extends BaseController
         $uri = Request::getURL();
         if ($uri == "/login") {
             if (isset($_SESSION['user_id'])) {
-                parent::redirect("/");
+                $urlParams['warning'] = "You are already logged in!";
+                parent::redirect("/", $urlParams);
             } else {
                 parent::render($urlParams, "login", "layouts/base");
             }
         } else if ($uri == "/logout") {
             $this->service->logout();
-            parent::redirect("/login");
+            parent::redirect("/login", ["success" => "Logout successful!"]);
         }
     }
     protected function post($urlParams)
@@ -35,10 +36,10 @@ class LoginController extends BaseController
             $this->service->login($username_email, $password);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["errorMsg" => $msg], "login", "layouts/base");
+            parent::render(["error" => $msg], "login", "layouts/base");
         }
         if (isset($_SESSION['user_id'])) {
-            parent::redirect("/");
+            parent::redirect("/", ["success"=> "Login successful!"]);
         }
     }
 }

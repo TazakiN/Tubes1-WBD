@@ -56,4 +56,12 @@ abstract class BaseController
         }
         header('Location: ' . $url . "?" . $params, true, $statusCode);
     }
+
+    protected function getToastContent($urlParams, $data = []) {
+        $data['success'] = $urlParams['success'] ?? null;
+        $data['warning'] = $urlParams['warning'] ?? null;
+        $data['error'] = $urlParams['error'] ?? null;
+        $data['help'] = $urlParams['help'] ?? null;
+        return $data;
+    }
 }

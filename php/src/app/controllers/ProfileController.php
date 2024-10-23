@@ -17,6 +17,7 @@ class ProfileController extends BaseController {
     
     protected function get($urlParams) : void {
         $data = [];
+        $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
         if  ($uri == "/profile") {
             if ($_SESSION["role"] == "company") {
@@ -117,13 +118,13 @@ class ProfileController extends BaseController {
                 $msg = 'Profile updated successfully.';
                 $_SESSION['nama'] = $nama;
                 $_SESSION['email'] = $email;
-                parent::redirect("/profile", ['msg' => $msg]);
+                parent::redirect("/profile", ['success' => $msg]);
             } else {
                 throw new Exception('Failed to update profile.');
             }
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            $urlParams['errorMsg'] = $msg;
+            $urlParams['error'] = $msg;
             parent::render($urlParams, "edit-profile-jobseeker", "layouts/base");
         }
     }
@@ -171,13 +172,13 @@ class ProfileController extends BaseController {
                 $updatedCompany = $this->service->getCompanyById($company->user_id);
                 $_SESSION['nama'] = $updatedCompany->nama;
                 $_SESSION['email'] = $updatedCompany->email;
-                parent::redirect("/profile", ['msg' => $msg]);
+                parent::redirect("/profile", data: ['success' => $msg]);
             } else {
                 throw new Exception('Failed to update profile.');
             }
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            $urlParams['errorMsg'] = $msg;
+            $urlParams['error'] = $msg;
             parent::render($urlParams, "edit-profile-company", "layouts/base");
         }
     }

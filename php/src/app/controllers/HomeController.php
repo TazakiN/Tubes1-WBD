@@ -22,6 +22,7 @@ class HomeController extends BaseController
     protected function get($urlParams)
     {
         $data = [];
+        $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
         if ($uri == "/home"){
             if (isset($_SESSION['user_id'])){
@@ -33,7 +34,7 @@ class HomeController extends BaseController
                     $data['totalPage'] = (int)ceil($countData / $limit);
                     parent::render($data, "home-lowongan-jobseeker", "layouts/base");
             } else {
-                parent::redirect("/login");
+                parent::redirect("/login", $data);
             }
         } else {
             if (isset($_SESSION['user_id'])) {
@@ -55,7 +56,7 @@ class HomeController extends BaseController
                     parent::render($data, "home-jobseeker", "layouts/base");
                 }
             } else {
-                parent::redirect("/login");
+                parent::redirect("/login", $data);
             }
         }
     }
