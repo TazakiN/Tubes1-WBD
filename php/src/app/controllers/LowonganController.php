@@ -36,7 +36,14 @@ class LowonganController extends BaseController
                     $msg = $e->getMessage();
                     parent::render(["alert" => $msg], "home-company", "layouts/base");
                 }
-            }else if ($uri == "/lowongan") {
+            }else if ($uri == "/lowongan/delete") {
+                if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
+                    $this->service->deleteLowongan($urlParams['lowongan_id']);
+                    return parent::redirect("/", ["alert" => "Lowongan has been deleted successfully."]);
+                } else {
+                    throw new ForbiddenAccessException("You are not allowed to access this page.");
+                }
+            } else if ($uri == "/lowongan") {
                 if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
                     $data = $this->getLowonganDetail($urlParams['lowongan_id']);
                     return parent::render($data, "lowongan-detail-company", "layouts/base");
