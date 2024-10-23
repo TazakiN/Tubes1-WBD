@@ -163,4 +163,9 @@ class LowonganService extends BaseService
             }
         }
     }
+
+    public function isBelongsToCompany($lowongan_id, $company_id) {
+        $lowongan = $this->getLowonganByID($lowongan_id);
+        return $lowongan->get("company_id") == $company_id;
+    }
 }

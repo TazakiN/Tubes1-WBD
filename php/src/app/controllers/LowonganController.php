@@ -6,6 +6,7 @@ use app\controllers\BaseController;
 use app\services\LowonganService;
 use app\Request;
 use app\services\UserService;
+use app\exceptions\ForbiddenAccessException;
 use Exception;
 
 class LowonganController extends BaseController
@@ -24,13 +25,25 @@ class LowonganController extends BaseController
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
             } else if ($uri == "/lowongan/edit") {
-                # TODO : Validate apakah company pemilik dari lowongan tersebut
-                $data = $this->getLowonganDetail($urlParams['lowongan_id']);
-                return parent::render($data, "edit-lowongan-company", "layouts/base");
+                try {
+                    if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
+                        $data = $this->getLowonganDetail($urlParams['lowongan_id']);
+                        return parent::render($data, "edit-lowongan-company", "layouts/base");
+                    } else {
+                        throw new ForbiddenAccessException("You are not allowed to access this page.");
+                    }
+                } catch (Exception $e) {
+                    $msg = $e->getMessage();
+                    parent::render(["alert" => $msg], "home-company", "layouts/base");
+                }
             }else if ($uri == "/lowongan") {
-                # TODO : Validate apakah company pemilik dari lowongan tersebut
-                $data = $this->getLowonganDetail($urlParams['lowongan_id']);
-                return parent::render($data, "lowongan-detail-company", "layouts/base");
+                if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
+                    $data = $this->getLowonganDetail($urlParams['lowongan_id']);
+                    return parent::render($data, "lowongan-detail-company", "layouts/base");
+                } else {
+                    $data = $this->getLowonganDetail($urlParams['lowongan_id']);
+                    return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
+                }
             }
         } else if ($_SESSION["role"] == "jobseeker") {
             if ($uri == "/lowongan") {
