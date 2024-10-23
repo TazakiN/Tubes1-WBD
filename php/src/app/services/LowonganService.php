@@ -197,8 +197,31 @@ class LowonganService extends BaseService
         }
     }
 
+    public function editLowonganStatus($id, $status) {
+        $lowongan = $this->getLowonganByID($id);
+        $lowongan->set("is_open", $status);
+        $this->repository->updateLowongan($lowongan);
+    }
+
     public function isBelongsToCompany($lowongan_id, $company_id) {
         $lowongan = $this->getLowonganByID($lowongan_id);
         return $lowongan->get("company_id") == $company_id;
+    }
+
+    public function deleteLowongan($lowongan_id) {
+        $lowongan = $this->getLowonganByID($lowongan_id);
+        $attachments = $this->getAttachmentLowonganByLowonganID($lowongan_id);
+        $uploadDirectory = __DIR__ . "/uploads/";
+
+        foreach ($attachments as $attachment) {
+            $attachment_id = $attachment->get("attachment_id");
+            $filePath = $uploadDirectory . $attachment->get("file_path");
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+            $this->attachmentLowonganRepository->deleteByID($attachment_id);
+        }
+
+        $this->repository->deleteByID($lowongan_id);
     }
 }

@@ -44,7 +44,8 @@ class HomeController extends BaseController
                     $data['lowongans'] = $this->lowonganService->getLowonganByCompanyIDandPage($_SESSION['user_id'], (int)$page, $limit);
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);
-                    parent::render($data, "home-company", "layouts/base");
+                    $data['alert'] = $urlParams['alert'] ?? null;
+                parent::render($data, "home-company", "layouts/base");
                 } else {
                     $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
                     if($jobseeker){
