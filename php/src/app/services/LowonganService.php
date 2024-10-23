@@ -6,6 +6,7 @@ use app\models\AttachmentLowonganModel;
 use app\services\BaseService;
 use app\models\LowonganModel;
 use app\repositories\LowonganRepository;
+use app\repositories\UserRepository;
 use app\repositories\AttachmentLowonganRepository;
 use Exception;
 
@@ -41,6 +42,21 @@ class LowonganService extends BaseService
         }
 
         return null;
+    }
+
+    public function getAllLowongan($pageNo, $limit) {
+        $lowongans = $this->repository->getAllLowonganRep($pageNo, $limit);
+        if ($lowongans) {
+            $lowonganModels = [];
+            foreach ($lowongans as $lowongan) {
+                $lowonganModel = new LowonganModel();
+                $lowonganModel->constructFromArray($lowongan);
+                $companyDetail = UserRepository::getInstance()->getByID($lowonganModel->company_id ?? 0);
+                $lowonganModel->company_name = $companyDetail['nama'];
+                $lowonganModels[] = $lowonganModel;
+            }
+            return $lowonganModels;
+        }
     }
 
     public function getLowonganByCompanyIDandPage($company_id, $pageNo = 1, $limit = 6) {

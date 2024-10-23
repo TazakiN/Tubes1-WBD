@@ -15,6 +15,7 @@ class LowonganModel extends BaseModel
     public $is_open;
     public $created_at;
     public $updated_at;
+    public $company_name;
 
     public function __construct()
     {

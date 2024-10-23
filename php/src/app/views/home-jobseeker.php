@@ -38,7 +38,9 @@
         <div class="line"></div>
 
         <div class="button-container">
-            <button class="job-listing-button"> <img src="/public/svg/eye.svg"> Job Listing</button>
+            <a href="/home">
+                <button class="job-listing-button"> <img src="/public/svg/eye.svg"> Job Listing</button>
+            </a>
             <button class="purry-search-button">Purry Search</button>
         </div>
     </div>

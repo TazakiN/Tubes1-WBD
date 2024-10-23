@@ -24,28 +24,38 @@ class HomeController extends BaseController
         $data = [];
         $uri = Request::getURL();
         if ($uri == "/home"){
-            parent::redirect("/");
-        } 
-
-        if (isset($_SESSION['user_id'])) {
-            if ($_SESSION["role"] == "company"){
+            if (isset($_SESSION['user_id'])){
                 $page = $urlParams['page'] ?? 1;
-                $limit = 9;
-                $countData = $this->lowonganService->countLowonganRow();
-                $data['lowongans'] = $this->lowonganService->getLowonganByCompanyIDandPage($_SESSION['user_id'], (int)$page, $limit);
-                $data['page'] = (int)$page;
-                $data['totalPage'] = (int)ceil($countData / $limit);
-                parent::render($data, "home-company", "layouts/base");
+                    $limit = 12;
+                    $countData = $this->lowonganService->countLowonganRow();
+                    $data['lowongans'] = $this->lowonganService->getAllLowongan((int)$page, $limit);
+                    $data['page'] = (int)$page;
+                    $data['totalPage'] = (int)ceil($countData / $limit);
+                    parent::render($data, "home-lowongan-jobseeker", "layouts/base");
             } else {
-                $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
-                if($jobseeker){
-                    $data['email'] = $jobseeker->email;
-                    $data['nama'] = $jobseeker->nama;
-                }
-                parent::render($data, "home-jobseeker", "layouts/base");
+                parent::redirect("/login");
             }
         } else {
-            parent::redirect("/login");
+            if (isset($_SESSION['user_id'])) {
+                if ($_SESSION["role"] == "company"){
+                    $page = $urlParams['page'] ?? 1;
+                    $limit = 9;
+                    $countData = $this->lowonganService->countLowonganRow();
+                    $data['lowongans'] = $this->lowonganService->getLowonganByCompanyIDandPage($_SESSION['user_id'], (int)$page, $limit);
+                    $data['page'] = (int)$page;
+                    $data['totalPage'] = (int)ceil($countData / $limit);
+                    parent::render($data, "home-company", "layouts/base");
+                } else {
+                    $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
+                    if($jobseeker){
+                        $data['email'] = $jobseeker->email;
+                        $data['nama'] = $jobseeker->nama;
+                    }
+                    parent::render($data, "home-jobseeker", "layouts/base");
+                }
+            } else {
+                parent::redirect("/login");
+            }
         }
     }
 }
