@@ -29,6 +29,11 @@ class LowonganRepository extends BaseRepository
         return $this->findOne(['lowongan_id' => [$id, PDO::PARAM_INT]]);
     }
 
+    public function getLowonganByCompanyID($companyID, $pageNo, $limit)
+    {
+        return $this->findAll(['company_id' => [$companyID, PDO::PARAM_INT]], null, $pageNo, $limit);
+    }
+
     public function insertNewLowongan($lowonganModel) {
         // var_dump($lowonganModel);
         $id = $this->insert($lowonganModel, array(
