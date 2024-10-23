@@ -37,6 +37,7 @@ class App
         $this->router->addRoute('/lowongan', LowonganController::class);
         $this->router->addRoute('/lowongan/add', LowonganController::class);
         $this->router->addRoute('/lowongan/edit', LowonganController::class);
+        $this->router->addRoute('/lowongan/edit-status', LowonganController::class);
         $this->router->addRoute('/lowongan/delete', LowonganController::class);
     }
 }

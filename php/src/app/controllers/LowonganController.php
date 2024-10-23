@@ -69,6 +69,8 @@ class LowonganController extends BaseController
             $this->postNewLowongan($urlParams);
         } else if ($uri == "/lowongan/edit") {
             $this->postEditLowongan($urlParams);
+        } else if ($uri == "/lowongan/edit-status") {
+            $this->postEditStatusLowongan($urlParams);
         }
     }
 
@@ -141,6 +143,25 @@ class LowonganController extends BaseController
         } catch (Exception $e) {
             $msg = $e->getMessage();
             parent::render(["alert" => $msg], "edit-lowongan-company", "layouts/base");
+        }
+    }
+
+    public function postEditStatusLowongan($urlParams) {
+        if ($this->service->isBelongsToCompany($urlParams["lowongan_id"], $_SESSION["user_id"])) {
+            
+            $input = json_decode(file_get_contents('php://input'), true);
+            $is_open = $input["is_open"];
+    
+            $this->service->editLowonganStatus($urlParams["lowongan_id"], $is_open);
+            header("Content-Type: application/json");
+            echo json_encode([
+                "status" => "success",
+                "message" => "Lowongan status has been updated successfully.",
+                "is_open" => $is_open
+            ]);
+            return;
+        } else {
+            throw new ForbiddenAccessException("You are not allowed to access this page.");
         }
     }
 }
