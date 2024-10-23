@@ -31,23 +31,24 @@
         </div>
 
 
-        <!-- TODO: Masih Placeholder -->
+        <!-- data lamarans -->
         <div class="applicants">
             <h2>Applicants</h2>
-            <div class="applicant">
-                <span class="applicant-name">Tazkia Ganteng Banget</span>
-                <div class="applicant-status">
-                    <span class="status waiting">Waiting</span>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
-            <div class="applicant">
-                <span class="applicant-name">Farhan Seksi Banget</span>
-                <div class="applicant-status">
-                    <span class="status waiting">Waiting</span>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
+            <?php if (!empty($data['lamarans'])): ?>
+                <?php foreach ($data['lamarans'] as $lamaran): ?>
+                    <div class="applicant">
+                        <span class="applicant-name"><?php echo $lamaran->nama; ?></span>
+                        <div class="applicant-status">
+                            <span class="status <?php echo $lamaran->status; ?>"><?php echo ucfirst($lamaran->status); ?></span>
+                            <a href="/lamaran?lamaran_id=<?php echo $lamaran->lamaran_id; ?>">
+                                <button class="details-button">Details</button>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No applicants available.</p>
+            <?php endif; ?>
         </div>
     </div>
 </section>

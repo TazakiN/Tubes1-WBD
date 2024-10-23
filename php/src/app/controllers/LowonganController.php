@@ -3,24 +3,29 @@
 namespace app\controllers;
 
 use app\controllers\BaseController;
-use app\services\LowonganService;
-use app\Request;
 use app\services\UserService;
+use app\services\LowonganService;
+use app\services\LamaranService;
+use app\Request;
 use app\exceptions\ForbiddenAccessException;
 use Exception;
 
 class LowonganController extends BaseController
 {
     protected $userService;
+    protected $lamaranService;
     public function __construct()
     {
         parent::__construct(LowonganService::getInstance());
         $this->userService = UserService::getInstance();
+        $this->lamaranService = LamaranService::getInstance();
     }
 
     protected function get($urlParams)
     {
+        $data = [];
         $uri = Request::getURL();
+        $data = $this->getToastContent($urlParams, $data);
         if ($_SESSION["role"] == "company") {
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
@@ -51,7 +56,7 @@ class LowonganController extends BaseController
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
-            return parent::render(null, "/", "layouts/base");
+            return parent::render($data, "/", "layouts/base");
         }
     }
 
@@ -86,8 +91,15 @@ class LowonganController extends BaseController
 
         $dataAttachments = $this->service->getAttachmentLowonganByLowonganID($lowongan_id);
 
-        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments]);
+        $lamarans = $this->lamaranService->getLamaranByLowonganID($lowongan_id);
 
+        foreach ($lamarans as $lamaran) {
+            $user_id = $lamaran->user_id;
+            $jobSeekerModel = $this->userService->getJobSeekerById($user_id); 
+            $lamaran->set('nama', $jobSeekerModel->nama);
+        }
+        
+        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments], ['lamarans' => $lamarans]);
         return $data;
     }
 
