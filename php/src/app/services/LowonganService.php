@@ -43,6 +43,23 @@ class LowonganService extends BaseService
         return null;
     }
 
+    public function getLowonganByCompanyIDandPage($company_id, $pageNo = 1, $limit = 6) {
+        $lowongans = $this->repository->getLowonganByCompanyID($company_id, $pageNo, $limit);
+        if ($lowongans) {
+            $lowonganModels = [];
+            foreach ($lowongans as $lowongan) {
+                $lowonganModel = new LowonganModel();
+                $lowonganModel->constructFromArray($lowongan);
+                $lowonganModels[] = $lowonganModel;
+            }
+            return $lowonganModels;
+        }
+    }
+
+    public function countLowonganRow($whereParams = []) {
+        return $this->repository->countRow($whereParams);
+    }
+
     public function getAttachmentLowonganByLowonganID($lowongan_id) {
         $attachments = $this->attachmentLowonganRepository->getByLowonganID($lowongan_id);
 
