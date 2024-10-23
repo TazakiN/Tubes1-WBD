@@ -24,7 +24,8 @@ class HomeController extends BaseController
         $data = [];
         $uri = Request::getURL();
         if ($uri == "/home"){
-            parent::redirect("/");
+            $data = $this->getToastContent($urlParams, $data);
+            parent::redirect("/", $data);
         } 
 
         if (isset($_SESSION['user_id'])) {
@@ -48,7 +49,7 @@ class HomeController extends BaseController
             }
         } else {
             $data = $this->getToastContent($urlParams, $data);
-            parent::redirect("/login");
+            parent::redirect("/login", $data);
         }
     }
 }
