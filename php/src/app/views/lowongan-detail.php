@@ -4,9 +4,9 @@
         </div>
         <?php
             if ($data["is_open"]) {
-                echo '<div class="status open">Open</div>';
+                echo '<div class="status open" id="status">Open</div>';
             } else {
-                echo '<div class="status closed">Closed</div>';
+                echo '<div class="status closed" id="status">Closed</div>';
             }
         ?>
         
