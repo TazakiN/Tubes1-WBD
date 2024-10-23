@@ -36,13 +36,6 @@ class LowonganController extends BaseController
                     $msg = $e->getMessage();
                     parent::render(["alert" => $msg], "home-company", "layouts/base");
                 }
-            }else if ($uri == "/lowongan/delete") {
-                if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
-                    $this->service->deleteLowongan($urlParams['lowongan_id']);
-                    return parent::redirect("/", ["alert" => "Lowongan has been deleted successfully."]);
-                } else {
-                    throw new ForbiddenAccessException("You are not allowed to access this page.");
-                }
             } else if ($uri == "/lowongan") {
                 if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
                     $data = $this->getLowonganDetail($urlParams['lowongan_id']);
@@ -66,9 +59,13 @@ class LowonganController extends BaseController
         $uri = Request::getURL();
 
         if ($uri == "/lowongan/add") {
-            $this->postNewLowongan($urlParams);
+            $this->postNewLowongan(urlParams: $urlParams);
         } else if ($uri == "/lowongan/edit") {
             $this->postEditLowongan($urlParams);
+        } else if ($uri == "/lowongan/edit-status") {
+            $this->postEditStatusLowongan($urlParams);
+        } else if ($uri == "/lowongan/delete") {
+            $this->postDeleteLowongan($urlParams);
         }
     }
 
@@ -141,6 +138,43 @@ class LowonganController extends BaseController
         } catch (Exception $e) {
             $msg = $e->getMessage();
             parent::render(["alert" => $msg], "edit-lowongan-company", "layouts/base");
+        }
+    }
+
+    public function postEditStatusLowongan($urlParams) {
+        if ($this->service->isBelongsToCompany($urlParams["lowongan_id"], $_SESSION["user_id"])) {
+            
+            $input = json_decode(file_get_contents('php://input'), true);
+            $is_open = $input["is_open"];
+    
+            $this->service->editLowonganStatus($urlParams["lowongan_id"], $is_open);
+            header("Content-Type: application/json");
+            echo json_encode([
+                "status" => "success",
+                "message" => "Lowongan status has been updated successfully.",
+                "is_open" => $is_open
+            ]);
+            return;
+        } else {
+            throw new ForbiddenAccessException("You are not allowed to access this page.");
+        }
+    }
+
+    public function postDeleteLowongan($urlParams) {
+        if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
+            $input = json_decode(file_get_contents('php://input'), true);
+            $lowongan_id = $input["lowongan_id"];
+
+            error_log("lowongan_id: ". $lowongan_id);
+
+            $this->service->deleteLowongan($urlParams['lowongan_id']);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'status'=> 'success',
+                'message'=> 'Lowongan has been deleted successfully.',
+            ]);
+        } else {
+            throw new ForbiddenAccessException("You are not allowed to access this page.");
         }
     }
 }

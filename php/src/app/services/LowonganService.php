@@ -181,6 +181,12 @@ class LowonganService extends BaseService
         }
     }
 
+    public function editLowonganStatus($id, $status) {
+        $lowongan = $this->getLowonganByID($id);
+        $lowongan->set("is_open", $status);
+        $this->repository->updateLowongan($lowongan);
+    }
+
     public function isBelongsToCompany($lowongan_id, $company_id) {
         $lowongan = $this->getLowonganByID($lowongan_id);
         return $lowongan->get("company_id") == $company_id;
