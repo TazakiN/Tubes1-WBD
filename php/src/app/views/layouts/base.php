@@ -15,6 +15,7 @@
 
     <link rel="stylesheet" href="/public/css/global.css">
     <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/toast.css">
 
     <!-- Quill.js -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
@@ -41,6 +42,13 @@
         <p class="alert-message"></p>
         <button onclick="closeCustomAlert()">OK</button>
     </div>
+
+    <?php 
+        include 'toast.php';
+        if (isset($data)) {
+            showToast($data);
+        }
+    ?>
 </body>
 
 <script>
