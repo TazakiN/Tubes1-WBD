@@ -90,7 +90,11 @@
     transition: width 0.3s ease-in-out;
 }
 
-.button-container .job-listing-button{
+a {
+    text-decoration:none;
+}
+
+.button-container a .job-listing-button{
     padding: 10px;
     gap: 10px;
     align-items: center;
