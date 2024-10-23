@@ -185,3 +185,8 @@
   color: #718096;
   user-select: none;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
