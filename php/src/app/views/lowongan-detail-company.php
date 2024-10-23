@@ -66,13 +66,24 @@
         xhr.setRequestHeader('Content-Type', 'application/json');
 
         xhr.onload = function () {
-            if (xhr.status === 200) {
+            try {
                 const response = JSON.parse(xhr.responseText);
-                console.log('Berhasil memperbarui status:', response.message);
-                statusElement.textContent = isOpen ? 'Open' : 'Closed';
-                statusElement.className = isOpen ? 'status open' : 'status closed';
-            } else {
-                console.error('Gagal memperbarui status:', xhr.statusText);
+                const toastData = {};
+                if (xhr.status === 200) {
+                    statusElement.textContent = isOpen ? 'Open' : 'Closed';
+                    statusElement.className = isOpen ? 'status open' : 'status closed';
+                    toastData.success = response.message;
+                } else if (xhr.status === 403) {
+                    toastData.error = response.message;
+                } else {
+                    toastData.error = response.message || 'Terjadi kesalahan saat memperbarui status';
+                }
+
+                showToast(toastData);
+            } catch (error) {
+                showToast({
+                    error: 'Terjadi kesalahan saat memproses respons server'
+                });   
             }
         };
 
