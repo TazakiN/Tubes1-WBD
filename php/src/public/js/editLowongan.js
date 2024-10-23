@@ -116,25 +116,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        if (xhr.status === 200) {
-          try {
-            const response = JSON.parse(xhr.responseText);
-            console.log("Response:", response);
-            if (response.id) {
+        try {
+          const response = JSON.parse(xhr.responseText);
+          const toastData = {};
+          if (response.status === "success") {
+            toastData.success = response.message;
+            setTimeout(() => {
               window.location.href = `/lowongan?lowongan_id=${response.id}`;
-            } else {
-              alert("Error updating vacancy: " + response.message);
-            }
-          } catch (error) {
-            console.error("Error parsing response:", error);
-            alert("Error updating vacancy.", error);
+            }, 1400);
+          } else if (xhr.status === 401) {
+            toastData.error = response.message;
+          } else {
+            toastData.error =
+              response.message || "Terjadi kesalahan saat menghapus lowongan";
           }
-        } else {
-          alert(`Error: ${xhr.status} ${xhr.statusText}`);
+
+          showToast(toastData);
+        } catch (error) {
+          showToast({ error: "Terjadi kesalahan saat menghapus lowongan" });
         }
       }
     };
-
     xhr.send(formData);
   };
 });

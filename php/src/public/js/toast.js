@@ -1,12 +1,9 @@
-// toast.js
 const showToast = (data) => {
-  // Remove existing toast panel if any
   const existingPanel = document.querySelector(".toast-panel");
   if (existingPanel) {
     existingPanel.remove();
   }
 
-  // Create new panel
   const panel = document.createElement("div");
   panel.className = "toast-panel";
 
@@ -14,7 +11,6 @@ const showToast = (data) => {
     const toast = document.createElement("div");
     toast.className = `toast-item ${type}`;
 
-    // Set initial styles using a class instead of inline styles
     toast.classList.add("toast-initial");
 
     toast.innerHTML = `
@@ -40,7 +36,6 @@ const showToast = (data) => {
 
   const toastTypes = ["help", "success", "warning", "error"];
 
-  // Create toasts based on data
   toastTypes.forEach((type) => {
     if (data[type]) {
       const message =
@@ -54,23 +49,18 @@ const showToast = (data) => {
   if (panel.children.length > 0) {
     document.body.appendChild(panel);
 
-    // Force a reflow before adding the show class
     panel.offsetHeight;
 
-    // Add show class to trigger animation
     const toasts = panel.querySelectorAll(".toast-item");
     toasts.forEach((toast, index) => {
       toast.classList.remove("toast-initial");
       toast.classList.add("toast-show");
 
-      // Auto-remove toast after delay
       setTimeout(() => {
         if (toast.isConnected) {
-          // Check if toast is still in DOM
           toast.classList.add("toast-hiding");
           setTimeout(() => {
             if (toast.isConnected) {
-              // Check again before removal
               toast.remove();
               if (panel.children.length === 0) {
                 panel.remove();
@@ -83,7 +73,6 @@ const showToast = (data) => {
   }
 };
 
-// Close toast on click outside
 document.addEventListener("click", (e) => {
   if (e.target.matches(".close")) {
     const toastItem = e.target.closest(".toast-item");
