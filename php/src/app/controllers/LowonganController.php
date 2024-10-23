@@ -137,13 +137,15 @@ class LowonganController extends BaseController
                 'files' => $files,
                 'deleted_attachments' => $deletedAttachments,
             ]);
-
-            error_log("Lowongan with ID $lowongan_id has been edited successfully.");
-    
-            echo json_encode(['id' => $lowongan_id]);
+            header('Content-Type: application/json');
+            http_response_code(200);
+            echo json_encode([
+                "status" => "success",
+                "message"=> "Vacancy edited successfully.",
+                'id' => $lowongan_id]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["alert" => $msg], "edit-lowongan-company", "layouts/base");
+            parent::render(["error" => $msg], "edit-lowongan-company", "layouts/base");
         }
     }
 
