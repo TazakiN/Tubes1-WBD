@@ -22,6 +22,8 @@
     <link href="/public/css/richtextarea.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
+    <script src="/public/js/toast.js"></script>
+
     <?= $__headContent ?>
     <title>LinkInPurry</title>
 </head>
@@ -44,10 +46,9 @@
     </div>
 
     <?php 
-        include 'toast.php';
-        if (isset($data)) {
-            showToast($data);
-        }
+    if (!empty($data)) {
+        echo '<script>showToast(' . json_encode($data) . ')</script>';
+    }
     ?>
 </body>
 
