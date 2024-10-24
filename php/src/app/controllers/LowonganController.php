@@ -26,6 +26,7 @@ class LowonganController extends BaseController
         $data = [];
         $uri = Request::getURL();
         $data = $this->getToastContent($urlParams, $data);
+
         if ($_SESSION["role"] == "company") {
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
