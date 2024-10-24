@@ -21,31 +21,34 @@ class HomeController extends BaseController
 
     protected function get($urlParams)
     {
+        $limit = 12;
         $data = [];
         $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
         if ($uri == "/home"){
-            if (isset($_SESSION['user_id'])){
-                $page = $urlParams['page'] ?? 1;
-                    $limit = 12;
-                    $countData = $this->lowonganService->countLowonganRow();
-                    $data['lowongans'] = $this->lowonganService->getAllLowongan((int)$page, $limit);
-                    $data['page'] = (int)$page;
-                    $data['totalPage'] = (int)ceil($countData / $limit);
-                    parent::render($data, "home-lowongan-jobseeker", "layouts/base");
-            } else {
-                parent::render($data, "home-lowongan-jobseeker", "layouts/base");
-            }
+            $filters = $this->makeFilters($urlParams);
+            $page = $urlParams['page'] ?? 1;
+            $countData = $this->lowonganService->countLowonganRow($filters);
+            $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit) ?? [];
+            $data['page'] = (int)$page;
+            $data['totalPage'] = (int)ceil($countData / $limit);
+            parent::render($data, "home-lowongan-jobseeker", "layouts/base");
         } else {
             if (isset($_SESSION['user_id'])) {
                 if ($_SESSION["role"] == "company"){
+
+                    $filters = $this->makeFilters($urlParams);
+                    $filters['company_id'] = $_SESSION['user_id'];
+
                     $page = $urlParams['page'] ?? 1;
-                    $limit = 12;
-                    $countData = $this->lowonganService->countLowonganRow();
-                    $data['lowongans'] = $this->lowonganService->getLowonganByCompanyIDandPage($_SESSION['user_id'], (int)$page, $limit);
+                    $countData = $this->lowonganService->countLowonganRow($filters);
+                    $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit) ?? [];
+
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);
+
                 parent::render($data, "home-company", "layouts/base");
+
                 } else {
                     $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
                     if($jobseeker){
@@ -60,5 +63,14 @@ class HomeController extends BaseController
                 parent::render($data, 'home-jobseeker', 'layouts/base');
             }
         }
+    }
+
+    private function makeFilters($urlParams)
+    {
+        $filters = [];
+        $filters['searchParams'] = $urlParams['searchParams'] ?? '';
+        $filters['jenis_pekerjaan'] = $urlParams['jenis_pekerjaan'] ?? [];
+        $filters['jenis_lokasi'] = $urlParams['jenis_lokasi'] ?? [];
+        return $filters;
     }
 }

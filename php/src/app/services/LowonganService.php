@@ -59,8 +59,8 @@ class LowonganService extends BaseService
         }
     }
 
-    public function getLowonganByCompanyIDandPage($company_id, $pageNo = 1, $limit = 6) {
-        $lowongans = $this->repository->getLowonganByCompanyID($company_id, $pageNo, $limit);
+    public function getLowonganByFilters($filters= [], $pageNo = 1, $limit = 6) {
+        $lowongans = $this->repository->getLowonganByFilters($filters, $pageNo, $limit);
         if ($lowongans) {
             $lowonganModels = [];
             foreach ($lowongans as $lowongan) {
@@ -73,7 +73,7 @@ class LowonganService extends BaseService
     }
 
     public function countLowonganRow($whereParams = []) {
-        return $this->repository->countRow($whereParams);
+        return $this->repository->countRowByFilters($whereParams);
     }
 
     public function getAttachmentLowonganByLowonganID($lowongan_id) {
