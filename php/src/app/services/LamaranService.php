@@ -31,6 +31,18 @@ class LamaranService extends BaseService
         return self::$instance;
     }
 
+    public function getLamaranByID($lamaran_id) {
+        $lamaran_data = $this->repository->getByLamaranID($lamaran_id);
+
+        if ($lamaran_data) {
+            $lamaran_model = new LamaranModel();
+            $lamaran_model->constructFromArray($lamaran_data);
+            return $lamaran_model;
+        }
+
+        return null;
+    }
+
     public function getLamaranByUser($user_id, $ordered = null) {
         $all_lamaran_data = $this->repository->getAllByUserID($user_id, $ordered);
 
