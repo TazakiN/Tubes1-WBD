@@ -118,10 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const response = JSON.parse(xhr.responseText);
           const toastData = {};
           if (response.status === "success") {
-            toastData.success = response.message;
-            setTimeout(() => {
-              window.location.href = `/lowongan?lowongan_id=${response.id}`;
-            }, 1400);
+            window.location.href = `/lowongan?lowongan_id=${response.id}`;
           } else if (xhr.status === 401) {
             toastData.error = response.message;
           } else {
