@@ -45,50 +45,65 @@ abstract class BaseRepository
     public function countRow($where = [])
     {
         $sql = "SELECT COUNT(*) FROM $this->tableName";
-
+    
         $conditions = [];
-
+    
         // Mapping where
         if (count($where) > 0) {
             foreach ($where as $key => $value) {
-                $columns = [$key];
-                if (isset($value[3]) and is_array(($value[3]))) {
-                    $columns = [$key] + $value[3];
-                }
-                $subConditions = [];
-                foreach ($columns as $column) {
-                    if (isset($value[2]) and $value[2] == 'LIKE') {
-                        $subConditions[] = "LOWER($column) LIKE LOWER(:$column)";
-                    } else {
-                        $subConditions[] = "$column = :$column";
+                if (isset($value[2]) && $value[2] == 'IN' && isset($value[3]) && is_array($value[3])) {
+                    $placeholders = array();
+                    foreach ($value[3] as $k => $v) {
+                        $placeholders[] = ":{$key}_{$k}";
                     }
+                    $conditions[] = "$key IN (" . implode(", ", $placeholders) . ")";
+                } else {
+                    $columns = [$key];
+                    if (isset($value[3]) && is_array($value[3]) && $value[2] != 'IN') {
+                        $columns = [$key] + $value[3];
+                    }
+                    $subConditions = [];
+                    foreach ($columns as $column) {
+                        if (isset($value[2]) && $value[2] == 'LIKE') {
+                            $subConditions[] = "LOWER($column) LIKE LOWER(:$column)";
+                        } else {
+                            $subConditions[] = "$column = :$column";
+                        }
+                    }
+                    $conditions[] = "(" . implode(" OR ", $subConditions) . ")";
                 }
-                $conditions[] = "(" . implode(" OR ", $subConditions) . ")";
             }
-
+    
             $sql .= " WHERE " . implode(" AND ", $conditions);
         }
-
+    
         // Hydrating statement, for sanitizing
         $stmt = $this->pdo->prepare($sql);
+        
         // Bind values
         foreach ($where as $key => $value) {
-            $columns = [$key];
-            if (isset($value[3]) and is_array(($value[3]))) {
-                $columns = [$key] + $value[3];
-            }
-            foreach ($columns as $column) {
-                if (isset($value[2]) and $value[2] == 'LIKE') {
-                    $stmt->bindValue(":$column", "%$value[0]%", $value[1]);
-                } else {
-                    $stmt->bindValue(":$column", $value[0], $value[1]);
+            if (isset($value[2]) && $value[2] == 'IN' && isset($value[3]) && is_array($value[3])) {
+                // Bind values for IN clause
+                foreach ($value[3] as $k => $v) {
+                    $stmt->bindValue(":{$key}_{$k}", $v, $value[1]);
+                }
+            } else {
+                $columns = [$key];
+                if (isset($value[3]) && is_array($value[3]) && $value[2] != 'IN') {
+                    $columns = [$key] + $value[3];
+                }
+                foreach ($columns as $column) {
+                    if (isset($value[2]) && $value[2] == 'LIKE') {
+                        $stmt->bindValue(":$column", "%$value[0]%", $value[1]);
+                    } else {
+                        $stmt->bindValue(":$column", $value[0], $value[1]);
+                    }
                 }
             }
         }
-
+    
         $stmt->execute();
-
-
+    
         return $stmt->fetchColumn();
     }
 
@@ -100,69 +115,84 @@ abstract class BaseRepository
         $sort = "asc",
     ) {
         $sql = "SELECT * FROM $this->tableName";
-
+    
         $conditions = [];
-
+    
         // Mapping where
         if (count($where) > 0) {
             foreach ($where as $key => $value) {
-                $columns = [$key];
-                if (isset($value[3]) and is_array(($value[3]))) {
-                    $columns = [$key] + $value[3];
-                }
-                $subConditions = [];
-                foreach ($columns as $column) {
-                    if (isset($value[2]) and $value[2] == 'LIKE') {
-                        $subConditions[] = "LOWER($column) LIKE LOWER(:$column)";
-                    } else {
-                        $subConditions[] = "$column = :$column";
+                if (isset($value[2]) && $value[2] == 'IN' && isset($value[3]) && is_array($value[3])) {
+                    // Handle IN clause
+                    $placeholders = array();
+                    foreach ($value[3] as $k => $v) {
+                        $placeholders[] = ":{$key}_{$k}";
                     }
+                    $conditions[] = "$key IN (" . implode(", ", $placeholders) . ")";
+                } else {
+                    $columns = [$key];
+                    if (isset($value[3]) && is_array($value[3])) {
+                        $columns = [$key] + $value[3];
+                    }
+                    $subConditions = [];
+                    foreach ($columns as $column) {
+                        if (isset($value[2]) && $value[2] == 'LIKE') {
+                            $subConditions[] = "LOWER($column) LIKE LOWER(:$column)";
+                        } else {
+                            $subConditions[] = "$column = :$column";
+                        }
+                    }
+                    $conditions[] = "(" . implode(" OR ", $subConditions) . ")";
                 }
-                $conditions[] = "(" . implode(" OR ", $subConditions) . ")";
             }
-
+    
             $sql .= " WHERE " . implode(" AND ", $conditions);
         }
-
+    
         if ($order) {
             $sql .= " ORDER BY $order";
         }
-
+    
         if ($sort == "desc") {
             $sql .= " DESC";
         }
-
+    
         if ($pageSize && $pageNo) {
             $sql .= " LIMIT :pageSize";
             $sql .= " OFFSET :pageNo";
         }
-
+    
         // Hydrating statement, for sanitizing
         $stmt = $this->pdo->prepare($sql);
-
+    
         foreach ($where as $key => $value) {
-            $columns = [$key];
-            if (isset($value[3]) and is_array(($value[3]))) {
-                $columns = [$key] + $value[3];
-            }
-            foreach ($columns as $column) {
-                if (isset($value[2]) and $value[2] == 'LIKE') {
-                    $stmt->bindValue(":$column", "%$value[0]%", $value[1]);
-                } else {
-                    $stmt->bindValue(":$column", $value[0], $value[1]);
+            if (isset($value[2]) && $value[2] == 'IN' && isset($value[3]) && is_array($value[3])) {
+                // Bind values for IN clause
+                foreach ($value[3] as $k => $v) {
+                    $stmt->bindValue(":{$key}_{$k}", $v, $value[1]);
+                }
+            } else {
+                $columns = [$key];
+                if (isset($value[3]) && is_array($value[3])) {
+                    $columns = [$key] + $value[3];
+                }
+                foreach ($columns as $column) {
+                    if (isset($value[2]) && $value[2] == 'LIKE') {
+                        $stmt->bindValue(":$column", "%$value[0]%", $value[1]);
+                    } else {
+                        $stmt->bindValue(":$column", $value[0], $value[1]);
+                    }
                 }
             }
         }
-
+    
         if (isset($pageSize) && isset($pageNo)) {
             $offset = $pageSize * ($pageNo - 1);
-
             $stmt->bindValue(":pageSize", $pageSize, PDO::PARAM_INT);
             $stmt->bindValue(":pageNo", $offset, PDO::PARAM_INT);
         }
-
+    
         $stmt->execute();
-
+    
         return $stmt->fetchAll();
     }
 

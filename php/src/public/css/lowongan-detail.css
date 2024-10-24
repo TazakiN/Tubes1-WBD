@@ -146,6 +146,22 @@ ul {
   font-size: medium;
 }
 
+.status.accepted {
+  background-color: var(--light-green);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: medium;
+}
+
+.status.rejected {
+  background-color: var(--light-red);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: medium;
+}
+
 .details-button {
   background-color: var(--dark-grey);
   color: white;
