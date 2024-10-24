@@ -16,17 +16,17 @@
             <div class="form-group-row">
                 <label for="lokasi">Lokasi</label>
                 <select id="lokasi" name="lokasi">
-                    <option value="hybrid">Hybrid</option>
-                    <option value="on-site">On-Site</option>
-                    <option value="remote">Remote</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="On-site">On-Site</option>
+                    <option value="Remote">Remote</option>
                 </select>
             </div>
             <div class="form-group-row">
                 <label for="type">Type</label>
                 <select id="type" name="type">
-                    <option value="intern">Intern</option>
-                    <option value="full-time">Full Time</option>
-                    <option value="part-time">Part Time</option>
+                    <option value="Internship">Intern</option>
+                    <option value="Full-time">Full Time</option>
+                    <option value="Part-time">Part Time</option>
                 </select>
             </div>
             <div class="form-group-row">
@@ -47,16 +47,14 @@
                 <label for="media-upload">Media Upload</label>
                 <div class="upload-container" id="uploadContainer">
                     <div class="upload-area" id="uploadArea">
-                        <input type="file" id="fileInput" multiple accept="image/*,.pdf,.doc,.docx" style="display: none;">
+                        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
                         <div class="upload-content">
-                            <i class="upload-icon">📁</i>
+                            <i class="upload-icon">🖼️</i>
                             <p>Drag and drop files here or <span class="browse-text">browse</span></p>
-                            <p class="file-support">Supports: Images, PDF, DOC, DOCX</p>
+                            <p class="file-support">Supports: JPEG, PNG, GIF</p>
                         </div>
                     </div>
-                    <div class="file-preview-container" id="filePreviewContainer">
-                        <!-- Preview items will be added here dynamically -->
-                    </div>
+                    <div class="file-preview-container" id="filePreviewContainer"></div>
                 </div>
             </div>
 

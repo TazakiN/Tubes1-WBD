@@ -19,18 +19,18 @@
             <div class="form-group-row">
                 <label for="lokasi">Lokasi</label>
                 <select id="lokasi" name="lokasi">
-                    <option value="hybrid" <?php echo ($data["jenis_lokasi"] == "hybrid") ? "selected" : ""; ?>>Hybrid</option>
-                    <option value="on-site" <?php echo ($data["jenis_lokasi"] == "on-site") ? "selected" : ""; ?>>On-Site</option>
-                    <option value="remote" <?php echo ($data["jenis_lokasi"] == "remote") ? "selected" : ""; ?>>Remote</option>
+                    <option value="Hybrid" <?php echo ($data["jenis_lokasi"] == "Hybrid") ? "selected" : ""; ?>>Hybrid</option>
+                    <option value="On-site" <?php echo ($data["jenis_lokasi"] == "On-site") ? "selected" : ""; ?>>On-Site</option>
+                    <option value="Remote" <?php echo ($data["jenis_lokasi"] == "Remote") ? "selected" : ""; ?>>Remote</option>
                 </select>
             </div>
 
             <div class="form-group-row">
                 <label for="type">Type</label>
                 <select id="type" name="type">
-                    <option value="intern" <?php echo ($data["jenis_pekerjaan"] == "intern") ? "selected" : ""; ?>>Intern</option>
-                    <option value="full-time" <?php echo ($data["jenis_pekerjaan"] == "fulltime") ? "selected" : ""; ?>>Full Time</option>
-                    <option value="part-time" <?php echo ($data["jenis_pekerjaan"] == "part-time") ? "selected" : ""; ?>>Part Time</option>
+                    <option value="Internship" <?php echo ($data["jenis_pekerjaan"] == "Internship") ? "selected" : ""; ?>>Intern</option>
+                    <option value="Full-time" <?php echo ($data["jenis_pekerjaan"] == "Full-time") ? "selected" : ""; ?>>Full Time</option>
+                    <option value="Part-time" <?php echo ($data["jenis_pekerjaan"] == "Part-time") ? "selected" : ""; ?>>Part Time</option>
                 </select>
             </div>
 
@@ -55,11 +55,11 @@
                 <div class="upload-container" id="uploadContainer">
                     <div class="upload-area" id="uploadArea">
                         <input type="file" id="fileInput" name="files[]" multiple 
-                            accept="image/*,.pdf,.doc,.docx" style="display: none;">
+                            accept="image/*" style="display: none;">
                         <div class="upload-content">
-                            <i class="upload-icon">📁</i>
+                            <i class="upload-icon">🖼️</i>
                             <p>Drag and drop files here or <span class="browse-text">browse</span></p>
-                            <p class="file-support">Supports: Images, PDF, DOC, DOCX</p>
+                            <p class="file-support">Supports: JPEG, PNG, GIF</p>
                         </div>
                     </div>
 

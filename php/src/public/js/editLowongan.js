@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const fileInput = document.getElementById("fileInput");
   const filePreviewContainer = document.getElementById("filePreviewContainer");
 
+  // Drag and drop handlers
   uploadArea.addEventListener("dragover", (e) => {
     e.preventDefault();
     uploadArea.classList.add("dragover");
@@ -25,36 +26,39 @@ document.addEventListener("DOMContentLoaded", function () {
     handleFiles(e.dataTransfer.files);
   });
 
+  // Click to upload
   uploadArea.addEventListener("click", () => fileInput.click());
   fileInput.addEventListener("change", (e) => handleFiles(e.target.files));
 
-  // Handle file removal
+  // Handle existing file removal
   document.addEventListener("click", function (e) {
     if (e.target.classList.contains("remove-file")) {
       const attachmentId = e.target.getAttribute("data-attachment-id");
-      if (attachmentId) deletedAttachments.add(attachmentId);
-      e.target.closest(".file-preview-item").remove();
+      if (attachmentId) {
+        deletedAttachments.add(attachmentId);
+      }
+      const previewItem = e.target.closest(".file-preview-item");
+      const img = previewItem.querySelector("img");
+      if (img && img.src.startsWith("blob:")) {
+        URL.revokeObjectURL(img.src); // Clean up blob URL
+      }
+      previewItem.remove();
     }
   });
 
   function handleFiles(files) {
     Array.from(files).forEach((file) => {
-      if (isValidFile(file)) {
+      if (isValidImage(file)) {
         addedFiles.add(file);
         createPreviewElement(file);
+      } else {
+        showToast({ error: "Please upload only image files (JPEG, PNG, GIF)" });
       }
     });
   }
 
-  function isValidFile(file) {
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
+  function isValidImage(file) {
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
     return allowedTypes.includes(file.type);
   }
 
@@ -62,22 +66,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const previewItem = document.createElement("div");
     previewItem.className = "file-preview-item";
 
-    if (file.type.startsWith("image/")) {
-      const img = document.createElement("img");
-      img.src = URL.createObjectURL(file);
-      previewItem.appendChild(img);
-    } else {
-      const icon = document.createElement("div");
-      icon.className = "file-icon";
-      icon.textContent = getFileIcon(file.type);
-      previewItem.appendChild(icon);
-    }
+    // Create image preview
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    previewItem.appendChild(img);
 
+    // Add file name
     const fileName = document.createElement("div");
     fileName.className = "file-name";
     fileName.textContent = file.name;
     previewItem.appendChild(fileName);
 
+    // Add remove button
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-file";
     removeBtn.textContent = "×";
@@ -86,25 +86,13 @@ document.addEventListener("DOMContentLoaded", function () {
     filePreviewContainer.appendChild(previewItem);
   }
 
-  function getFileIcon(fileType) {
-    switch (fileType) {
-      case "application/pdf":
-        return "📄";
-      case "application/msword":
-      case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        return "📝";
-      default:
-        return "📎";
-    }
-  }
-
   form.onsubmit = function (e) {
     e.preventDefault();
     deletedAttachmentsInput.value = Array.from(deletedAttachments).join(",");
 
     const formData = new FormData(form);
 
-    // Tambahkan file yang di-upload
+    // Add newly uploaded files
     addedFiles.forEach((file) => {
       formData.append("files[]", file);
     });
@@ -118,15 +106,27 @@ document.addEventListener("DOMContentLoaded", function () {
       if (xhr.readyState === 4) {
         try {
           const response = JSON.parse(xhr.responseText);
-          console.log(response);
           if (response.status === "success") {
             window.location.href = `/lowongan?lowongan_id=${response.id}`;
+          } else {
+            showToast({
+              error:
+                response.message || "Terjadi kesalahan saat mengubah lowongan",
+            });
           }
         } catch (error) {
-          showToast({ error: "Something went wrong. Please try again." });
+          showToast({ error: "Terjadi kesalahan saat mengubah lowongan" });
         }
       }
     };
+
+    xhr.upload.onprogress = function (event) {
+      if (event.lengthComputable) {
+        const percentComplete = (event.loaded / event.total) * 100;
+        showToast({ info: `Upload Progress: ${Math.round(percentComplete)}%` });
+      }
+    };
+
     xhr.send(formData);
   };
 });
