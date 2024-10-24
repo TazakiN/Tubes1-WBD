@@ -29,7 +29,7 @@
     font-weight: bold;
   }
 
-  /* Subeader Title */
+  /* Subheader Title */
   .subheader-title {
     margin-bottom: 1rem;
     font-size: 2rem;
@@ -94,7 +94,7 @@
     transform: scale(0.95);
   }
 
-  h3 {
+  form h3 {
     color: var(--light-blue);
     margin: 12px;
   }
@@ -121,3 +121,141 @@
     background-color: var(--blue);
     transform: scale(0.95);
   }
+
+  .lamaran-container {
+    background-color: white;
+    padding: 5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-width: 360px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .lamaran-header {
+    position: relative;
+    margin-top: 60px;
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    flex-wrap: wrap;
+  }
+
+  .lamaran-header .subheader-title {
+    font-size: 3rem;
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    align-self: start;
+  }
+
+  .lamaran-date {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: start;
+    align-self: start;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 6px;
+  }
+
+  .calendar-pic {
+    height: 30px;
+    width: 30px;
+  }
+
+  .lamaran-date h3 {
+    margin-left: 6px;
+    color: #000000;
+  }
+
+  .status {
+    margin-top: 10px;
+    width: fit-content;
+    height: fit-content;
+    padding: 6px 12px;
+    background-color: #00A0DC;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #FFFFFF;
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+  }
+
+  .lamaran-body {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap;
+    max-width: 1200px;
+  }
+
+  .lamaran-notes {
+    margin-top: 36px;
+    font-weight: normal;
+    font-size: 20px;
+  }
+
+  .svg-box {
+    padding: 4px 6px 1px 6px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: fit-content;
+    aspect-ratio: 1/1;
+    align-content: center;
+  }
+
+  .files-svg {
+    width: 35px;
+    height: 35px;
+    margin: 0px;
+  }
+
+  .files-header {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-bottom: 20px;
+    margin-top: 60px;
+  }
+
+  .files-header h3 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+
+  .embed {
+    text-align: center;
+  }
+
+  video {
+    margin-top: 0px;
+  }
+
+  .delete-button {
+    margin: 80px;
+    width: fit-content;
+    height: fit-content;
+    padding: 6px 12px;
+    background-color: var(--error-red);
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 20px;
+    color: #FFFFFF;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .delete-button:hover {
+    background-color: #b21d1d;
+    transform: scale(0.95);
+  }
+
+  
