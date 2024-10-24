@@ -130,7 +130,10 @@ class LowonganController extends BaseController
                 'files' => $files,
             ]);
             Toast::success("Vacancy added successfully.");
-            echo json_encode(['id' => $id]);
+            echo json_encode([
+                'status' => 'success',
+                'id' => $id
+            ]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
             Toast::error($msg);
