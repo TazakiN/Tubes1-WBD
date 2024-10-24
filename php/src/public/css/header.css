@@ -163,6 +163,10 @@ header.global-nav {
   transition: background-color 0.3s ease;
 }
 
+.dropdown-item.logout {
+  color: var(--light-red);
+}
+
 .dropdown-item:hover {
   background-color: rgba(10, 102, 194, 0.1);
 }

@@ -25,7 +25,7 @@
                 <label for="type">Type</label>
                 <select id="type" name="type">
                     <option value="intern">Intern</option>
-                    <option value="fulltime">Full Time</option>
+                    <option value="full-time">Full Time</option>
                     <option value="part-time">Part Time</option>
                 </select>
             </div>

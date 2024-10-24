@@ -34,18 +34,17 @@ class HomeController extends BaseController
                     $data['totalPage'] = (int)ceil($countData / $limit);
                     parent::render($data, "home-lowongan-jobseeker", "layouts/base");
             } else {
-                parent::redirect("/login", $data);
+                parent::render($data, "home-lowongan-jobseeker", "layouts/base");
             }
         } else {
             if (isset($_SESSION['user_id'])) {
                 if ($_SESSION["role"] == "company"){
                     $page = $urlParams['page'] ?? 1;
-                    $limit = 9;
+                    $limit = 12;
                     $countData = $this->lowonganService->countLowonganRow();
                     $data['lowongans'] = $this->lowonganService->getLowonganByCompanyIDandPage($_SESSION['user_id'], (int)$page, $limit);
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);
-                    $data['alert'] = $urlParams['alert'] ?? null;
                 parent::render($data, "home-company", "layouts/base");
                 } else {
                     $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
@@ -56,7 +55,9 @@ class HomeController extends BaseController
                     parent::render($data, "home-jobseeker", "layouts/base");
                 }
             } else {
-                parent::redirect("/login", $data);
+                $data['email'] = '';
+                $data['nama'] = 'Guest';
+                parent::render($data, 'home-jobseeker', 'layouts/base');
             }
         }
     }
