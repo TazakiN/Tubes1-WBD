@@ -1,8 +1,47 @@
 services:
   php:
+    container_name: web
     build:
       context: .
       dockerfile: Dockerfile
-    # TODO
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    volumes:
+      - ./php/src:/var/www/html:ro
+      - ./php/src/uploads:/var/www/html/uploads
+    networks:
+      - wbd
+    env_file:
+      - ./php/src/.env
+
   db:
-# TODO
+    image: postgres:latest
+    container_name: db
+    volumes:
+      - ./php/src/database:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - wbd
+    env_file:
+      - ./php/src/.env
+
+networks:
+  wbd:
+    driver: bridge
+
+volumes:
+  db_data:
