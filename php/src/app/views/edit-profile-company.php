@@ -37,3 +37,12 @@
         </form>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const discardButton = document.querySelector('.discard');
+        discardButton.addEventListener('click', function () {
+            window.location.href = '/profile';
+        });
+    });
+</script>

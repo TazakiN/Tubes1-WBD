@@ -19,13 +19,6 @@
             <label for="confirm-password">Confirm New Password</label>
             <input type="password" id="confirm-password" name="confirm-password" placeholder="(leave blank if not going to change)">
             
-            <!-- <label for="profile-picture">Profile Picture</label>
-            <span class="note">(leave blank if not going to change)</span>
-            <div class="profile-picture">
-                <input type="file" id="profile-picture" name="profile-picture">
-                <span>+</span>
-            </div> -->
-            
             <div class="buttons">
                 <button type="submit" class="save">Save</button>
                 <button type="button" class="discard">Discard</button>
@@ -33,3 +26,12 @@
         </form>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const discardButton = document.querySelector('.discard');
+        discardButton.addEventListener('click', function () {
+            window.location.href = '/profile';
+        });
+    });
+</script>
