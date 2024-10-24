@@ -3,24 +3,29 @@
 namespace app\controllers;
 
 use app\controllers\BaseController;
-use app\services\LowonganService;
-use app\Request;
 use app\services\UserService;
+use app\services\LowonganService;
+use app\services\LamaranService;
+use app\Request;
 use app\exceptions\ForbiddenAccessException;
 use Exception;
 
 class LowonganController extends BaseController
 {
     protected $userService;
+    protected $lamaranService;
     public function __construct()
     {
         parent::__construct(LowonganService::getInstance());
         $this->userService = UserService::getInstance();
+        $this->lamaranService = LamaranService::getInstance();
     }
 
     protected function get($urlParams)
     {
+        $data = [];
         $uri = Request::getURL();
+        $data = $this->getToastContent($urlParams, $data);
         if ($_SESSION["role"] == "company") {
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
@@ -51,7 +56,7 @@ class LowonganController extends BaseController
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
-            return parent::render(null, "/", "layouts/base");
+            return parent::render($data, "/", "layouts/base");
         }
     }
 
@@ -64,10 +69,16 @@ class LowonganController extends BaseController
             $this->postEditLowongan($urlParams);
         } else if ($uri == "/lowongan/edit-status") {
             $this->postEditStatusLowongan($urlParams);
-        } else if ($uri == "/lowongan/delete") {
-            $this->postDeleteLowongan($urlParams);
         }
     }
+
+    protected function delete($urlParams) {
+        $uri = Request::getURL();
+        if ($uri == "/lowongan/delete") {
+            $this->deleteLowongan($urlParams);
+        }
+    }
+
 
     private function getLowonganDetail($lowongan_id) {
         $lowongan = $this->service->getLowonganByID($lowongan_id);
@@ -80,8 +91,15 @@ class LowonganController extends BaseController
 
         $dataAttachments = $this->service->getAttachmentLowonganByLowonganID($lowongan_id);
 
-        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments]);
+        $lamarans = $this->lamaranService->getLamaranByLowonganID($lowongan_id);
 
+        foreach ($lamarans as $lamaran) {
+            $user_id = $lamaran->user_id;
+            $jobSeekerModel = $this->userService->getJobSeekerById($user_id); 
+            $lamaran->set('nama', $jobSeekerModel->nama);
+        }
+        
+        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments], ['lamarans' => $lamarans]);
         return $data;
     }
 
@@ -131,13 +149,15 @@ class LowonganController extends BaseController
                 'files' => $files,
                 'deleted_attachments' => $deletedAttachments,
             ]);
-
-            error_log("Lowongan with ID $lowongan_id has been edited successfully.");
-    
-            echo json_encode(['id' => $lowongan_id]);
+            header('Content-Type: application/json');
+            http_response_code(200);
+            echo json_encode([
+                "status" => "success",
+                "message"=> "Vacancy edited successfully.",
+                'id' => $lowongan_id]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["alert" => $msg], "edit-lowongan-company", "layouts/base");
+            parent::render(["error" => $msg], "edit-lowongan-company", "layouts/base");
         }
     }
 
@@ -160,21 +180,35 @@ class LowonganController extends BaseController
         }
     }
 
-    public function postDeleteLowongan($urlParams) {
-        if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
+    public function deleteLowongan($urlParams) {
+        try {
             $input = json_decode(file_get_contents('php://input'), true);
             $lowongan_id = $input["lowongan_id"];
-
-            error_log("lowongan_id: ". $lowongan_id);
-
-            $this->service->deleteLowongan($urlParams['lowongan_id']);
+            if ($this->service->isBelongsToCompany($lowongan_id, $_SESSION['user_id'])) {
+    
+                error_log("lowongan_id: ". $lowongan_id);
+    
+                $this->service->deleteLowongan($lowongan_id);
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Lowongan berhasil dihapus'
+                ]);
+            } else {
+                header('Content-Type: application/json');
+                http_response_code(403);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Anda tidak memiliki akses untuk menghapus lowongan ini'
+                ]);
+            }
+        } catch (Exception $e) {
             header('Content-Type: application/json');
+            http_response_code(500);
             echo json_encode([
-                'status'=> 'success',
-                'message'=> 'Lowongan has been deleted successfully.',
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ]);
-        } else {
-            throw new ForbiddenAccessException("You are not allowed to access this page.");
         }
     }
 }

@@ -92,38 +92,61 @@
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const deleteButtons = document.querySelectorAll('.delete-btn');
+document.addEventListener('DOMContentLoaded', function () {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
 
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const lowonganId = this.getAttribute('data-id');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const lowonganId = this.getAttribute('data-id');
+            const row = this.closest('tr') || this.closest('.position-card'); 
 
-                if (confirm('Are you sure you want to delete this position?')) {
-                    const xhr = new XMLHttpRequest();
-                    xhr.open('POST', '/lowongan/delete?lowongan_id=' + lowonganId, true);
-                    xhr.setRequestHeader('Content-Type', 'application/json');
+            if (confirm('Are you sure you want to delete this position?')) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('DELETE', '/lowongan/delete?lowongan_id=' + lowonganId, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
 
-                    xhr.onload = function () {
+                xhr.onload = function () {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        const toastData = {};
+                        
                         if (xhr.status === 200) {
-                            const response = JSON.parse(xhr.responseText);
-                            alert('Position deleted successfully');
-                            window.location.reload();
+                            toastData.success = response.message;
+                            
+                            if (row) {
+                                row.style.opacity = '0';
+                                setTimeout(() => {
+                                    row.remove();
+                                }, 300);
+                            }
+                        } else if (xhr.status === 403) {
+                            toastData.error = response.message;
                         } else {
-                            alert('Failed to delete position');
-                            console.error('Error:', xhr.statusText);
+                            toastData.error = response.message || 'Terjadi kesalahan saat menghapus lowongan';
                         }
-                    };
 
-                    xhr.onerror = function () {
-                        alert('An error occurred. Please try again.');
-                    };
+                        showToast(toastData);
 
-                    const payload = JSON.stringify({ lowongan_id: lowonganId });
-                    xhr.send(payload);
-                }
-            });
+                    } catch (e) {
+                        showToast({
+                            error: 'Terjadi kesalahan saat memproses respons server'
+                        });
+                        console.error('Error parsing JSON:', e);
+                    }
+                };
+
+                xhr.onerror = function () {
+                    showToast({
+                        error: 'Terjadi kesalahan koneksi. Silakan coba lagi.'
+                    });
+                };
+
+                const payload = JSON.stringify({ lowongan_id: lowonganId });
+                xhr.send(payload);
+            }
         });
     });
+});
 </script>
 

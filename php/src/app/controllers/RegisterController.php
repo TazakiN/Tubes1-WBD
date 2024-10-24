@@ -17,7 +17,7 @@ class RegisterController extends BaseController
     public function get($urlParams)
     {
         if (isset($_SESSION["user_id"])) {
-            parent::redirect("/");
+            parent::redirect("/", ["error" => "You are already logged in"]);
         } else {
             parent::render($urlParams, "register", "layouts/base");
         }
@@ -45,12 +45,10 @@ class RegisterController extends BaseController
                     $_POST['about']
                 );
             }
-            parent::redirect("/login");
+            parent::redirect("/login", ["success" => "Register success, please login"]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            echo "<script>console.error('Error: " . addslashes($msg) . "');</script>";
-            parent::redirect("/register");
-            parent::render($urlParams, "register", "layouts/base");
+            parent::redirect("/register", ["error"=> $msg]);
         }
     }
 };

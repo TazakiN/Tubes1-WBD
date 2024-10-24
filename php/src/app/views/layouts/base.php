@@ -15,11 +15,14 @@
 
     <link rel="stylesheet" href="/public/css/global.css">
     <link rel="stylesheet" href="/public/css/header.css">
+    <link rel="stylesheet" href="/public/css/toast.css">
 
     <!-- Quill.js -->
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
     <link href="/public/css/richtextarea.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+    <script src="/public/js/toast.js"></script>
 
     <?= $__headContent ?>
     <title>LinkInPurry</title>
@@ -41,6 +44,12 @@
         <p class="alert-message"></p>
         <button onclick="closeCustomAlert()">OK</button>
     </div>
+
+    <?php 
+    if (!empty($data)) {
+        echo '<script>showToast(' . json_encode($data) . ')</script>';
+    }
+    ?>
 </body>
 
 <script>

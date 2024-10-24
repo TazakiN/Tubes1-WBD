@@ -31,23 +31,24 @@
         </div>
 
 
-        <!-- TODO: Masih Placeholder -->
+        <!-- data lamarans -->
         <div class="applicants">
             <h2>Applicants</h2>
-            <div class="applicant">
-                <span class="applicant-name">Tazkia Ganteng Banget</span>
-                <div class="applicant-status">
-                    <span class="status waiting">Waiting</span>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
-            <div class="applicant">
-                <span class="applicant-name">Farhan Seksi Banget</span>
-                <div class="applicant-status">
-                    <span class="status waiting">Waiting</span>
-                    <button class="details-button">Details</button>
-                </div>
-            </div>
+            <?php if (!empty($data['lamarans'])): ?>
+                <?php foreach ($data['lamarans'] as $lamaran): ?>
+                    <div class="applicant">
+                        <span class="applicant-name"><?php echo $lamaran->nama; ?></span>
+                        <div class="applicant-status">
+                            <span class="status <?php echo $lamaran->status; ?>"><?php echo ucfirst($lamaran->status); ?></span>
+                            <a href="/lamaran?lamaran_id=<?php echo $lamaran->lamaran_id; ?>">
+                                <button class="details-button">Details</button>
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>No applicants available.</p>
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -66,13 +67,24 @@
         xhr.setRequestHeader('Content-Type', 'application/json');
 
         xhr.onload = function () {
-            if (xhr.status === 200) {
+            try {
                 const response = JSON.parse(xhr.responseText);
-                console.log('Berhasil memperbarui status:', response.message);
-                statusElement.textContent = isOpen ? 'Open' : 'Closed';
-                statusElement.className = isOpen ? 'status open' : 'status closed';
-            } else {
-                console.error('Gagal memperbarui status:', xhr.statusText);
+                const toastData = {};
+                if (xhr.status === 200) {
+                    statusElement.textContent = isOpen ? 'Open' : 'Closed';
+                    statusElement.className = isOpen ? 'status open' : 'status closed';
+                    toastData.success = response.message;
+                } else if (xhr.status === 403) {
+                    toastData.error = response.message;
+                } else {
+                    toastData.error = response.message || 'Terjadi kesalahan saat memperbarui status';
+                }
+
+                showToast(toastData);
+            } catch (error) {
+                showToast({
+                    error: 'Terjadi kesalahan saat memproses respons server'
+                });   
             }
         };
 
@@ -85,31 +97,47 @@
     });
 
     deleteButton.addEventListener('click', function () {
-            if (confirm('Are you sure you want to delete this lowongan?')) {
-                const xhr = new XMLHttpRequest();
-                xhr.open('POST', `/lowongan/delete?lowongan_id=<?= $data['lowongan_id'] ?>`, true);
-                xhr.setRequestHeader('Content-Type', 'application/json');
+        const lowonganId = <?php echo $data['lowongan_id']; ?>;
+        if (confirm('Are you sure you want to delete this lowongan?')) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', `/lowongan/delete`, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
 
-                xhr.onload = function () {
+            xhr.onload = function () {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    
+                    const toastData = {};
+                    
                     if (xhr.status === 200) {
-                        const response = JSON.parse(xhr.responseText);
-                        console.log('Lowongan berhasil dihapus:', response.message);
-                        alert('Lowongan berhasil dihapus');
-                        window.location.href = '/'; 
+                        toastData.success = response.message;
+                        setTimeout(() => {
+                            window.location.href = '/';
+                        }, 2000);
+                    } else if (xhr.status === 403) {
+                        toastData.error = response.message;
                     } else {
-                        console.error('Gagal menghapus lowongan:', xhr.statusText);
-                        alert('Gagal menghapus lowongan');
+                        toastData.error = response.message || 'Terjadi kesalahan saat menghapus lowongan';
                     }
-                };
 
-                xhr.onerror = function () {
-                    console.error('Terjadi kesalahan dalam request');
-                };
+                    showToast(toastData);
 
-                const payload = JSON.stringify({ lowongan_id: lowonganId });
-                xhr.send(payload);
-            }
-        });
+                } catch (e) {
+                    showToast({
+                        error: 'Terjadi kesalahan saat memproses respons server'
+                    });
+                    console.error('Error parsing JSON:', e);
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('Terjadi kesalahan dalam request');
+            };
+
+            const payload = JSON.stringify({ lowongan_id: lowonganId });
+            xhr.send(payload);
+        }
+    });
 });
 
 </script>
