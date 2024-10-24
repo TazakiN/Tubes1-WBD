@@ -32,7 +32,7 @@
         <div class="line"></div>
         <div class="line"></div>
 
-        <input type="text" placeholder="Search..." class="search-input">
+        <input type="text" placeholder="Search..." class="search-input" id="searchInput">
 
         <div class="line"></div>
         <div class="line"></div>
@@ -45,3 +45,24 @@
         </div>
     </div>
 </section>
+
+<script>
+
+function debounce(cb, delay = 500) {
+        let debounceTimer;
+        return function(...args) {
+            const context = this;
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => cb.apply(context, args), delay);
+        };
+    }
+
+    function handleSearchInput(event) {
+        const query = event.target.value;
+        console.log("Search query:", query);
+    }
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', debounce(handleSearchInput, 500));
+
+</script>
