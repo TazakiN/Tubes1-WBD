@@ -1,5 +1,6 @@
 header {
   position: fixed;
+  z-index: 1000;
   width: 100%;
 }
 
@@ -160,6 +161,10 @@ header.global-nav {
   text-decoration: none;
   color: #0a66c2;
   transition: background-color 0.3s ease;
+}
+
+.dropdown-item.logout {
+  color: var(--light-red);
 }
 
 .dropdown-item:hover {

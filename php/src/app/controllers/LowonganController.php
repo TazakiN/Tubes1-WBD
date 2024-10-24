@@ -26,6 +26,7 @@ class LowonganController extends BaseController
         $data = [];
         $uri = Request::getURL();
         $data = $this->getToastContent($urlParams, $data);
+
         if ($_SESSION["role"] == "company") {
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
@@ -39,7 +40,7 @@ class LowonganController extends BaseController
                     }
                 } catch (Exception $e) {
                     $msg = $e->getMessage();
-                    parent::render(["alert" => $msg], "home-company", "layouts/base");
+                    parent::render(["error" => $msg], "home-company", "layouts/base");
                 }
             } else if ($uri == "/lowongan") {
                 if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
@@ -98,7 +99,6 @@ class LowonganController extends BaseController
             $jobSeekerModel = $this->userService->getJobSeekerById($user_id); 
             $lamaran->set('nama', $jobSeekerModel->nama);
         }
-        
         $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments], ['lamarans' => $lamarans]);
         return $data;
     }
@@ -121,10 +121,16 @@ class LowonganController extends BaseController
                 'files' => $files,
             ]);
 
-            echo json_encode(['id' => $id]);
+            header('Content-Type: application/json');
+            http_response_code(200);
+            echo json_encode([
+                "status" => "success",
+                "message" => "Vacancy added successfully.",
+                "id" => $id
+            ]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["alert" => $msg], "add-lowongan-company", "layouts/base");
+            parent::render(["error" => $msg], "add-lowongan-company", "layouts/base");
         }
     }
 

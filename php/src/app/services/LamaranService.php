@@ -50,7 +50,7 @@ class LamaranService extends BaseService
 
     public function getLamaranByLowonganID($lowongan_id, $ordered = null) {
         $all_lamaran_data = $this->repository->getAllByLowonganID($lowongan_id, $ordered);
-
+        $all_lamaran_model = [];
         if ($all_lamaran_data) {
             $all_lamaran_model = [];
             foreach($all_lamaran_data as $lamaran_data){
@@ -58,11 +58,8 @@ class LamaranService extends BaseService
                 $lamaran_model->constructFromArray($lamaran_data);
                 $all_lamaran_model[] = $lamaran_model;
             }
-
-            return $all_lamaran_model;
         }
-
-        return null;
+        return $all_lamaran_model;
     }
 
     public function createLamaran($note, $cv_file, $video_file, $lowongan_id): LamaranModel | null

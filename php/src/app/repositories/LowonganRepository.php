@@ -34,6 +34,71 @@ class LowonganRepository extends BaseRepository
         return $this->findAll(['company_id' => [$companyID, PDO::PARAM_INT]], null, $pageNo, $limit);
     }
 
+    public function getLowonganByFilters($filters, $pageNo, $limit)
+    {
+        $whereConditions = [];
+
+        if (!empty($filters['company_id'])) {
+            $whereConditions['company_id'] = [$filters['company_id'], PDO::PARAM_INT];
+        }
+
+        if (!empty($filters['searchParams'])) {
+            $whereConditions['posisi'] = [$filters['searchParams'], PDO::PARAM_STR, 'LIKE'];
+        }
+
+        if (!empty($filters['jenis_pekerjaan']) && is_array($filters['jenis_pekerjaan'])) {
+            $whereConditions['jenis_pekerjaan'] = [
+                $filters['jenis_pekerjaan'][0],
+                PDO::PARAM_STR,
+                'IN',
+                $filters['jenis_pekerjaan']
+            ];
+        }
+        
+        if (!empty($filters['jenis_lokasi']) && is_array($filters['jenis_lokasi'])) {
+            $whereConditions['jenis_lokasi'] = [
+                $filters['jenis_lokasi'][0],
+                PDO::PARAM_STR,
+                'IN',
+                $filters['jenis_lokasi'] 
+            ];
+        }
+        
+        return $this->findAll($whereConditions, null, $pageNo, $limit);
+    }
+
+    public function countRowByFilters($filters) {
+        $whereConditions = [];
+
+        if (!empty($filters['company_id'])) {
+            $whereConditions['company_id'] = [$filters['company_id'], PDO::PARAM_INT];
+        }
+
+        if (!empty($filters['searchParams'])) {
+            $whereConditions['posisi'] = [$filters['searchParams'], PDO::PARAM_STR, 'LIKE'];
+        }
+
+        if (!empty($filters['jenis_pekerjaan']) && is_array($filters['jenis_pekerjaan'])) {
+            $whereConditions['jenis_pekerjaan'] = [
+                $filters['jenis_pekerjaan'][0],
+                PDO::PARAM_STR,
+                'IN',
+                $filters['jenis_pekerjaan']
+            ];
+        }
+        
+        if (!empty($filters['jenis_lokasi']) && is_array($filters['jenis_lokasi'])) {
+            $whereConditions['jenis_lokasi'] = [
+                $filters['jenis_lokasi'][0],
+                PDO::PARAM_STR,
+                'IN',
+                $filters['jenis_lokasi'] 
+            ];
+        }
+
+        return $this->countRow($whereConditions);
+    }
+
     public function getAllLowonganRep($pageNo, $limit)
     {
         return $this->findAll([], null, $pageNo, $limit);
