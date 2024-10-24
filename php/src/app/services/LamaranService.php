@@ -74,6 +74,14 @@ class LamaranService extends BaseService
         return $all_lamaran_model;
     }
 
+    public function isMelamar($jobseeker_id, $lowongan_id) {
+        $lamaran_data = $this->repository->getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id);
+        if ($lamaran_data) {
+            return true;
+        }
+        return false;
+    }
+
     public function createLamaran($note, $cv_file, $video_file, $lowongan_id): LamaranModel | null
     {
         $uploadDir = 'uploads/';
