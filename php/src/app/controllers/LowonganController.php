@@ -28,6 +28,12 @@ class LowonganController extends BaseController
         $uri = Request::getURL();
         $data = $this->getToastContent($urlParams, $data);
 
+        // Check if user is logged in first
+        if (!isset($_SESSION["role"])) {
+            Toast::warning("You are not allowed to access this page. Please login first.");
+            return parent::redirect("/home");
+        }
+
         if ($_SESSION["role"] == "company") {
             if ($uri == "/lowongan/add") {
                 return parent::render($urlParams, "add-lowongan-company", "layouts/base");
