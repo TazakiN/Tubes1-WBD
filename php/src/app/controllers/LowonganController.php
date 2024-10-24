@@ -62,6 +62,11 @@ class LowonganController extends BaseController
         } else if ($_SESSION["role"] == "jobseeker") {
             if ($uri == "/lowongan") {
                 $data = $this->getLowonganDetail($urlParams['lowongan_id']);
+                if($this->lamaranService->isMelamar($_SESSION['user_id'], $urlParams['lowongan_id'])) {
+                    $data['isMelamar'] = true;
+                } else {
+                    $data['isMelamar'] = false;
+                }
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
@@ -130,7 +135,10 @@ class LowonganController extends BaseController
                 'files' => $files,
             ]);
             Toast::success("Vacancy added successfully.");
-            echo json_encode(['id' => $id]);
+            echo json_encode([
+                'status' => 'success',
+                'id' => $id
+            ]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
             Toast::error($msg);

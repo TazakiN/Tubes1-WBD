@@ -32,22 +32,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function handleFiles(files) {
     Array.from(files).forEach((file) => {
-      if (isValidFile(file)) {
+      if (isValidImage(file)) {
         selectedFiles.add(file);
         createPreviewElement(file);
+      } else {
+        showToast({ error: "Please upload only image files (JPEG, PNG, GIF)" });
       }
     });
   }
 
-  function isValidFile(file) {
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-      "application/pdf",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
+  function isValidImage(file) {
+    const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
     return allowedTypes.includes(file.type);
   }
 
@@ -55,27 +50,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const previewItem = document.createElement("div");
     previewItem.className = "file-preview-item";
 
-    // preview
-    if (file.type.startsWith("image/")) {
-      const img = document.createElement("img");
-      img.src = URL.createObjectURL(file);
-      previewItem.appendChild(img);
-    } else {
-      const icon = document.createElement("div");
-      icon.className = "file-icon";
-      icon.textContent = getFileIcon(file.type);
-      icon.style.fontSize = "48px";
-      icon.style.textAlign = "center";
-      previewItem.appendChild(icon);
-    }
+    // Create image preview
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
+    previewItem.appendChild(img);
 
-    // file name
+    // Add file name
     const fileName = document.createElement("div");
     fileName.className = "file-name";
     fileName.textContent = file.name;
     previewItem.appendChild(fileName);
 
-    // remove button
+    // Add remove button
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-file";
     removeBtn.textContent = "×";
@@ -83,27 +69,15 @@ document.addEventListener("DOMContentLoaded", function () {
       e.stopPropagation();
       selectedFiles.delete(file);
       previewItem.remove();
+      URL.revokeObjectURL(img.src); // Clean up the object URL
     };
     previewItem.appendChild(removeBtn);
 
     filePreviewContainer.appendChild(previewItem);
   }
 
-  function getFileIcon(fileType) {
-    switch (fileType) {
-      case "application/pdf":
-        return "📄";
-      case "application/msword":
-      case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        return "📝";
-      default:
-        return "📎";
-    }
-  }
-
   form.addEventListener("submit", function (e) {
     e.preventDefault();
-
     const formData = new FormData(form);
 
     selectedFiles.forEach((file) => {
@@ -116,17 +90,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (xhr.readyState === 4) {
         try {
           const response = JSON.parse(xhr.responseText);
-          const toastData = {};
           if (response.status === "success") {
             window.location.href = `/lowongan?lowongan_id=${response.id}`;
-          } else if (xhr.status === 401) {
-            toastData.error = response.message;
           } else {
-            toastData.error =
-              response.message || "Terjadi kesalahan saat membuat lowongan";
+            showToast({
+              error:
+                response.message || "Terjadi kesalahan saat membuat lowongan",
+            });
           }
-
-          showToast(toastData);
         } catch (error) {
           showToast({ error: "Terjadi kesalahan saat membuat lowongan" });
         }
@@ -136,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
     xhr.upload.onprogress = function (event) {
       if (event.lengthComputable) {
         const percentComplete = (event.loaded / event.total) * 100;
-        showToast({ info: "Upload Completed," + percentComplete });
+        showToast({ info: `Upload Progress: ${Math.round(percentComplete)}%` });
       }
     };
 

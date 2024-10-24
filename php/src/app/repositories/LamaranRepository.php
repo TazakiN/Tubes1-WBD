@@ -44,6 +44,11 @@ class LamaranRepository extends BaseRepository
         return $this->findAll(['lowongan_id' => [$id, PDO::PARAM_INT]], $order);
     }
 
+    public function getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id)
+    {
+        return $this->findOne(['user_id' => [$jobseeker_id, PDO::PARAM_INT], 'lowongan_id' => [$lowongan_id, PDO::PARAM_INT]]);
+    }
+
     public function deleteByLamaranID($id)
     {
         $user = $this->getByLamaranID($id);
