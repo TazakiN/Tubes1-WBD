@@ -41,28 +41,19 @@
             <a href="/home">
                 <button class="job-listing-button"> <img src="/public/svg/eye.svg"> Job Listing</button>
             </a>
-            <button class="purry-search-button">Purry Search</button>
+            <button class="purry-search-button" id="searchButton">Purry Search</button>
         </div>
     </div>
 </section>
 
 <script>
+ document.getElementById('searchButton').addEventListener('click', function() {
+        const searchValue = document.getElementById('searchInput').value;
 
-function debounce(cb, delay = 500) {
-        let debounceTimer;
-        return function(...args) {
-            const context = this;
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => cb.apply(context, args), delay);
-        };
-    }
-
-    function handleSearchInput(event) {
-        const query = event.target.value;
-        console.log("Search query:", query);
-    }
-
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('input', debounce(handleSearchInput, 500));
-
+        if (searchValue.trim() !== '') {
+            window.location.href = `/home?searchParams=${encodeURIComponent(searchValue)}`;
+        } else {
+            window.location.href = '/home';
+        }
+    });
 </script>

@@ -98,7 +98,7 @@
 
     deleteButton.addEventListener('click', function () {
         const lowonganId = <?php echo $data['lowongan_id']; ?>;
-        if (confirm('Are you sure you want to delete this lowongan?')) {
+        if (confirm('Are you sure you want to delete this offer?')) {
             const xhr = new XMLHttpRequest();
             xhr.open('DELETE', `/lowongan/delete`, true);
             xhr.setRequestHeader('Content-Type', 'application/json');

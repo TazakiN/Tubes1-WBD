@@ -1,7 +1,9 @@
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('input', debounce(handleSearchInput, 500));
 
-getSelectedValues();
+document.querySelectorAll('input[name="location"], input[name="type"]').forEach(checkbox => {
+    checkbox.addEventListener('change', getSelectedValues);
+});
 
 function getSelectedValues() {
     const selectedLocations = Array.from(document.querySelectorAll('input[name="location"]:checked'))
@@ -10,46 +12,21 @@ function getSelectedValues() {
     const selectedTypes = Array.from(document.querySelectorAll('input[name="type"]:checked'))
         .map(checkbox => checkbox.value);
 
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+    
+    params.set('jenis_lokasi', selectedLocations.join(','));
+    params.set('jenis_pekerjaan', selectedTypes.join(','));
 
+    url.search = params.toString();
 
     console.log("Selected Locations: ", selectedLocations);
     console.log("Selected Types: ", selectedTypes);
 
-    const queryParams = `locations=${encodeURIComponent(selectedLocations.join(','))}&types=${encodeURIComponent(selectedTypes.join(','))}`;
-
-    // Create XMLHttpRequest object
-    const xhr = new XMLHttpRequest();
-
-    // Define the type of request and the URL to send to
-    xhr.open('GET', `/home${queryParams}`, true);
-
-    // Set up the callback for when the request completes
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            try {
-                // Parse the JSON response from the server
-                const data = JSON.parse(xhr.responseText);
-                console.log('Response from PHP:', data);
-            } catch (error) {
-                console.error('Error parsing JSON:', error);
-            }
-        }
-    };
-
-    // Handle any errors during the request
-    xhr.onerror = function () {
-        console.error('Request failed.');
-    };
-
-    // Send the GET request
-    xhr.send();
+    window.location.href = url;
 }
 
-document.querySelectorAll('input[name="location"], input[name="type"]').forEach(checkbox => {
-    checkbox.addEventListener('change', getSelectedValues);
-});
-
-function debounce(cb, delay = 500) {
+function debounce(cb, delay = 1000) {
     let debounceTimer;
     return function(...args) {
         const context = this;
@@ -60,5 +37,24 @@ function debounce(cb, delay = 500) {
 
 function handleSearchInput(event) {
     const query = event.target.value;
-    console.log("Search query:", query);
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+
+    params.set('searchParams', query);
+
+    url.search = params.toString();
+    window.location.href = url;
 }
+
+function getUrlParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    const searchParamsValue = getUrlParam('searchParams');
+    if (searchParamsValue) {
+        document.getElementById('searchInput').value = searchParamsValue;
+    }
+    document.getElementById('searchInput').focus();
+});

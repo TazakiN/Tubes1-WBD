@@ -71,8 +71,15 @@ class HomeController extends BaseController
     {
         $filters = [];
         $filters['searchParams'] = $urlParams['searchParams'] ?? '';
-        $filters['jenis_pekerjaan'] = $urlParams['jenis_pekerjaan'] ?? [];
-        $filters['jenis_lokasi'] = $urlParams['jenis_lokasi'] ?? [];
+
+        $filters['jenis_pekerjaan'] = !empty($urlParams['jenis_pekerjaan']) 
+        ? explode(',', $urlParams['jenis_pekerjaan']) 
+        : ['Internship', 'Part-time', 'Full-time'];
+
+        $filters['jenis_lokasi'] = !empty($urlParams['jenis_lokasi']) 
+        ? explode(',', $urlParams['jenis_lokasi']) 
+        : ['on-site', 'hybrid', 'remote'];
+        
         return $filters;
     }
 }

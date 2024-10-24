@@ -6,7 +6,7 @@
 <section class="home-section">
     <div class="header">
         <div class="search-bar">
-            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput" autocomplete="off">
             <button class="filter-button">Filter</button>
             <div class="check-container">
                 <label class="check-item"><input type="checkbox" name="location" value="on-site" checked>On-site</label>
@@ -56,39 +56,76 @@
         $currentPage = $data['page'];
         $totalPages = $data['totalPage'];
 
-        if ($currentPage > 1): ?>
-            <a href="/home?page=<?= $currentPage - 1 ?>" class="pagination-btn">&larr;</a>
+        $queryParams = [];
+        parse_str($_SERVER['QUERY_STRING'], $queryParams);
+
+        if ($currentPage > 1): 
+            $queryParams['page'] = $currentPage - 1;
+            ?>
+            <a href="/home?<?= http_build_query($queryParams) ?>" class="pagination-btn">&larr;</a>
         <?php else: ?>
             <a href="#" class="pagination-btn disabled">&larr;</a>
         <?php endif;
 
-        if ($currentPage > 3): ?>
-            <a href="/home?page=1" class="pagination-btn">1</a>
+        if ($currentPage > 3): 
+            $queryParams['page'] = 1;
+            ?>
+            <a href="/home?<?= http_build_query($queryParams) ?>" class="pagination-btn">1</a>
             <?php if ($currentPage > 4): ?>
                 <span class="pagination-dots">...</span>
             <?php endif;
         endif;
 
-        for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++): ?>
-            <a href="/home?page=<?= $i ?>" 
+        for ($i = max(1, $currentPage - 2); $i <= min($totalPages, $currentPage + 2); $i++): 
+            $queryParams['page'] = $i;
+            ?>
+            <a href="/home?<?= http_build_query($queryParams) ?>" 
                class="pagination-btn <?= $currentPage === $i ? 'active' : '' ?>">
                 <?= $i ?>
             </a>
         <?php endfor;
 
-        if ($currentPage < $totalPages - 2): ?>
-            <?php if ($currentPage < $totalPages - 3): ?>
+        if ($currentPage < $totalPages - 2): 
+            if ($currentPage < $totalPages - 3): ?>
                 <span class="pagination-dots">...</span>
-            <?php endif; ?>
-            <a href="/home?page=<?= $totalPages ?>" class="pagination-btn">
+            <?php endif; 
+            $queryParams['page'] = $totalPages; ?>
+            <a href="/home?<?= http_build_query($queryParams) ?>" class="pagination-btn">
                 <?= $totalPages ?>
             </a>
         <?php endif;
 
-        if ($currentPage < $totalPages): ?>
-            <a href="/home?page=<?= $currentPage + 1 ?>" class="pagination-btn">&rarr;</a>
+        if ($currentPage < $totalPages): 
+            $queryParams['page'] = $currentPage + 1;
+            ?>
+            <a href="/home?<?= http_build_query($queryParams) ?>" class="pagination-btn">&rarr;</a>
         <?php else: ?>
             <a href="#" class="pagination-btn disabled">&rarr;</a>
         <?php endif; ?>
-    </div>
+</div>
+
 </section>
+
+<script>
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams(url.search);
+
+    const selectedLocations = params.get('jenis_lokasi') ? params.get('jenis_lokasi').split(',') : [];
+    const selectedTypes = params.get('jenis_pekerjaan') ? params.get('jenis_pekerjaan').split(',') : [];
+
+    document.querySelectorAll('input[name="location"]').forEach(checkbox => {
+        if (selectedLocations.includes(checkbox.value)) {
+            checkbox.checked = true;
+        } else {
+            checkbox.checked = false;
+        }
+    });
+
+    document.querySelectorAll('input[name="type"]').forEach(checkbox => {
+        if (selectedTypes.includes(checkbox.value)) {
+            checkbox.checked = true;
+        } else {
+            checkbox.checked = false;
+        }
+    });
+</script>
