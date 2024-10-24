@@ -4,23 +4,27 @@
 
 <section>
     <div class="lamaran-container">
-        <div class="lamaran-header">
-            <h2 class="subheader-title"> Apoteker at The Substance </h2>
+        <div class="lamaran-header" id="lamaran-header">
+            <h2 class="subheader-title"> <?php echo $data['position'] . " at " . $data['company_name']; ?> </h2>
+            <div class="status" id="status"> <?php echo $data['status'] ?> </div>
             <div class="lamaran-date">
                 <img src="/public/svg/date.svg" alt="date" class="calendar-pic">
-                <h3> 23 - 10 - 2024 </h3>
+                <h3> 
+                    <?php
+                        $date = DateTime::createFromFormat('Y-m-d H:i:s.u', $data['date']);
+                        echo $date->format('d-m-Y');
+                    ?> 
+                </h3>
             </div>
-            <div class="status"> Waiting </div>
+            <!-- <div class="status-reason">
+                WOI BANGSAT MUKA LO KAYA KULIT KONTOL. LU KIRA BISA KERJA KEK GITU ANJING. KELARIN DULU WBD LU TAI ANJING BARU LAMAR KERJA!
+            </div> -->
         </div>
-        <div class="lamaran-body">
+        <div class="lamaran-body" id="lamaran-body">
 
-            <p class="lamaran-notes">
-            Dear Diddy,
-            I am excited to apply for the position of Party Manager and Event Organizer at ganteng. 
-            With my experience in event planning, strong organizational skills, and passion for creating memorable experiences, I am confident in my ability to contribute positively to your team.
-            I have a proven track record of managing events of various scales, from intimate private parties to large corporate functions, ensuring every detail aligns with the client’s vision and goals. 
-            My ability to coordinate with vendors, manage budgets, and oversee event execution has consistently resulted in successful and seamless events. I am eager to bring my skills and creativity to ...
-            </p>
+            <!-- <div class="lamaran-notes">
+                <?php echo $data['note'] ?>
+            </div> -->
 
             <div class="files-header">
                 <div class="svg-box">
@@ -29,23 +33,93 @@
                 <h3> Curriculum Vitae </h3>
             </div>
 
-            <embed src="uploads/CV Farhan Nafis Rayhan.pdf" type="application/pdf" width="100%" height="1080px">
+            <embed src= "<?php echo $data['cv'] ?>" type="application/pdf" width="100%" height="1080px">
 
-            <div class="files-header">
+            <!-- <div class="files-header">
                 <div class="svg-box">
                     <img src="/public/svg/video.svg" alt="Video" class="files-svg">
                 </div>
                 <h3> Resume Video </h3>
-            </div>
+            </div> 
 
             <video width="100%" height="720" controls>
                 <source src="uploads/Resume KSI.mp4" type="video/mp4">
-            </video>
+            </video> -->
             
-            <button class="delete-button">
+            <!-- <button class="delete-button">
                 Delete Application
-            </button>
-            
+            </button> -->
+
         </div>
     </div>
 </section>
+
+<script>
+    var data =  <?php echo json_encode($data); ?>;
+    var lamaran_body = document.getElementById('lamaran-body');
+
+    if (data.note !== "" && data.note !== null && data.note !== "<p><br></p>"){
+        var note_box = document.createElement('div');
+        note_box.classList.add('lamaran-notes');
+        note_box.innerHTML=data.note;
+        lamaran_body.prepend(note_box);
+    }
+
+    if (data.video !== "" && data.video !== null){
+        var video_div = 
+            `<div class="files-header">
+                <div class="svg-box">
+                    <img src="/public/svg/video.svg" alt="Video" class="files-svg">
+                </div>
+                <h3> Resume Video </h3>
+            </div> 
+
+            <video width="100%" height="720" controls>
+                <source id=video src="" type="video/mp4">
+            </video>`;
+        var video_area = document.createElement('div');
+        video_area.innerHTML = video_div;
+        lamaran_body.appendChild(video_area);
+        document.getElementById('video').src = data.video;
+    }
+
+    var delete_button = `<button class="delete-button" id="delete-button">
+                            Delete Application
+                        </button>`;
+
+    var lamaran_header = document.getElementById('lamaran-header');
+
+    if (data.status_reason === "" || data.status_reason === null){
+        data.status_reason = "Employer gave no reason for this decision";
+    }
+
+    var status_sign = document.getElementById('status');
+    var status_reason_box = document.createElement('div');
+    status_reason_box.classList.add('status-reason');
+    status_reason_box.innerText = data.status_reason;
+
+    switch (data.status) {
+        case "accepted":
+            status_sign.classList.add("accepted");
+            status_reason_box.classList.add("accepted-reason");
+            lamaran_header.appendChild(status_reason_box);
+            break;
+        case "rejected":
+            status_sign.classList.add("rejected");
+            status_reason_box.classList.add("rejected-reason");
+            lamaran_header.appendChild(status_reason_box);
+            break;
+        case "waiting":
+            status_sign.classList.add("waiting");
+            break;
+    }
+
+    lamaran_body.insertAdjacentHTML("beforeend", delete_button);
+
+    // document.getElementById('delete-button').addEventListener("click", function() {
+    //     if (confirm("Are you sure you want to delete this application?")) {
+    //         const xhr = new XMLHttpRequest();
+    //         xhr.open('DELETE', `/lamaran/delete`, true);
+    //     }
+    // });
+</script>

@@ -10,6 +10,7 @@ class LamaranModel extends BaseModel
     public $lowongan_id;
     public $cv_path;
     public $video_path;
+    public $note;
     public $status;
     public $status_reason;
     public $created_at; 
@@ -25,6 +26,7 @@ class LamaranModel extends BaseModel
         $this->lowongan_id = $array['lowongan_id'];
         $this->cv_path = $array['cv_path'];
         $this->video_path = $array['video_path'];
+        $this->note = $array['note'];
         $this->status = $array['status'];
         $this->status_reason = $array['status_reason'];
         $this->created_at = $array['created_at'];
@@ -38,6 +40,7 @@ class LamaranModel extends BaseModel
             'lowongan_id' => $this->lowongan_id,
             'cv_path' => $this->cv_path,
             'video_path' => $this->video_path,
+            'note' => $this->note,
             'status' => $this->status,
             'status_reason' => $this->status_reason,
             'created_at' => $this->created_at,

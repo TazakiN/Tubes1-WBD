@@ -37,7 +37,7 @@ $__headContent = '<link rel="stylesheet" href="/public/css/riwayat.css">';
         status_text.textContent = data.status;
 
         var date_text = document.createElement('p1');
-        date_text .textContent = 'Submission Date : ' + Date(data.created_at);
+        date_text.textContent = 'Submission Date : ' + Date(data.created_at);
 
         riwayat_text_div.appendChild(position_text);
         riwayat_text_div.appendChild(company_name_text);

@@ -39,7 +39,20 @@ class LamaranController extends BaseController
             }
         } else if ($uri == "/lamaran"){
             $data = [];
-            $lamaran_id = $_SESSION['lamaran_id'];
+            $lamaran_id = $urlParams['lamaran_id'];
+            $lamaran = $this->service->getLamaranByID($lamaran_id);
+            $data['status'] = $lamaran->status;
+            $data['date'] = $lamaran->created_at;
+            $data['status_reason'] = $lamaran->status_reason;
+            $data['note'] = $lamaran->note;
+            $data['cv'] = $lamaran->cv_path;
+            $data['video'] = $lamaran->video_path;
+            $lowongan_id = $lamaran->lowongan_id;
+            $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
+            $data['position'] = $lowongan->posisi;
+            $company_id = $lowongan->company_id;
+            $company = $this->user_service->getCompanyByID($company_id);
+            $data['company_name'] = $company->nama;
             if ($_SESSION['role'] == "company"){
 
             } else if ($_SESSION['role'] == "jobseeker") {
