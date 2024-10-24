@@ -15,9 +15,9 @@
             </div>
 
             <div class="check-container">
-                <label class="check-item"><input type="checkbox" name="type" value="Internship" checked>Internship</label>
-                <label class="check-item"><input type="checkbox" name="type" value="Part-time" checked>Part-time</label>
-                <label class="check-item"><input type="checkbox" name="type" value="Full-time" checked>Full-time</label>
+                <label class="check-item"><input type="checkbox" name="type" value="intern" checked>Intern</label>
+                <label class="check-item"><input type="checkbox" name="type" value="part-time" checked>Part-time</label>
+                <label class="check-item"><input type="checkbox" name="type" value="full-time" checked>Full-time</label>
             </div>
         </div>
         <h1>Job Listing</h1>
