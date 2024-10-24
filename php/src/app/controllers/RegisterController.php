@@ -31,9 +31,8 @@ class RegisterController extends BaseController
     protected function post($urlParams)
     {
         try {
-            $userModel = null;
             if ($_POST['role'] == "jobseeker") {
-                $userModel = $this->service->registerJobSeeker(
+                $this->service->registerJobSeeker(
                     $_POST['role'],
                     $_POST['nama'],
                     $_POST['email'],
@@ -41,7 +40,7 @@ class RegisterController extends BaseController
                     $_POST['confirm_password']
                 );
             } else {
-                $userModel = $this->service->registerCompany(
+                $this->service->registerCompany(
                     $_POST['role'],
                     $_POST['nama'],
                     $_POST['email'],
@@ -51,10 +50,6 @@ class RegisterController extends BaseController
                     $_POST['about']
                 );
             }
-
-            $_SESSION['user_id'] = $userModel->id;
-            $_SESSION['role'] = $userModel->role;
-            $_SESSION['email'] = $userModel->email;
 
             Toast::success("Register success");
             parent::redirect("/");
