@@ -166,6 +166,7 @@ p1 {
     }
 
     .card-description {
+        align-items: center;
         margin: 10px 0;
     }
 

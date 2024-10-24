@@ -27,13 +27,17 @@ class HomeController extends BaseController
         $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
         if ($uri == "/home"){
-            $filters = $this->makeFilters($urlParams);
-            $page = $urlParams['page'] ?? 1;
-            $countData = $this->lowonganService->countLowonganRow($filters);
-            $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit) ?? [];
-            $data['page'] = (int)$page;
-            $data['totalPage'] = (int)ceil($countData / $limit);
-            parent::render($data, "home-lowongan-jobseeker", "layouts/base");
+            if($_SESSION["role"] != "company"){
+                $filters = $this->makeFilters($urlParams);
+                $page = $urlParams['page'] ?? 1;
+                $countData = $this->lowonganService->countLowonganRow($filters);
+                $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit) ?? [];
+                $data['page'] = (int)$page;
+                $data['totalPage'] = (int)ceil($countData / $limit);
+                return parent::render($data, "home-lowongan-jobseeker", "layouts/base");
+            } else {
+                return parent::redirect("/");
+            }
         } else {
             if (isset($_SESSION['user_id'])) {
                 if ($_SESSION["role"] == "company"){
@@ -48,7 +52,7 @@ class HomeController extends BaseController
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);
 
-                parent::render($data, "home-company", "layouts/base");
+                    return parent::render($data, "home-company", "layouts/base");
 
                 } else {
                     $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
@@ -56,13 +60,12 @@ class HomeController extends BaseController
                         $data['email'] = $jobseeker->email;
                         $data['nama'] = $jobseeker->nama;
                     }
-                    parent::render($data, "home-jobseeker", "layouts/base");
+                    return parent::render($data, "home-jobseeker", "layouts/base");
                 }
             } else {
-                Toast::error("Silahkan login terlebih dahulu");
                 $data['email'] = '';
                 $data['nama'] = 'Guest';
-                parent::render($data, 'home-jobseeker', 'layouts/base');
+                return parent::redirect("/home");
             }
         }
     }

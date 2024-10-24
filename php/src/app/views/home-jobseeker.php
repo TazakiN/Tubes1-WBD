@@ -32,7 +32,7 @@
         <div class="line"></div>
         <div class="line"></div>
 
-        <input type="text" placeholder="Search..." class="search-input" id="searchInput">
+        <input type="text" placeholder="Search..." autocomplete="off" class="search-input" id="searchInput">
 
         <div class="line"></div>
         <div class="line"></div>

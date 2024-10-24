@@ -60,7 +60,7 @@ class LowonganController extends BaseController
             }
         } else {
             Toast::warning("You are not allowed to access this page. Please login first.");
-            return parent::render(null, "/", "layouts/base");
+            return parent::redirect("/home");
         }
     }
 

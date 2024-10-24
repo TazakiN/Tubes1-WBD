@@ -49,7 +49,7 @@
   justify-content: flex-end;
   transition: var(--tr);
   position: fixed;
-  top: 2rem;
+  bottom: 2rem;
   right: 2rem;
   padding: 0 1rem;
   z-index: 9999;
