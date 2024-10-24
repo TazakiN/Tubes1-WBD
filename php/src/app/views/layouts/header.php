@@ -1,27 +1,11 @@
 <header id="global-nav" class="global-nav global-alert-offset-top">
     <div class="global-nav_content">
         <!-- Logo -->
-        <a href="https://linkedin.com" class="app-logo" aria-label="Navigate to Home Page">
+        <a href="/" class="app-logo" aria-label="Navigate to Home Page">
             <div class="global-nav_branding-logo">
                 <img src="/public/assets/Linkin.png" alt="LinkinPurry Logo">
             </div>
         </a>
-
-        <!-- Hamburger Button for Mobile -->
-        <button class="nav-toggle" aria-label="Toggle Navigation">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </button>
-
-        <!-- Navigation Links -->
-        <nav class="global-nav_nav" aria-label="Main Navigation">
-            <ul class="nav-buttons">
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/home">Lowongan</a></li>
-            </ul>
-        </nav>
 
         <!-- User Profile Section -->
         <div class="global-nav_user">
@@ -34,8 +18,10 @@
 
                     <div id="dropdown-menu" class="dropdown-menu">
                         <a href="/profile" class="dropdown-item">Profile</a>
-                        <a href="/applied-jobs" class="dropdown-item">Applied Jobs</a>
-                        <a href="/logout" class="dropdown-item">Logout</a>
+                        <?php if ($_SESSION['role'] === 'jobseeker') { ?>
+                            <a href="/riwayat" class="dropdown-item">History</a>
+                        <?php } ?>
+                        <a href="/logout" class="dropdown-item logout">Logout</a>
                     </div>
                 </div>
             <?php } else { ?>

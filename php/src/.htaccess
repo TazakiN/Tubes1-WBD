@@ -6,6 +6,8 @@ RewriteEngine On
 
 RewriteRule ^public/ - [L]
 
+RewriteRule ^uploads/ - [L]
+
 # Push every other request to index.php
 
 RewriteRule ^(.+)$ index.php [QSA]

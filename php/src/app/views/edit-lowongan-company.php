@@ -29,7 +29,7 @@
                 <label for="type">Type</label>
                 <select id="type" name="type">
                     <option value="intern" <?php echo ($data["jenis_pekerjaan"] == "intern") ? "selected" : ""; ?>>Intern</option>
-                    <option value="fulltime" <?php echo ($data["jenis_pekerjaan"] == "fulltime") ? "selected" : ""; ?>>Full Time</option>
+                    <option value="full-time" <?php echo ($data["jenis_pekerjaan"] == "fulltime") ? "selected" : ""; ?>>Full Time</option>
                     <option value="part-time" <?php echo ($data["jenis_pekerjaan"] == "part-time") ? "selected" : ""; ?>>Part Time</option>
                 </select>
             </div>

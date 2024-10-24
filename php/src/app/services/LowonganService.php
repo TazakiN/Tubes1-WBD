@@ -59,8 +59,8 @@ class LowonganService extends BaseService
         }
     }
 
-    public function getLowonganByCompanyIDandPage($company_id, $pageNo = 1, $limit = 6) {
-        $lowongans = $this->repository->getLowonganByCompanyID($company_id, $pageNo, $limit);
+    public function getLowonganByFilters($filters= [], $pageNo = 1, $limit = 6) {
+        $lowongans = $this->repository->getLowonganByFilters($filters, $pageNo, $limit);
         if ($lowongans) {
             $lowonganModels = [];
             foreach ($lowongans as $lowongan) {
@@ -73,7 +73,7 @@ class LowonganService extends BaseService
     }
 
     public function countLowonganRow($whereParams = []) {
-        return $this->repository->countRow($whereParams);
+        return $this->repository->countRowByFilters($whereParams);
     }
 
     public function getAttachmentLowonganByLowonganID($lowongan_id) {
@@ -89,6 +89,10 @@ class LowonganService extends BaseService
         return $attachmentLowonganModels;
     }
 
+    private function getUploadDirectory() {
+        return dirname(__DIR__, 2) . '/uploads/';
+    }
+
     public function postNewLowongan($data) {
         $lowongan = new LowonganModel();
         $attachment_lowongan = new AttachmentLowonganModel();
@@ -101,12 +105,28 @@ class LowonganService extends BaseService
             ->set("jenis_lokasi", $data["jenis_lokasi"])
             ->set("is_open", $data["is_open"]);
 
-        $inserted_lowongan =  $this->repository->insertNewLowongan($lowongan);
+        $inserted_lowongan = $this->repository->insertNewLowongan($lowongan);
         $lowongan_id = $inserted_lowongan->get("lowongan_id");
 
-        $uploadDirectory = __DIR__ . "\\..\\..\\uploads\\";
+        $uploadDirectory = $this->getUploadDirectory();
+        
+        // Ensure upload directory exists and is writable
+        if (!file_exists($uploadDirectory)) {
+            if (!mkdir($uploadDirectory, 0777, true)) {
+                throw new Exception("Failed to create upload directory");
+            }
+        }
 
-        // var_dump($data["files"]);
+        if (!is_writable($uploadDirectory)) {
+            throw new Exception("Upload directory is not writable");
+        }
+
+        error_log("Upload Directory: " . $uploadDirectory);
+
+        if (!isset($data["files"]) || !isset($data["files"]["name"]) || empty($data["files"]["name"][0])) {
+            return $lowongan_id;
+        }
+
         foreach ($data["files"]["name"] as $index => $name) {
             $tmp_name = $data["files"]["tmp_name"][$index];
             $error = $data["files"]["error"][$index];
@@ -115,23 +135,47 @@ class LowonganService extends BaseService
                 $uniqueFileName = uniqid() . "_" . basename($name);
                 $uploadPath = $uploadDirectory . $uniqueFileName;
     
-                if (move_uploaded_file($tmp_name, $uploadPath)) {
-                    $attachment_lowongan = new AttachmentLowonganModel();
-                    $attachment_lowongan
-                        ->set("lowongan_id", $lowongan_id)
-                        ->set("file_path", $uniqueFileName);
-    
-                    $this->attachmentLowonganRepository->insertNewAttachmentLowongan($attachment_lowongan);
-                } else {
-                    throw new Exception("Gagal mengupload file: " . $name);
+                error_log("Attempting to upload file to: " . $uploadPath);
+                
+                if (!move_uploaded_file($tmp_name, $uploadPath)) {
+                    error_log("Failed to move uploaded file. Error: " . error_get_last()['message']);
+                    throw new Exception("Failed to upload file: " . $name);
                 }
+
+                $attachment_lowongan = new AttachmentLowonganModel();
+                $attachment_lowongan
+                    ->set("lowongan_id", $lowongan_id)
+                    ->set("file_path", $uniqueFileName);
+
+                $this->attachmentLowonganRepository->insertNewAttachmentLowongan($attachment_lowongan);
             } else {
-                throw new Exception("Terjadi error saat mengupload file: " . $name);
+                $errorMessage = $this->getUploadErrorMessage($error);
+                throw new Exception("Error uploading file {$name}: {$errorMessage}");
             }
         }
-    
 
         return $lowongan_id;
+    }
+
+    private function getUploadErrorMessage($error_code) {
+        switch ($error_code) {
+            case UPLOAD_ERR_INI_SIZE:
+                return "The uploaded file exceeds the upload_max_filesize directive in php.ini";
+            case UPLOAD_ERR_FORM_SIZE:
+                return "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form";
+            case UPLOAD_ERR_PARTIAL:
+                return "The uploaded file was only partially uploaded";
+            case UPLOAD_ERR_NO_FILE:
+                return "No file was uploaded";
+            case UPLOAD_ERR_NO_TMP_DIR:
+                return "Missing a temporary folder";
+            case UPLOAD_ERR_CANT_WRITE:
+                return "Failed to write file to disk";
+            case UPLOAD_ERR_EXTENSION:
+                return "File upload stopped by extension";
+            default:
+                return "Unknown upload error";
+        }
     }
 
     public function postEditLowongan($data) {
