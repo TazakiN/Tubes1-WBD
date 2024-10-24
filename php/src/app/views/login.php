@@ -10,9 +10,9 @@
                                 } ?></p>
         <form class="form" method="post">
             <div class="form-group">
-                <label for="username-email" class="input-label">Username or Email</label>
+                <label for="email" class="input-label">Email</label>
                 <br>
-                <input class="input" type="text" id="username" name="username-email" placeholder="Username or Email" required>
+                <input class="input" type="text" id="username" name="email" placeholder="Email" required>
             </div>
             <div class="form-group">
                 <label for="password" class="input-label">Password</label>

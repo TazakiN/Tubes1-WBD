@@ -9,6 +9,7 @@ use app\models\JobSeekerModel;
 use app\models\CompanyModel;
 use app\repositories\UserRepository;
 use app\repositories\CompanyDetailRepository;
+use Exception;
 use PDO;
 
 class UserService extends BaseService
@@ -37,33 +38,38 @@ class UserService extends BaseService
             throw new BadRequestException("Password does not match");
         }
 
-        if (!$this->isnamaExist($nama) && !$this->isEmailExist($email)) {
-            $user = new JobSeekerModel();
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                throw new BadRequestException("Email is not valid!");
-            }
-
-            $user
-                ->set('role', $role)
-                ->set('email', $email)
-                ->set('nama', $nama)
-                ->set('password', password_hash($password, PASSWORD_DEFAULT));
-
-            $id = $this->repository->insert($user, array(
-                'role' => PDO::PARAM_STR,
-                'email' => PDO::PARAM_STR,
-                'nama' => PDO::PARAM_STR,
-                'password' => PDO::PARAM_STR
-            ));
-
-            $response = $this->repository->getById($id);
-            $user = new JobSeekerModel();
-
-            return $user->constructFromArray($response);
-        } else {
+        if ($this->isEmailExist($nama)) {
             throw new BadRequestException("Email already exists!");
         }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new BadRequestException("Email is not valid!");
+        }
+
+        $jobseeker = new JobSeekerModel();
+
+        $jobseeker
+            ->set('role', $role)
+            ->set('email', $email)
+            ->set('nama', $nama)
+            ->set('password', password_hash($password, PASSWORD_DEFAULT));
+
+        $id = $this->repository->insert($jobseeker, array(
+            'role' => PDO::PARAM_STR,
+            'email' => PDO::PARAM_STR,
+            'nama' => PDO::PARAM_STR,
+            'password' => PDO::PARAM_STR
+        ));
+
+        $response = $this->repository->getById($id);
+        $jobseeker = new JobSeekerModel();
+        $jobseeker->constructFromArray($response);
+
+        $_SESSION["user_id"] = $jobseeker->get('user_id');
+        $_SESSION["role"] = $jobseeker->get('role');
+        $_SESSION["nama"] = $jobseeker->get('nama');
+
+        return $jobseeker;
     }
 
     public function registerCompany($role, $nama, $email, $password, $confirm_password, $lokasi, $about)
@@ -72,65 +78,60 @@ class UserService extends BaseService
             throw new BadRequestException("Password does not match");
         }
 
-        if (!$this->isnamaExist($nama) && !$this->isEmailExist($email)) {
-            $user = new CompanyModel();
-
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                throw new BadRequestException("Email is not valid!");
-            }
-
-            $user
-                ->set('role', $role)
-                ->set('email', $email)
-                ->set('nama', $nama)
-                ->set('password', password_hash($password, PASSWORD_DEFAULT))
-                ->set('lokasi', $lokasi)
-                ->set('about', $about);
-
-            $id = $this->repository->insert($user, array(
-                'role' => PDO::PARAM_STR,
-                'email' => PDO::PARAM_STR,
-                'nama' => PDO::PARAM_STR,
-                'password' => PDO::PARAM_STR,
-            ));
-
-            $user->set('user_id', $id);
-
-            $companyDetailRepository = CompanyDetailRepository::getInstance();
-
-            $id = $companyDetailRepository->insert($user, array(
-                'user_id' => PDO::PARAM_INT,
-                'lokasi' => PDO::PARAM_STR,
-                'about' => PDO::PARAM_STR
-            ));
-
-            $response = $this->repository->getById($id);
-            $user = new CompanyModel();
-
-            return $user->constructFromArray($response);
-        } else {
+        if ($this->isEmailExist($email)) {
             throw new BadRequestException("Email already exists!");
         }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new BadRequestException("Email is not valid!");
+        }
+
+        $company = new CompanyModel();
+
+        $company
+            ->set('role', $role)
+            ->set('email', $email)
+            ->set('nama', $nama)
+            ->set('password', password_hash($password, PASSWORD_DEFAULT))
+            ->set('lokasi', $lokasi)
+            ->set('about', $about);
+
+        $id = $this->repository->insert($company, array(
+            'role' => PDO::PARAM_STR,
+            'email' => PDO::PARAM_STR,
+            'nama' => PDO::PARAM_STR,
+            'password' => PDO::PARAM_STR,
+        ));
+
+        $company->set('user_id', $id);
+
+        $companyDetailRepository = CompanyDetailRepository::getInstance();
+
+        $id = $companyDetailRepository->insert($company, array(
+            'user_id' => PDO::PARAM_INT,
+            'lokasi' => PDO::PARAM_STR,
+            'about' => PDO::PARAM_STR
+        ));
+
+        $response = $this->repository->getById($id);
+        $company = new CompanyModel();
+        $company->constructFromArray($response);
+
+        $_SESSION["user_id"] = $company->get('user_id');
+        $_SESSION["role"] = $company->get('role');
+        $_SESSION["nama"] = $company->get('nama');
+
+        return $company;
     }
 
-    public function login($email_or_nama, $password)
+    public function login($email, $password)
     {
         $user = null;
 
-        $userEmail = $this->getByEmail($email_or_nama);
-        if ($userEmail and !is_null($userEmail->get('user_id'))) {
-            $user = $userEmail;
-        }
+        $user = $this->getByEmail($email);
 
-        if (is_null($user)) {
-            $usernama = $this->getByNama($email_or_nama);
-            if ($usernama and !is_null($usernama->get('user_id'))) {
-                $user = $usernama;
-            }
-        }
-
-        if (is_null($user)) {
-            throw new BadRequestException("Email or nama is not found!");
+        if ($user->get('user_id') == null) {
+            throw new BadRequestException("Email is not found!");
         }
 
         if (!password_verify($password, $user->get('password'))) {
@@ -146,11 +147,9 @@ class UserService extends BaseService
 
     public function logout()
     {
-        if (isset($_SESSION['user_id']) and isset($_SESSION['role'])) {
-            unset($_SESSION['user_id']);
-            unset($_SESSION['nama']);
-            unset($_SESSION['role']);
-        }
+        unset($_SESSION['user_id']);
+        unset($_SESSION['nama']);
+        unset($_SESSION['role']);
     }
 
     public function getByEmail($email)

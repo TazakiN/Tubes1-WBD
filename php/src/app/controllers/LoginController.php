@@ -32,18 +32,21 @@ class LoginController extends BaseController
     }
     protected function post($urlParams)
     {
-        $username_email = $_POST['username-email'];
-        $password = $_POST['password'];
-        try {
-            $this->service->login($username_email, $password);
-        } catch (Exception $e) {
-            $msg = $e->getMessage();
-            Toast::error($msg);
-            parent::render($urlParams, "login", "layouts/base");
-        }
-        if (isset($_SESSION['user_id'])) {
-            Toast::success("Login success");
-            parent::redirect("/");
+        $uri = Request::getURL();
+        if ($uri == "/login") {
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            try {
+                $this->service->login($email, $password);
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+                Toast::error($msg);
+                parent::render($urlParams, "login", "layouts/base");
+            }
+            if (isset($_SESSION['user_id'])) {
+                Toast::success("Login success");
+                parent::redirect("/");
+            }
         }
     }
 }
