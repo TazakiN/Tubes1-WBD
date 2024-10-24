@@ -27,7 +27,7 @@ class HomeController extends BaseController
         $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
         if ($uri == "/home"){
-            if($_SESSION["role"] != "company"){
+            if(!isset($_SESSION["role"]) || $_SESSION["role"] != "company"){
                 $filters = $this->makeFilters($urlParams);
                 $page = $urlParams['page'] ?? 1;
                 $countData = $this->lowonganService->countLowonganRow($filters);
@@ -40,8 +40,7 @@ class HomeController extends BaseController
             }
         } else {
             if (isset($_SESSION['user_id'])) {
-                if ($_SESSION["role"] == "company"){
-
+                if (isset($_SESSION["role"]) && $_SESSION["role"] == "company"){
                     $filters = $this->makeFilters($urlParams);
                     $filters['company_id'] = $_SESSION['user_id'];
 
