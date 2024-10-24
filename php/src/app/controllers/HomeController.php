@@ -77,7 +77,7 @@ class HomeController extends BaseController
 
         $filters['jenis_pekerjaan'] = !empty($urlParams['jenis_pekerjaan']) 
         ? explode(',', $urlParams['jenis_pekerjaan']) 
-        : ['Internship', 'Part-time', 'Full-time'];
+        : ['intern', 'part-time', 'full-time'];
 
         $filters['jenis_lokasi'] = !empty($urlParams['jenis_lokasi']) 
         ? explode(',', $urlParams['jenis_lokasi']) 
