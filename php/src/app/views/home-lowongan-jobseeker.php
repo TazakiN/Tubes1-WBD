@@ -6,9 +6,29 @@
         <div class="search-bar">
             <input type="text" class="search-input" placeholder="Search...">
             <button class="filter-button">Filter</button>
+            <form>
+                <select class="dropdown" name="location" id="job-location">
+                    <option value="all">All Location</option>
+                    <option value="on-site">On-site</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="remote">Remote</option>
+                </select>
+            </form>
+
+            <form>
+                <select class="dropdown" name="location" id="job-location">
+                    <option value="all">All Type</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Part-time">Part-time</option>
+                </select>
+            </form>
         </div>
         <h1>Job Listing</h1>
     </div>
+
+    <hr>
+    <br>
     
     <div class="job-grid">
         <?php foreach($data["lowongans"] as $k => $v): ?>

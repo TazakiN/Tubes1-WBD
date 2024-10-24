@@ -19,7 +19,7 @@
             <ul class="nav-buttons">
                 <li><a href="/">Home</a></li>
                 <li><a href="/about">About</a></li>
-                <li><a href="/lowongan">Lowongan</a></li>
+                <li><a href="/home">Lowongan</a></li>
             </ul>
         </nav>
 
