@@ -66,4 +66,13 @@
     </div>
 </section>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const discardButton = document.querySelector('.discard');
+        discardButton.addEventListener('click', function () {
+            const lowongan_id = location.search.split('lowongan_id=')[1];
+            window.location.href = `/`;
+        });
+    });
+</script>
 
