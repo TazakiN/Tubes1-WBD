@@ -109,12 +109,7 @@
                     const toastData = {};
                     
                     if (xhr.status === 200) {
-                        toastData.success = response.message;
-                        setTimeout(() => {
-                            window.location.href = '/';
-                        }, 2000);
-                    } else if (xhr.status === 403) {
-                        toastData.error = response.message;
+                        window.location.href = '/';
                     } else {
                         toastData.error = response.message || 'Terjadi kesalahan saat menghapus lowongan';
                     }
@@ -125,7 +120,6 @@
                     showToast({
                         error: 'Terjadi kesalahan saat memproses respons server'
                     });
-                    console.error('Error parsing JSON:', e);
                 }
             };
 

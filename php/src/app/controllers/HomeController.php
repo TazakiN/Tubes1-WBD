@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\controllers\BaseController;
 use app\services\LowonganService;
 use app\services\UserService;
+use app\helpers\Toast;
 use app\Request;
 
 require_once __DIR__ . "/../config/config.php";
@@ -46,7 +47,7 @@ class HomeController extends BaseController
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);
                     $data['alert'] = $urlParams['alert'] ?? null;
-                parent::render($data, "home-company", "layouts/base");
+                    parent::render($data, "home-company", "layouts/base");
                 } else {
                     $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
                     if($jobseeker){
@@ -56,6 +57,7 @@ class HomeController extends BaseController
                     parent::render($data, "home-jobseeker", "layouts/base");
                 }
             } else {
+                Toast::error("Silahkan login terlebih dahulu");
                 parent::redirect("/login", $data);
             }
         }

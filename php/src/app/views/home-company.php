@@ -108,31 +108,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 xhr.onload = function () {
                     try {
                         const response = JSON.parse(xhr.responseText);
-                        
-                        const toastData = {};
-                        
-                        if (xhr.status === 200) {
-                            toastData.success = response.message;
-                            
-                            if (row) {
-                                row.style.opacity = '0';
-                                setTimeout(() => {
-                                    row.remove();
-                                }, 300);
-                            }
-                        } else if (xhr.status === 403) {
-                            toastData.error = response.message;
+                        if (response.status === "success") {
+                            window.location.reload();
                         } else {
-                            toastData.error = response.message || 'Terjadi kesalahan saat menghapus lowongan';
+                            showToast({
+                                error: response.message || 'Terjadi kesalahan saat menghapus lowongan'
+                            });
                         }
-
-                        showToast(toastData);
-
                     } catch (e) {
                         showToast({
                             error: 'Terjadi kesalahan saat memproses respons server'
                         });
-                        console.error('Error parsing JSON:', e);
                     }
                 };
 
