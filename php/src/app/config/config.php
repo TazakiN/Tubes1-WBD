@@ -26,4 +26,4 @@ function loadEnv($path)
     // echo "File .env berhasil di-load!\n " . $_ENV["DB_HOST"];
 }
 
-loadEnv(__DIR__ . '/../../../../.env');
+loadEnv(__DIR__ . '/../../.env');
