@@ -5,8 +5,8 @@ CREATE DATABASE linkinpurry;
 
 -- Create ENUM types for role, jenis_pekerjaan, jenis_lokasi, and status
 CREATE TYPE user_role AS ENUM ('company', 'jobseeker');
-CREATE TYPE pekerjaan_type AS ENUM ('intern', 'full-time', 'part-time');
-CREATE TYPE lokasi_type AS ENUM ('on-site', 'remote', 'hybrid');
+CREATE TYPE pekerjaan_type AS ENUM ('Internship', 'Full-time', 'Part-time');
+CREATE TYPE lokasi_type AS ENUM ('On-site', 'Remote', 'Hybrid');
 CREATE TYPE lamaran_status AS ENUM ('accepted', 'rejected', 'waiting');
 
 -- Tabel Users
@@ -77,46 +77,90 @@ CREATE TABLE Lamaran (
     FOREIGN KEY (lowongan_id) REFERENCES Lowongan(lowongan_id) ON DELETE CASCADE
 );
 
--- Data Dummy Users (8 users)
+-- Data Dummy Users (20 users: 8 companies, 12 jobseekers)
 INSERT INTO Users (role, email, nama, password) VALUES
-('company', 'company1@example.com', 'Company One', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('company', 'company2@example.com', 'Company Two', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('jobseeker', 'jobseeker1@example.com', 'Job Seeker One', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('jobseeker', 'jobseeker2@example.com', 'Job Seeker Two', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('company', 'company3@example.com', 'Company Three', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('jobseeker', 'jobseeker3@example.com', 'Job Seeker Three', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('company', 'company4@example.com', 'Company Four', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
-('jobseeker', 'jobseeker4@example.com', 'Job Seeker Four', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W');
+-- Companies
+('company', 'techforge@example.com', 'TechForge Solutions', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'innovatech@example.com', 'InnovaTech Industries', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'digitalminds@example.com', 'Digital Minds Corp', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'futurelabs@example.com', 'Future Labs Indonesia', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'codemaster@example.com', 'CodeMaster Technologies', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'datadriven@example.com', 'Data Driven Enterprise', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'cloudpeak@example.com', 'Cloud Peak Solutions', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('company', 'smartdev@example.com', 'Smart Development ID', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+-- Jobseekers
+('jobseeker', 'ahmad@example.com', 'Ahmad Firdaus', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'siti@example.com', 'Siti Nurhaliza', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'budi@example.com', 'Budi Santoso', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'dewi@example.com', 'Dewi Lestari', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'rudi@example.com', 'Rudi Hermawan', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'nina@example.com', 'Nina Kartika', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'farhan@example.com', 'Farhan Rahman', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'lisa@example.com', 'Lisa Permata', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'dani@example.com', 'Dani Pratama', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'maya@example.com', 'Maya Sari', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'rizki@example.com', 'Rizki Ramadhan', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W'),
+('jobseeker', 'anisa@example.com', 'Anisa Wijaya', '$2y$10$hc4bVMLA7KD2txVB1pKTgOo/vD8AMh2k2aqmNd2vJYT.itnIRlj4W');
 
--- Data Dummy Company_Detail (4 companies)
+-- Data Dummy Company_Detail (8 companies)
 INSERT INTO Company_Detail (user_id, lokasi, about) VALUES
-(1, 'Jakarta', 'Perusahaan teknologi terkemuka di Indonesia.'),
-(2, 'Bandung', 'Startup dengan fokus pada AI dan IoT.'),
-(5, 'Surabaya', 'Perusahaan software development.'),
-(7, 'Yogyakarta', 'Creative agency dengan tim inovatif.');
+(1, 'Jakarta Selatan', 'Perusahaan teknologi yang berfokus pada pengembangan software enterprise dan solusi cloud computing. Berdiri sejak 2015 dengan lebih dari 200 karyawan.'),
+(2, 'Bandung', 'Startup inovatif yang mengembangkan solusi AI dan IoT untuk industri manufaktur. Tim yang dinamis dengan kultur kerja yang modern.'),
+(3, 'Jakarta Pusat', 'Perusahaan konsultan IT yang menyediakan layanan transformasi digital untuk berbagai sektor industri. Berpengalaman lebih dari 8 tahun.'),
+(4, 'Surabaya', 'Startup fintech yang sedang berkembang pesat dengan fokus pada inklusi keuangan di Indonesia. Didukung oleh investor internasional.'),
+(5, 'Yogyakarta', 'Software house spesialis dalam pengembangan aplikasi mobile dan web. Mengutamakan kualitas dan kepuasan klien.'),
+(6, 'Medan', 'Perusahaan analitika data yang membantu bisnis mengoptimalkan operasional menggunakan machine learning dan AI.'),
+(7, 'Semarang', 'Perusahaan IT yang fokus pada pengembangan sistem terintegrasi dan solusi cloud untuk UKM.'),
+(8, 'Bali', 'Digital agency yang mengkhususkan diri dalam pengembangan produk digital kreatif dan innovative.');
 
--- Data Dummy Lowongan (6 job postings)
-INSERT INTO Lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi) VALUES
-(1, 'Software Engineer', 'Membuat aplikasi web.', 'full-time', 'on-site'),
-(1, 'Data Scientist', 'Analisis data besar.', 'full-time', 'remote'),
-(2, 'Product Manager', 'Mengelola produk digital.', 'part-time', 'hybrid'),
-(5, 'UX Designer', 'Merancang pengalaman pengguna.', 'intern', 'remote'),
-(7, 'Backend Developer', 'Mengembangkan API dan sistem backend.', 'full-time', 'on-site'),
-(5, 'Marketing Specialist', 'Mengelola kampanye pemasaran.', 'part-time', 'hybrid');
+-- Data Dummy Lowongan (16 job postings)
+INSERT INTO Lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_lokasi, is_open) VALUES
+(1, 'Senior Software Engineer', 'Memimpin pengembangan microservices menggunakan Java Spring Boot dan Docker. Minimal 5 tahun pengalaman.', 'Full-time', 'Hybrid', true),
+(1, 'DevOps Engineer', 'Mengelola infrastruktur cloud dan CI/CD pipeline. Pengalaman dengan AWS/GCP.', 'Full-time', 'Remote', true),
+(2, 'Machine Learning Engineer', 'Mengembangkan model AI untuk prediksi maintenance mesin industri.', 'Full-time', 'On-site', true),
+(2, 'Frontend Developer', 'Mengembangkan dashboard analytics menggunakan React dan TypeScript.', 'Full-time', 'Hybrid', true),
+(3, 'IT Business Analyst', 'Menjembatani kebutuhan bisnis dengan solusi teknologi.', 'Full-time', 'On-site', true),
+(3, 'QA Engineer', 'Memastikan kualitas produk melalui automated testing.', 'Full-time', 'Remote', false),
+(4, 'Mobile Developer', 'Pengembangan aplikasi Android/iOS menggunakan Flutter.', 'Full-time', 'Hybrid', true),
+(4, 'UI/UX Designer', 'Merancang pengalaman pengguna untuk aplikasi fintech.', 'Full-time', 'On-site', true),
+(5, 'Backend Developer', 'Pengembangan API dan sistem backend menggunakan Node.js.', 'Full-time', 'Remote', true),
+(5, 'Product Manager', 'Mengelola roadmap produk digital dan koordinasi dengan tim development.', 'Full-time', 'Hybrid', true),
+(6, 'Data Scientist', 'Analisis data dan pengembangan model prediktif.', 'Full-time', 'Remote', true),
+(6, 'Business Intelligence Analyst', 'Membuat dashboard dan laporan analitik menggunakan PowerBI.', 'Part-time', 'Hybrid', true),
+(7, 'Cloud Solutions Architect', 'Merancang arsitektur cloud untuk klien enterprise.', 'Full-time', 'On-site', true),
+(7, 'Technical Support', 'Memberikan dukungan teknis untuk produk cloud.', 'Part-time', 'Remote', true),
+(8, 'Creative Developer', 'Mengembangkan solusi web kreatif menggunakan teknologi modern.', 'Full-time', 'Hybrid', true),
+(8, 'Digital Marketing Intern', 'Membantu pelaksanaan kampanye digital marketing.', 'Internship', 'On-site', true);
 
--- Data Dummy Attachment_Lowongan (3 attachments)
+-- Data Dummy Attachment_Lowongan (8 attachments)
 INSERT INTO Attachment_Lowongan (lowongan_id, file_path) VALUES
-(1, '/attachments/lowongan1/file1.pdf'),
-(2, '/attachments/lowongan2/file2.pdf'),
-(4, '/attachments/lowongan4/file3.pdf');
+(1, '/attachments/lowongan1/job_description.pdf'),
+(1, '/attachments/lowongan1/requirements.pdf'),
+(2, '/attachments/lowongan2/technical_requirements.pdf'),
+(4, '/attachments/lowongan4/designer_test.pdf'),
+(7, '/attachments/lowongan7/mobile_dev_test.pdf'),
+(10, '/attachments/lowongan10/product_case_study.pdf'),
+(13, '/attachments/lowongan13/architecture_test.pdf'),
+(16, '/attachments/lowongan16/Internship_details.pdf');
 
--- Data Dummy Lamaran (8 applications)
-INSERT INTO Lamaran (user_id, lowongan_id, cv_path, video_path, note, status) VALUES
-(3, 1, '/cvs/jobseeker1/cv.pdf', NULL, 'Sangat tertarik dengan posisi ini.', 'waiting'),
-(4, 2, '/cvs/jobseeker2/cv.pdf', '/videos/jobseeker2/video.mp4', 'Berpengalaman dalam bidang terkait.', 'waiting'),
-(6, 3, '/cvs/jobseeker3/cv.pdf', NULL, 'Pengalaman manajerial.', 'waiting'),
-(8, 4, '/cvs/jobseeker4/cv.pdf', NULL, 'Minat tinggi dalam desain UX.', 'rejected'),
-(3, 5, '/cvs/jobseeker1/cv.pdf', NULL, 'Tertarik pada backend development.', 'accepted'),
-(4, 6, '/cvs/jobseeker2/cv.pdf', NULL, 'Berpengalaman di pemasaran.', 'waiting'),
-(6, 2, '/cvs/jobseeker3/cv.pdf', NULL, 'Tertarik dalam analisis data.', 'accepted'),
-(8, 1, '/cvs/jobseeker4/cv.pdf', NULL, 'Berharap berkontribusi di engineering.', 'waiting');
+-- Data Dummy Lamaran (20 applications)
+INSERT INTO Lamaran (user_id, lowongan_id, cv_path, video_path, note, status, status_reason) VALUES
+(9, 1, '/cvs/ahmad/cv.pdf', '/videos/ahmad/intro.mp4', 'Memiliki pengalaman 6 tahun dalam Java development.', 'accepted', 'Pengalaman dan skills match dengan kebutuhan tim.'),
+(10, 1, '/cvs/siti/cv.pdf', NULL, 'Berpengalaman dengan Spring Boot dan microservices.', 'rejected', 'Kurang pengalaman dalam skala enterprise.'),
+(11, 2, '/cvs/budi/cv.pdf', '/videos/budi/profile.mp4', 'Familiar dengan AWS dan Docker.', 'waiting', NULL),
+(12, 3, '/cvs/dewi/cv.pdf', NULL, 'Passionate dalam AI dan machine learning.', 'accepted', 'Background akademis yang kuat dan pengalaman relevant.'),
+(13, 4, '/cvs/rudi/cv.pdf', NULL, 'Berpengalaman dengan React dan TypeScript.', 'waiting', NULL),
+(14, 5, '/cvs/nina/cv.pdf', '/videos/nina/intro.mp4', 'Background dalam business analysis.', 'rejected', 'Kurang pengalaman dalam proyek teknologi.'),
+(15, 6, '/cvs/farhan/cv.pdf', NULL, 'Berpengalaman dalam automated testing.', 'accepted', 'Skills teknis yang sesuai dengan kebutuhan.'),
+(16, 7, '/cvs/lisa/cv.pdf', NULL, 'Portfolio aplikasi Flutter yang impressive.', 'waiting', NULL),
+(17, 8, '/cvs/dani/cv.pdf', '/videos/dani/portfolio.mp4', 'Portfolio desain UI/UX yang kreatif.', 'accepted', 'Portfolio menunjukkan kreativitas dan kemampuan teknis yang baik.'),
+(18, 9, '/cvs/maya/cv.pdf', NULL, 'Familiar dengan Node.js dan Express.', 'waiting', NULL),
+(19, 10, '/cvs/rizki/cv.pdf', NULL, 'Pengalaman product management 3 tahun.', 'rejected', 'Kurang pengalaman dalam produk teknologi.'),
+(20, 11, '/cvs/anisa/cv.pdf', '/videos/anisa/intro.mp4', 'Background dalam data science dan statistik.', 'waiting', NULL),
+(9, 12, '/cvs/ahmad/cv_2.pdf', NULL, 'Familiar dengan PowerBI dan SQL.', 'waiting', NULL),
+(11, 13, '/cvs/budi/cv_2.pdf', NULL, 'Berpengalaman dengan AWS architecture.', 'accepted', 'Pengalaman yang relevan dan sertifikasi AWS.'),
+(13, 14, '/cvs/rudi/cv_2.pdf', NULL, 'Pengalaman support di perusahaan IT.', 'waiting', NULL),
+(15, 15, '/cvs/farhan/cv_2.pdf', '/videos/farhan/portfolio.mp4', 'Portfolio web development yang kreatif.', 'waiting', NULL),
+(17, 16, '/cvs/dani/cv_2.pdf', NULL, 'Antusias belajar digital marketing.', 'accepted', 'Motivasi tinggi dan background marketing yang sesuai.'),
+(19, 3, '/cvs/rizki/cv_2.pdf', NULL, 'Pengalaman dengan Python dan ML.', 'waiting', NULL),
+(20, 5, '/cvs/anisa/cv_2.pdf', '/videos/anisa/profile.mp4', 'Portfolio data analysis yang menarik.', 'waiting', NULL);

@@ -8,15 +8,15 @@
             <input type="text" class="search-input" placeholder="Search..." id="searchInput">
             <button class="filter-button">Filter</button>
             <div class="check-container">
-                <label class="check-item"><input type="checkbox" name="location" value="on-site" checked>On-site</label>
-                <label class="check-item"><input type="checkbox" name="location" value="hybrid" checked>Hybrid</label>
-                <label class="check-item"><input type="checkbox" name="location" value="remote" checked>Remote</label>
+                <label class="check-item"><input type="checkbox" name="location" value="On-site" checked>On-site</label>
+                <label class="check-item"><input type="checkbox" name="location" value="Hybrid" checked>Hybrid</label>
+                <label class="check-item"><input type="checkbox" name="location" value="Remote" checked>Remote</label>
             </div>
 
             <div class="check-container">
-                <label class="check-item"><input type="checkbox" name="type" value="intern" checked>Intern</label>
-                <label class="check-item"><input type="checkbox" name="type" value="part-time" checked>Part-time</label>
-                <label class="check-item"><input type="checkbox" name="type" value="full-time" checked>Full-time</label>
+                <label class="check-item"><input type="checkbox" name="type" value="Internship" checked>Internship</label>
+                <label class="check-item"><input type="checkbox" name="type" value="Part-time" checked>Part-time</label>
+                <label class="check-item"><input type="checkbox" name="type" value="Full-time" checked>Full-time</label>
             </div>
         </div>
         <h1>Position Listing at, <?php echo $_SESSION["nama"] ?></h1>
