@@ -121,8 +121,6 @@ class LowonganService extends BaseService
             throw new Exception("Upload directory is not writable");
         }
 
-        error_log("Upload Directory: " . $uploadDirectory);
-
         if (!isset($data["files"]) || !isset($data["files"]["name"]) || empty($data["files"]["name"][0])) {
             return $lowongan_id;
         }
@@ -134,8 +132,6 @@ class LowonganService extends BaseService
             if ($error === UPLOAD_ERR_OK) {
                 $uniqueFileName = uniqid() . "_" . basename($name);
                 $uploadPath = $uploadDirectory . $uniqueFileName;
-    
-                error_log("Attempting to upload file to: " . $uploadPath);
                 
                 if (!move_uploaded_file($tmp_name, $uploadPath)) {
                     error_log("Failed to move uploaded file. Error: " . error_get_last()['message']);
