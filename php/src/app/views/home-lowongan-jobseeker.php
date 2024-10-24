@@ -1,28 +1,24 @@
 <?php
-    $__headContent = '<link rel="stylesheet" href="/public/css/home-lowongan-jobseeker.css">';
+    $__headContent =
+    '<link rel="stylesheet" href="/public/css/home-lowongan-jobseeker.css">
+    <script src="/public/js/lowonganJobseeker.js" defer></script>';
 ?>
 <section class="home-section">
     <div class="header">
         <div class="search-bar">
-            <input type="text" class="search-input" placeholder="Search...">
+            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
             <button class="filter-button">Filter</button>
-            <form>
-                <select class="dropdown" name="location" id="job-location">
-                    <option value="all">All Location</option>
-                    <option value="on-site">On-site</option>
-                    <option value="hybrid">Hybrid</option>
-                    <option value="remote">Remote</option>
-                </select>
-            </form>
+            <div class="check-container">
+                <label class="check-item"><input type="checkbox" name="location" value="on-site" checked>On-site</label>
+                <label class="check-item"><input type="checkbox" name="location" value="hybrid" checked>Hybrid</label>
+                <label class="check-item"><input type="checkbox" name="location" value="remote" checked>Remote</label>
+            </div>
 
-            <form>
-                <select class="dropdown" name="location" id="job-location">
-                    <option value="all">All Type</option>
-                    <option value="Full-time">Full-time</option>
-                    <option value="Internship">Internship</option>
-                    <option value="Part-time">Part-time</option>
-                </select>
-            </form>
+            <div class="check-container">
+                <label class="check-item"><input type="checkbox" name="type" value="Internship" checked>Internship</label>
+                <label class="check-item"><input type="checkbox" name="type" value="Part-time" checked>Part-time</label>
+                <label class="check-item"><input type="checkbox" name="type" value="Full-time" checked>Full-time</label>
+            </div>
         </div>
         <h1>Job Listing</h1>
     </div>
