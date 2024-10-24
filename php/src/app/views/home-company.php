@@ -15,6 +15,13 @@
         Add new hiring position
     </a>
 
+    <?php if($data['lowongans'] == null) { ?>
+            <div class="empty-state">
+                <img src="/public/svg/empty.svg" alt="Empty State">
+                <h2>No positions found</h2>
+                <p>There are no positions available at the moment.</p>
+            </div>
+        <?php } else { ?>
     <div class="job-grid">
         <?php foreach ($data["lowongans"] as $v): ?>
             <div class="job-card-container">
@@ -47,6 +54,7 @@
                 </button>
             </div>
         <?php endforeach; ?>
+        <?php } ?>  
     </div>
 
     <div class="pagination">
