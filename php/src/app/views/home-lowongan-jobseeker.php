@@ -102,7 +102,7 @@
         <?php else: ?>
             <a href="#" class="pagination-btn disabled">&rarr;</a>
         <?php endif; ?>
-</div>
+    </div>
 
 </section>
 

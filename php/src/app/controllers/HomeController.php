@@ -79,7 +79,7 @@ class HomeController extends BaseController
         $filters['jenis_lokasi'] = !empty($urlParams['jenis_lokasi']) 
         ? explode(',', $urlParams['jenis_lokasi']) 
         : ['on-site', 'hybrid', 'remote'];
-        
+
         return $filters;
     }
 }
