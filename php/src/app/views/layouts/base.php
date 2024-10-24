@@ -45,8 +45,13 @@
         <button onclick="closeCustomAlert()">OK</button>
     </div>
 
-    <?php 
-    if (!empty($data)) {
+    <?php
+    $toastData = \app\helpers\Toast::get();
+    if ($toastData) {
+        echo '<script>showToast(' . json_encode($toastData) . ')</script>';
+    }
+    
+    if (!empty($data) && (isset($data['success']) || isset($data['error']) || isset($data['warning']) || isset($data['help']))) {
         echo '<script>showToast(' . json_encode($data) . ')</script>';
     }
     ?>
