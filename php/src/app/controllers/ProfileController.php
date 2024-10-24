@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\helpers\Toast;
 use app\models\CompanyModel;
 use app\models\JobSeekerModel;
 use app\Request;
@@ -115,16 +116,17 @@ class ProfileController extends BaseController {
             $msg = '';
 
             if ($response) {
-                $msg = 'Profile updated successfully.';
+                
                 $_SESSION['nama'] = $nama;
                 $_SESSION['email'] = $email;
-                parent::redirect("/profile", ['success' => $msg]);
+                Toast::success("Profile updated successfully.");
+                parent::redirect("/profile",);
             } else {
                 throw new Exception('Failed to update profile.');
             }
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            $urlParams['error'] = $msg;
+            Toast::error($msg);
             parent::render($urlParams, "edit-profile-jobseeker", "layouts/base");
         }
     }
@@ -168,17 +170,17 @@ class ProfileController extends BaseController {
             $msg = '';
 
             if ($response) {
-                $msg = 'Profile updated successfully.';
                 $updatedCompany = $this->service->getCompanyById($company->user_id);
                 $_SESSION['nama'] = $updatedCompany->nama;
                 $_SESSION['email'] = $updatedCompany->email;
-                parent::redirect("/profile", data: ['success' => $msg]);
+                Toast::success("Profile updated successfully.");
+                parent::redirect("/profile");
             } else {
                 throw new Exception('Failed to update profile.');
             }
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            $urlParams['error'] = $msg;
+            Toast::error($msg);
             parent::render($urlParams, "edit-profile-company", "layouts/base");
         }
     }

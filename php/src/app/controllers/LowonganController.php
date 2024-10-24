@@ -8,6 +8,7 @@ use app\services\LowonganService;
 use app\services\LamaranService;
 use app\Request;
 use app\exceptions\ForbiddenAccessException;
+use app\helpers\Toast;
 use Exception;
 
 class LowonganController extends BaseController
@@ -40,7 +41,8 @@ class LowonganController extends BaseController
                     }
                 } catch (Exception $e) {
                     $msg = $e->getMessage();
-                    parent::render(["error" => $msg], "home-company", "layouts/base");
+                    Toast::error($msg);
+                    parent::render($urlParams, "home-company", "layouts/base");
                 }
             } else if ($uri == "/lowongan") {
                 if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {
@@ -57,7 +59,8 @@ class LowonganController extends BaseController
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
-            return parent::render($data, "/", "layouts/base");
+            Toast::warning("You are not allowed to access this page. Please login first.");
+            return parent::render(null, "/", "layouts/base");
         }
     }
 
@@ -120,17 +123,12 @@ class LowonganController extends BaseController
                 'is_open' => $is_open,
                 'files' => $files,
             ]);
-
-            header('Content-Type: application/json');
-            http_response_code(200);
-            echo json_encode([
-                "status" => "success",
-                "message" => "Vacancy added successfully.",
-                "id" => $id
-            ]);
+            Toast::success("Vacancy added successfully.");
+            echo json_encode(['id' => $id]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["error" => $msg], "add-lowongan-company", "layouts/base");
+            Toast::error($msg);
+            parent::render($urlParams, "add-lowongan-company", "layouts/base");
         }
     }
 
@@ -155,15 +153,17 @@ class LowonganController extends BaseController
                 'files' => $files,
                 'deleted_attachments' => $deletedAttachments,
             ]);
+
+            Toast::success("Vacancy edited successfully.");
             header('Content-Type: application/json');
             http_response_code(200);
             echo json_encode([
-                "status" => "success",
-                "message"=> "Vacancy edited successfully.",
+                'status' => 'success',
                 'id' => $lowongan_id]);
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::render(["error" => $msg], "edit-lowongan-company", "layouts/base");
+            Toast::error($msg);
+            parent::render($urlParams, "edit-lowongan-company", "layouts/base");
         }
     }
 
@@ -174,10 +174,11 @@ class LowonganController extends BaseController
             $is_open = $input["is_open"];
     
             $this->service->editLowonganStatus($urlParams["lowongan_id"], $is_open);
+
             header("Content-Type: application/json");
             echo json_encode([
                 "status" => "success",
-                "message" => "Lowongan status has been updated successfully.",
+                "message" => "Status updated successfully.",    
                 "is_open" => $is_open
             ]);
             return;
@@ -190,31 +191,25 @@ class LowonganController extends BaseController
         try {
             $input = json_decode(file_get_contents('php://input'), true);
             $lowongan_id = $input["lowongan_id"];
-            if ($this->service->isBelongsToCompany($lowongan_id, $_SESSION['user_id'])) {
-    
-                error_log("lowongan_id: ". $lowongan_id);
-    
+            if ($this->service->isBelongsToCompany($lowongan_id, $_SESSION['user_id'])) {   
                 $this->service->deleteLowongan($lowongan_id);
+                Toast::success("Vacancy deleted successfully.");
                 header('Content-Type: application/json');
                 echo json_encode([
                     'status' => 'success',
-                    'message' => 'Lowongan berhasil dihapus'
                 ]);
             } else {
-                header('Content-Type: application/json');
-                http_response_code(403);
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'Anda tidak memiliki akses untuk menghapus lowongan ini'
-                ]);
+                throw new ForbiddenAccessException("You are not allowed to access this page.");
             }
         } catch (Exception $e) {
+            Toast::error($e->getMessage());
             header('Content-Type: application/json');
             http_response_code(500);
             echo json_encode([
                 'status' => 'error',
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ]);
+
         }
     }
 }

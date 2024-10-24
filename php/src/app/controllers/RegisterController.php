@@ -3,8 +3,8 @@
 namespace app\controllers;
 
 use app\controllers\BaseController;
-use app\repositories\CompanyDetailRepository;
 use app\services\UserService;
+use app\helpers\Toast;
 use Exception;
 
 class RegisterController extends BaseController
@@ -17,7 +17,8 @@ class RegisterController extends BaseController
     public function get($urlParams)
     {
         if (isset($_SESSION["user_id"])) {
-            parent::redirect("/", ["error" => "You are already logged in"]);
+            Toast::error("You are already logged in");
+            parent::redirect("/");
         } else {
             parent::render($urlParams, "register", "layouts/base");
         }
@@ -45,10 +46,12 @@ class RegisterController extends BaseController
                     $_POST['about']
                 );
             }
-            parent::redirect("/login", ["success" => "Register success, please login"]);
+            Toast::success("Register success, please login");
+            parent::redirect("/login");
         } catch (Exception $e) {
             $msg = $e->getMessage();
-            parent::redirect("/register", ["error"=> $msg]);
+            Toast::error($msg);
+            parent::redirect("/register");
         }
     }
 };

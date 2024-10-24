@@ -118,22 +118,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (xhr.readyState === 4) {
         try {
           const response = JSON.parse(xhr.responseText);
-          const toastData = {};
+          console.log(response);
           if (response.status === "success") {
-            toastData.success = response.message;
-            setTimeout(() => {
-              window.location.href = `/lowongan?lowongan_id=${response.id}`;
-            }, 1400);
-          } else if (xhr.status === 401) {
-            toastData.error = response.message;
-          } else {
-            toastData.error =
-              response.message || "Terjadi kesalahan saat menghapus lowongan";
+            window.location.href = `/lowongan?lowongan_id=${response.id}`;
           }
-
-          showToast(toastData);
         } catch (error) {
-          showToast({ error: "Terjadi kesalahan saat menghapus lowongan" });
+          showToast({ error: "Something went wrong. Please try again." });
         }
       }
     };

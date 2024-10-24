@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\controllers\BaseController;
 use app\services\LowonganService;
 use app\services\UserService;
+use app\helpers\Toast;
 use app\Request;
 
 require_once __DIR__ . "/../config/config.php";
@@ -58,6 +59,7 @@ class HomeController extends BaseController
                     parent::render($data, "home-jobseeker", "layouts/base");
                 }
             } else {
+                Toast::error("Silahkan login terlebih dahulu");
                 $data['email'] = '';
                 $data['nama'] = 'Guest';
                 parent::render($data, 'home-jobseeker', 'layouts/base');
