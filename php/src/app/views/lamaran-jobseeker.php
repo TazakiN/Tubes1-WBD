@@ -11,7 +11,7 @@
                 <img src="/public/svg/date.svg" alt="date" class="calendar-pic">
                 <h3> 
                     <?php
-                        $date = DateTime::createFromFormat('Y-m-d H:i:s.u', $data['date']);
+                        $date = DateTime::createFromFormat('Y-m-d H:i:s.uP', $data['date']);
                         echo $date->format('d-m-Y');
                     ?> 
                 </h3>

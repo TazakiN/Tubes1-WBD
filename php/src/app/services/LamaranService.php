@@ -31,6 +31,10 @@ class LamaranService extends BaseService
         return self::$instance;
     }
 
+    private function getUploadDirectory() {
+        return dirname(__DIR__, 2) . '/uploads/';
+    }
+
     public function getLamaranByID($lamaran_id) {
         $lamaran_data = $this->repository->getByLamaranID($lamaran_id);
 
@@ -76,7 +80,7 @@ class LamaranService extends BaseService
 
     public function createLamaran($note, $cv_file, $video_file, $lowongan_id): LamaranModel | null
     {
-        $uploadDir = 'uploads/';
+        $uploadDir = $this->getUploadDirectory();
         $maxCVSize = 2 * 1024 * 1024;
         $maxVideoSize = 100 * 1024 * 1024;
         $cvSuccess = false;
@@ -93,6 +97,7 @@ class LamaranService extends BaseService
                     $cv_destination = $uploadDir . basename($fileName);
                     $temporaryPath = $cv_file['tmp_name'];
                     if (move_uploaded_file($temporaryPath, $cv_destination)) {
+                        $cv_destination = "uploads/" . basename($fileName);
                         // echo "CV File uploaded successfully: $fileName";
                         $cvSuccess = true;
                     } else {
@@ -117,6 +122,7 @@ class LamaranService extends BaseService
                         $video_destination = $uploadDir . basename($fileName);
                         $temporaryPath = $video_file['tmp_name'];
                         if (move_uploaded_file($temporaryPath, $video_destination)) {
+                            $video_destination = "uploads/" . basename($fileName);
                             // echo "Video File uploaded successfully: $fileName";
                             $videoSuccess = true;
                         } else {

@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ./php/src:/var/www/html:ro
+      - ./php/src:/var/www/html
       - ./php/src/uploads:/var/www/html/uploads
     networks:
       - wbd
