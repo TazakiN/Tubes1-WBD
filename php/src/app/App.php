@@ -17,6 +17,7 @@ class App
 
     function __construct()
     {
+        $_SESSION['role'] = null;
         $this->router = new Router();
         $this->init_router();
         $this->router->dispatch();
