@@ -19,7 +19,7 @@
             <div class="empty-state">
                 <img src="/public/svg/empty.svg" alt="Empty State">
                 <h2>No positions found</h2>
-                <p>There are no positions available at the moment.</p>
+                <p>There are no positions available according to your search criteria. <br> Add a new position to get started.</p>
             </div>
         <?php } else { ?>
     <div class="job-grid">
