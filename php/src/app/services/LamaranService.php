@@ -195,30 +195,41 @@ class LamaranService extends BaseService
         return $lamaran;
     }
 
-    public function deleteLamaran($lamaran_id, $user_id) {
-        echo "masuk service";
-        $lamaran = $this->getLamaranByID($lamaran_id);
-        if ($user_id == $lamaran->user_id){
-            $uploadDirectory = $this->getUploadDirectory();
+    // public function deleteLamaran($lamaran_id, $user_id) {
+    //     echo "masuk service";
+    //     $lamaran = $this->getLamaranByID($lamaran_id);
+    //     if ($user_id == $lamaran->user_id){
         
-            $cv_path = $lamaran->cv_path;
-            $video_path = $lamaran->video_path;
+    //         $cv_path = $lamaran->cv_path;
+    //         $video_path = $lamaran->video_path;
 
-            $file_path = $uploadDirectory . $cv_path;
-            if (file_exists($file_path)) {
-                unlink($file_path);
-            } else {
-                echo $file_path . " don't exist";
-            }
+    //         $this->repository->deleteByLamaranID($lamaran_id);
 
-            $file_path = $uploadDirectory . $video_path;
-            if (file_exists($file_path)) {
-                unlink($file_path);
-            } else {
-                echo $file_path . " don't exist";
-            }
+    //         if (file_exists($cv_path)) {
+    //             unlink($cv_path);
+    //         } else {
+    //             echo $cv_path . " don't exist";
+    //         }
 
-            $this->repository->deleteByLamaranID($lamaran_id);
+    //         if ($video_path !== null){
+    //             if (file_exists($video_path)) {
+    //                 unlink($video_path);
+    //             } else {
+    //                 echo $video_path . " don't exist";
+    //             }
+    //         }
+    //     }
+    // }
+
+    public function deleteLamaran($lamaran_id) {
+        // error_log($lamaran_id .' deleted');
+        $lamaran = $this->repository->getByLamaranID($lamaran_id);
+        $cv_path = $lamaran['cv_path'];
+        $video_path = $lamaran['video_path'];
+        $this->repository->deleteByLamaranID($lamaran_id);
+        unlink($cv_path);
+        if ($video_path !== null) {
+            unlink($video_path);
         }
     }
 }

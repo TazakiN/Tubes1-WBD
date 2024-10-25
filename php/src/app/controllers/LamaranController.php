@@ -87,14 +87,39 @@ class LamaranController extends BaseController
         }
     }
 
-    public function delete($urlParams) {
+    // public function delete($urlParams) {
+    //     $uri = Request::getURL();
+    //     if ($uri == "/lamaran/delete"){
+    //         echo "masuk controller";
+    //         $lamaran_id = $urlParams["lamaran_id"];
+    //         try {
+    //             $this->service->deleteLamaran($lamaran_id, $_SESSION['user_id']);
+    //             Toast::success("Lamaran deleted successfully.");
+    //             header('Content-Type: application/json');
+    //             echo json_encode([
+    //                 'status' => 'success',
+    //             ]);
+    //         } catch (Exception $e) {
+    //             Toast::error($e->getMessage());
+    //             header('Content-Type: application/json');
+    //             http_response_code(500);
+    //             echo json_encode([
+    //                 'status' => 'error',
+    //                 'message' => 'Exception Occurred: ' . $e->getMessage()
+    //             ]);
+    //         }
+    //     }
+    // }
+
+    protected function delete($urlParams): void
+    {
         $uri = Request::getURL();
         if ($uri == "/lamaran/delete"){
-            echo "masuk controller";
-            $lamaran_id = $urlParams["lamaran_id"];
             try {
-                $this->service->deleteLamaran($lamaran_id, $_SESSION['user_id']);
-                Toast::success("Lamaran deleted successfully.");
+                $lamaran_id = $urlParams['lamaran_id'];
+                $this->service->deleteLamaran($lamaran_id);
+                Toast::success('Lamaran successfully deleted!');
+                header('Content-Type: application/json');
                 echo json_encode([
                     'status' => 'success',
                 ]);
@@ -104,7 +129,7 @@ class LamaranController extends BaseController
                 http_response_code(500);
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'Exception Occurred: ' . $e->getMessage()
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
                 ]);
             }
         }
