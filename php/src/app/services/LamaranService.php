@@ -228,7 +228,7 @@ class LamaranService extends BaseService
         $video_path = $lamaran['video_path'];
         $this->repository->deleteByLamaranID($lamaran_id);
         unlink($cv_path);
-        if ($video_path !== null) {
+        if ($video_path !== null && $video_path !== "") {
             unlink($video_path);
         }
     }

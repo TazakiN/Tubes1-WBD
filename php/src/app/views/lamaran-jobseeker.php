@@ -46,9 +46,9 @@
                 <source src="uploads/Resume KSI.mp4" type="video/mp4">
             </video> -->
             
-            <button class="delete-button">
+            <!-- <button class="delete-button">
                 Delete Application
-            </button>
+            </button> -->
 
         </div>
     </div>
