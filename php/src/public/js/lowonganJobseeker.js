@@ -25,18 +25,19 @@ searchInput.addEventListener('input', debounce(handleSearchInput, 500));
 
 
 document.getElementById('reverseOrderBtn').addEventListener('click', function () {  
+    const button = this;
     const url = new URL(window.location.href);
     const params = url.searchParams;
     
     const currentSort = params.get('sort');
     let newSort;
 
-    if (currentSort === 'desc') {
+    if (currentSort == 'desc') {
         newSort = 'asc';
-    } else if (currentSort === 'asc') {
-        newSort = 'desc';
+        button.textContent = 'Sort Descending';
     } else {
         newSort = 'desc';
+        button.textContent = 'Sort Ascending'; 
     }
 
     params.set('sort', newSort);
@@ -97,6 +98,19 @@ function getUrlParam(param) {
 
 document.addEventListener("DOMContentLoaded", function() {
     const searchParamsValue = getUrlParam('searchParams');
+
+    const url = new URL(window.location.href);
+    const currentSort = url.searchParams.get('sort');
+    const button = document.getElementById('reverseOrderBtn');
+
+    // Set initial button text
+    if (currentSort === 'desc') {
+        button.textContent = 'Sort Ascending';
+    } else {
+        button.textContent = 'Sort Descending';
+    }
+    
+
     if (searchParamsValue) {
         document.getElementById('searchInput').value = searchParamsValue;
     }
