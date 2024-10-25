@@ -135,7 +135,7 @@ INSERT INTO Lowongan (company_id, posisi, deskripsi, jenis_pekerjaan, jenis_loka
 -- Data Dummy Attachment_Lowongan (8 attachments)
 INSERT INTO Attachment_Lowongan (lowongan_id, file_path) VALUES
 (1, '/attachments/lowongan1/job_description.pdf'),
-(1, '/attachments/lowongan1/requirements.pdf'),
+(1, '/attachments/lowongan1/requirements_document.pdf'),
 (2, '/attachments/lowongan2/technical_requirements.pdf'),
 (4, '/attachments/lowongan4/designer_test.pdf'),
 (7, '/attachments/lowongan7/mobile_dev_test.pdf'),
