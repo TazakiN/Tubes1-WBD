@@ -73,6 +73,8 @@ class LowonganService extends BaseService
             foreach ($lowongans as $lowongan) {
                 $lowonganModel = new LowonganModel();
                 $lowonganModel->constructFromArray($lowongan);
+                $companyDetail = UserRepository::getInstance()->getByID($lowonganModel->company_id ?? 0);
+                $lowonganModel->company_name = $companyDetail['nama'];  
                 $lowonganModels[] = $lowonganModel;
             }
             return $lowonganModels;

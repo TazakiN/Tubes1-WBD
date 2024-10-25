@@ -18,8 +18,10 @@ input[type="checkbox"] {
 
 .header {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .header h1 {
@@ -29,9 +31,9 @@ input[type="checkbox"] {
 
 .search-bar {
   gap: 10px;
-  width: 700px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-input {
@@ -254,4 +256,160 @@ a {
 
 .empty-state img {
   width: 200px;
+}
+
+@media (max-width: 1200px) {
+  
+  .header h1 {
+    font-size: 44px;
+  }
+}
+
+@media (max-width: 992px) {
+  .header h1 {
+    font-size: 36px;
+  }
+
+  .svg{
+    width: 70px;
+    height: 70px;
+  }
+  
+  .filter-button {
+    font-size: 18px;
+    padding: 7px 15px;
+  }
+  
+  .job-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+  }
+
+  .profile-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .job-title {
+    font-size: 18px;
+  }
+
+  .tags .tag {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+
+
+  .add-position {
+    font-size: large;
+  }
+}
+
+@media (max-width: 768px) {
+  .home-section {
+    padding: 20px;
+  }
+  
+  .svg{
+    width: 50px;
+    height: 50px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    text-align: center;
+  }
+
+  .header {
+    padding-top: 100px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-bar {
+    gap: 5px;
+  }
+  
+  .search-input {
+    width: 100%;
+    font-size: 18px;
+  }
+  
+  .filter-button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
+    height: 60vh;
+  }
+
+  .profile-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .job-title {
+    font-size: 16px;
+  }
+
+  .tags .tag {
+    font-size: 9px;
+    padding: 2px 8px;
+  }
+
+  .add-position {
+    font-size: medium;
+    margin-left: 0;
+  }
+
+  .profile-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .pagination-btn {
+    min-width: 24px;
+    height: 28px;
+    padding: 0 8px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 576px) {
+  .header h1 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .search-input {
+    font-size: 16px;
+  }
+  
+  .filter-button,
+  .dropdown {
+    font-size: 16px;
+    padding: 6px 12px;
+  }
+  
+  .job-card {
+    padding: 10px;
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .tags .tag {
+    padding: 1px 6px;
+  }
+
+  .pagination-btn {
+    font-size: 12px;
+    padding: 0 6px;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
+    height: 40vh;
+  }
 }
