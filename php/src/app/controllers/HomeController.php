@@ -31,7 +31,8 @@ class HomeController extends BaseController
                 $filters = $this->makeFilters($urlParams);
                 $page = $urlParams['page'] ?? 1;
                 $countData = $this->lowonganService->countLowonganRow($filters);
-                $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit) ?? [];
+                $sort = $urlParams['sort'] ?? 'asc';
+                $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit, $sort) ?? [];
                 $data['page'] = (int)$page;
                 $data['totalPage'] = (int)ceil($countData / $limit);
                 return parent::render($data, "home-lowongan-jobseeker", "layouts/base");
@@ -45,8 +46,9 @@ class HomeController extends BaseController
                     $filters['company_id'] = $_SESSION['user_id'];
 
                     $page = $urlParams['page'] ?? 1;
+                    $sort_type = $urlParams['sort_type'] ?? 'asc';
                     $countData = $this->lowonganService->countLowonganRow($filters);
-                    $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit) ?? [];
+                    $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit, $sort_type) ?? [];
 
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);

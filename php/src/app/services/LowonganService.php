@@ -59,8 +59,8 @@ class LowonganService extends BaseService
         }
     }
 
-    public function getLowonganByFilters($filters= [], $pageNo = 1, $limit = 6) {
-        $lowongans = $this->repository->getLowonganByFilters($filters, $pageNo, $limit);
+    public function getLowonganByFilters($filters= [], $pageNo = 1, $limit = 6, $sort) {
+        $lowongans = $this->repository->getLowonganByFilters($filters, $pageNo, $limit, $sort);
         if ($lowongans) {
             $lowonganModels = [];
             foreach ($lowongans as $lowongan) {

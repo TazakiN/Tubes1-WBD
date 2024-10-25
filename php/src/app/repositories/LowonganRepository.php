@@ -34,7 +34,7 @@ class LowonganRepository extends BaseRepository
         return $this->findAll(['company_id' => [$companyID, PDO::PARAM_INT]], null, $pageNo, $limit);
     }
 
-    public function getLowonganByFilters($filters, $pageNo, $limit)
+    public function getLowonganByFilters($filters, $pageNo, $limit, $sort)
     {
         $whereConditions = [];
 
@@ -64,7 +64,7 @@ class LowonganRepository extends BaseRepository
             ];
         }
         
-        return $this->findAll($whereConditions, null, $pageNo, $limit);
+        return $this->findAll($whereConditions, 'created_at', $pageNo, $limit, $sort);
     }
 
     public function countRowByFilters($filters) {
