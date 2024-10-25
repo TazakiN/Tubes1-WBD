@@ -12,6 +12,11 @@
 - [Instalasi](#instalasi)
 - [Cara Menjalankan Server](#cara-menjalankan-server)
 - [Tangkapan Layar Aplikasi](#tangkapan-layar-aplikasi)
+- [Pembagian Tugas](#pembagian-tugas)
+  - [_Server Side_](#server-side)
+  - [_CLIENT SIDE_](#client-side)
+  - [_Chores_](#chores)
+- [Bonus](#bonus)
 - [Anggota Kelompok](#anggota-kelompok)
 
 ## Instalasi
@@ -30,7 +35,7 @@ Install php dulu, kalo udah install php, ikutin langkah berikut :
 
 ## Tangkapan Layar Aplikasi
 
-TODO
+TODO: Masukkin gambar-gambar aplikasi
 
 ## Pembagian Tugas
 
@@ -95,6 +100,19 @@ TODO
 | Database Schema + Seeding          | 13522032            |
 | Docker                             | 13522032            |
 | UI/UX                              | 13522031            |
+| Export CSV                         | 13522032            |
+
+## Bonus
+
+1. Export CSV
+
+    Pada fitur ini, company dapat mengekspor data lamaran yang masuk ke dalam bentuk CSV. Fitur ini dapat diakses pada halaman detail lowongan yang dimiliki oleh company.
+
+2. Google LightHouse
+
+    Pada website ini, kami telah melakukan optimisasi pada website kami. Berikut adalah hasil Google LightHouse pada website kami :
+
+    TODO: Masukkin gambar Google LightHouse
 
 ## Anggota Kelompok
 
