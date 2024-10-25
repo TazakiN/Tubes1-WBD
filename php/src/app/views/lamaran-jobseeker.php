@@ -157,7 +157,6 @@
             if (confirm("Are you sure you want to delete this application?")) {
                 const xhr = new XMLHttpRequest();
                 xhr.open('DELETE', `/lamaran/delete?lamaran_id=${lamaran_id}`, true);
-                console.log(`/lamaran/delete?lamaran_id=${lamaran_id}`);
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.onload = function() {
                     try {

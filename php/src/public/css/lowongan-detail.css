@@ -416,3 +416,24 @@ input:checked + .slider:before {
   height: 16px;
   color: #6c757d;
 }
+
+.applicants-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.export-csv-button .action-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.export-csv-button .action-button:hover {
+  background-color: #218838;
+}
