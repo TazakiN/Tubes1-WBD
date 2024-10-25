@@ -192,4 +192,16 @@ class LamaranService extends BaseService
         $lamaran->constructFromArray($response);
         return $lamaran;
     }
+    
+    public function deleteLamaran($lamaran_id) {
+        // error_log($lamaran_id .' deleted');
+        $lamaran = $this->repository->getByLamaranID($lamaran_id);
+        $cv_path = $lamaran['cv_path'];
+        $video_path = $lamaran['video_path'];
+        $this->repository->deleteByLamaranID($lamaran_id);
+        unlink($cv_path);
+        if ($video_path !== null) {
+            unlink($video_path);
+        }
+    }
 }

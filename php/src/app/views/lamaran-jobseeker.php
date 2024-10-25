@@ -46,9 +46,9 @@
                 <source src="uploads/Resume KSI.mp4" type="video/mp4">
             </video> -->
             
-            <!-- <button class="delete-button">
+            <button class="delete-button">
                 Delete Application
-            </button> -->
+            </button>
 
         </div>
     </div>
@@ -116,10 +116,38 @@
 
     lamaran_body.insertAdjacentHTML("beforeend", delete_button);
 
-    // document.getElementById('delete-button').addEventListener("click", function() {
-    //     if (confirm("Are you sure you want to delete this application?")) {
-    //         const xhr = new XMLHttpRequest();
-    //         xhr.open('DELETE', `/lamaran/delete`, true);
-    //     }
-    // });
+    document.getElementById('delete-button').addEventListener("click", function() {
+            const lamaran_id = location.search.split('lamaran_id=')[1];
+            if (confirm("Are you sure you want to delete this application?")) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('DELETE', `/lamaran/delete?lamaran_id=${lamaran_id}`, true);
+                console.log(`/lamaran/delete?lamaran_id=${lamaran_id}`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onload = function() {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        const toastData = {};
+
+                        if (response.status === 200) {
+                            window.location.href = '/';
+                        } else {
+                            toastData.error = response.message || 'An error occurred while deleting the application';
+                        }
+
+                        showToast(toastData);
+                    } catch (error) {
+                        showToast({
+                            error: 'An error occurred while processing server response'
+                        });
+                    }
+                }
+
+                xhr.onerror = function() {
+                    console.error('An error occurred during the request');
+                }
+
+                xhr.send();
+            }
+    });
 </script>

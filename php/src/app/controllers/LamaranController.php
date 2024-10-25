@@ -6,6 +6,7 @@ use app\services\LamaranService;
 use app\services\LowonganService;
 use app\services\UserService;
 use app\Request;
+use app\helpers\Toast;
 use Exception;
 
 class LamaranController extends BaseController
@@ -81,6 +82,31 @@ class LamaranController extends BaseController
             } catch (Exception $e) {
                 $msg = $e->getMessage();
                 parent::render(["errorMsg" => $msg], "add-lamaran", "layouts/base");
+            }
+        }
+    }
+
+    protected function delete($urlParams): void
+    {
+        $uri = Request::getURL();
+
+        if ($uri == "/lamaran/delete"){
+            try {
+                $lamaran_id = $urlParams['lamaran_id'];
+                $this->service->deleteLamaran($lamaran_id);
+                Toast::success('Lamaran successfully deleted!');
+                header('Content-Type: application/json');
+                echo json_encode([
+                    'status' => 'success',
+                ]);
+            } catch (Exception $e) {
+                Toast::error($e->getMessage());
+                header('Content-Type: application/json');
+                http_response_code(500);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                ]);
             }
         }
     }
