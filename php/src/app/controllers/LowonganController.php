@@ -55,18 +55,16 @@ class LowonganController extends BaseController
                     $data = $this->getLowonganDetail($urlParams['lowongan_id']);
                     return parent::render($data, "lowongan-detail-company", "layouts/base");
                 } else {
-                    $data = $this->getLowonganDetail($urlParams['lowongan_id']);
-                    return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
+                    Toast::error("You are not allowed to access this page.");
+                    return parent::redirect("/");
                 }
             }
         } else if ($_SESSION["role"] == "jobseeker") {
             if ($uri == "/lowongan") {
-                $data = $this->getLowonganDetail($urlParams['lowongan_id']);
-                if($this->lamaranService->isMelamar($_SESSION['user_id'], $urlParams['lowongan_id'])) {
-                    $data['isMelamar'] = true;
-                } else {
-                    $data['isMelamar'] = false;
-                }
+                $is_melamar = $this->lamaranService->isMelamar($_SESSION['user_id'], $urlParams['lowongan_id']);
+                $data = $this->getLowonganDetailJobseeker($urlParams['lowongan_id'], $_SESSION['user_id']);
+                $data["is_melamar"] = $is_melamar;
+                // var_dump($data);
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
@@ -114,6 +112,27 @@ class LowonganController extends BaseController
             $lamaran->set('nama', $jobSeekerModel->nama);
         }
         $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments], ['lamarans' => $lamarans]);
+        return $data;
+    }
+
+    private function getLowonganDetailJobseeker($lowongan_id, $jobseeker_id) {
+        $lowongan = $this->service->getLowonganByID($lowongan_id);
+        $lowongan->set('created_at', date("Y-m-d", strtotime($lowongan->get('created_at'))));
+        $lowongan->set('updated_at', date("Y-m-d", strtotime($lowongan->get('updated_at'))));
+        $dataLowongan = $lowongan->toResponse();
+        
+        $company = $this->userService->getCompanyById($lowongan->get('company_id'));
+        $dataCompany = $company->toResponse();
+
+        $dataAttachments = $this->service->getAttachmentLowonganByLowonganID($lowongan_id);
+
+        $dataLamaran = $this->lamaranService->getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id);
+        $dataLamaran = $dataLamaran ? $dataLamaran->toResponse() : null;
+        if (is_null($dataLamaran)) {
+            $dataLamaran = [];
+        }
+
+        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments], ['lamaran' => $dataLamaran]);
         return $data;
     }
 

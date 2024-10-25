@@ -78,6 +78,16 @@ class LamaranService extends BaseService
         return $all_lamaran_model;
     }
 
+    public function getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id) {
+        $lamaran_data = $this->repository->getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id);
+        if ($lamaran_data) {
+            $lamaran_model = new LamaranModel();
+            $lamaran_model->constructFromArray($lamaran_data);
+            return $lamaran_model;
+        }
+        return null;
+    }
+
     public function isMelamar($jobseeker_id, $lowongan_id) {
         $lamaran_data = $this->repository->getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id);
         if ($lamaran_data) {
