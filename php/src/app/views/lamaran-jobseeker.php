@@ -116,25 +116,57 @@
 
     lamaran_body.insertAdjacentHTML("beforeend", delete_button);
 
+    // document.getElementById('delete-button').addEventListener("click", function() {
+    //     const lamaran_id = location.search.split('lamaran_id=')[1];
+    //     if (confirm("Are you sure you want to delete this application?")) {
+    //         const xhr = new XMLHttpRequest();
+    //         xhr.open('DELETE', `/lamaran/delete?lamaran_id=${lamaran_id}`, true);
+    //         xhr.setRequestHeader('Content-Type', 'application/json');
+
+    //         xhr.onload = function () {
+    //             try {
+    //                 const response = JSON.parse(xhr.responseText);
+    //                 console.log(response.status);
+    //                 const toastData = {};
+                    
+    //                 if (response.status === "success") {
+    //                     window.location.href = '/';
+    //                 } else {
+    //                     toastData.error = response.message || 'An error occured while deleting application';
+    //                 }
+
+    //                 showToast(toastData);
+
+    //             } catch (e) {
+    //                 showToast({
+    //                     error: 'A server response error occured'
+    //                 });
+    //             }
+    //         };
+
+    //         xhr.onerror = function () {
+    //             console.error('An error occurred during request');
+    //         };
+
+    //         xhr.send();
+    //     }
+    // });
+
     document.getElementById('delete-button').addEventListener("click", function() {
             const lamaran_id = location.search.split('lamaran_id=')[1];
             if (confirm("Are you sure you want to delete this application?")) {
                 const xhr = new XMLHttpRequest();
                 xhr.open('DELETE', `/lamaran/delete?lamaran_id=${lamaran_id}`, true);
-                console.log(`/lamaran/delete?lamaran_id=${lamaran_id}`);
                 xhr.setRequestHeader('Content-Type', 'application/json');
-
                 xhr.onload = function() {
                     try {
                         const response = JSON.parse(xhr.responseText);
                         const toastData = {};
-
-                        if (response.status === 200) {
+                        if (response.status === 'success') {
                             window.location.href = '/';
                         } else {
                             toastData.error = response.message || 'An error occurred while deleting the application';
                         }
-
                         showToast(toastData);
                     } catch (error) {
                         showToast({
@@ -142,11 +174,9 @@
                         });
                     }
                 }
-
                 xhr.onerror = function() {
                     console.error('An error occurred during the request');
                 }
-
                 xhr.send();
             }
     });

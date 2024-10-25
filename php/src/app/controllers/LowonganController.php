@@ -59,6 +59,11 @@ class LowonganController extends BaseController
                     return parent::redirect("/");
                 }
             }
+
+        if ($uri == "/lowongan/export-csv") {
+            $this->exportApplicantsCSV($urlParams['lowongan_id']);
+            return;
+        }
         } else if ($_SESSION["role"] == "jobseeker") {
             if ($uri == "/lowongan") {
                 $is_melamar = $this->lamaranService->isMelamar($_SESSION['user_id'], $urlParams['lowongan_id']);
@@ -243,6 +248,43 @@ class LowonganController extends BaseController
                 'message' => 'Terjadi kesalahan: ' . $e->getMessage()
             ]);
 
+        }
+    }
+
+    protected function exportApplicantsCSV($lowonganId) {
+        if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "company") {
+            Toast::error("You are not allowed to access this feature.");
+            return parent::redirect("/");
+        }
+    
+        try {
+            if (!$this->service->isBelongsToCompany($lowonganId, $_SESSION['user_id'])) {
+                throw new ForbiddenAccessException("You are not allowed to access this data.");
+            }
+    
+            $csvData = $this->service->getApplicantsDataCSV($lowonganId);
+            
+            $_SESSION['csv_downloaded'] = true;
+            
+            header('Content-Type: text/csv; charset=utf-8');
+            header('Content-Disposition: attachment; filename="applicants-' . $lowonganId . '-' . date('Y-m-d') . '.csv"');
+            header('Pragma: no-cache');
+            header('Expires: 0');
+    
+            $output = fopen('php://output', 'w');
+            
+            fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
+    
+            foreach ($csvData as $row) {
+                fputcsv($output, $row);
+            }
+    
+            fclose($output);
+            exit();
+    
+        } catch (Exception $e) {
+            Toast::error($e->getMessage());
+            return parent::redirect("/lowongan?lowongan_id=" . $lowonganId);
         }
     }
 }

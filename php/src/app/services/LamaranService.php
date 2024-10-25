@@ -112,10 +112,11 @@ class LamaranService extends BaseService
             if ($cv_file['type'] == 'application/pdf'){
                 if ($cv_file['size'] <= $maxCVSize){
                     $fileName = $cv_file['name'];
-                    $cv_destination = $uploadDir . basename($fileName);
+                    $uniqueFileName = uniqid() . "_" . basename($fileName);
+                    $cv_destination = $uploadDir . $uniqueFileName;
                     $temporaryPath = $cv_file['tmp_name'];
                     if (move_uploaded_file($temporaryPath, $cv_destination)) {
-                        $cv_destination = "uploads/" . basename($fileName);
+                        $cv_destination = "uploads/" . $uniqueFileName;
                         // echo "CV File uploaded successfully: $fileName";
                         $cvSuccess = true;
                     } else {
@@ -137,10 +138,11 @@ class LamaranService extends BaseService
                 if ($video_file['type'] == 'video/mp4'){
                     if ($video_file['size'] <= $maxVideoSize){
                         $fileName = $video_file['name'];
-                        $video_destination = $uploadDir . basename($fileName);
+                        $uniqueFileName = uniqid() . "_" . basename($fileName);
+                        $video_destination = $uploadDir . $uniqueFileName;
                         $temporaryPath = $video_file['tmp_name'];
                         if (move_uploaded_file($temporaryPath, $video_destination)) {
-                            $video_destination = "uploads/" . basename($fileName);
+                            $video_destination = "uploads/" . $uniqueFileName;
                             // echo "Video File uploaded successfully: $fileName";
                             $videoSuccess = true;
                         } else {
@@ -192,7 +194,33 @@ class LamaranService extends BaseService
         $lamaran->constructFromArray($response);
         return $lamaran;
     }
-    
+
+    // public function deleteLamaran($lamaran_id, $user_id) {
+    //     echo "masuk service";
+    //     $lamaran = $this->getLamaranByID($lamaran_id);
+    //     if ($user_id == $lamaran->user_id){
+        
+    //         $cv_path = $lamaran->cv_path;
+    //         $video_path = $lamaran->video_path;
+
+    //         $this->repository->deleteByLamaranID($lamaran_id);
+
+    //         if (file_exists($cv_path)) {
+    //             unlink($cv_path);
+    //         } else {
+    //             echo $cv_path . " don't exist";
+    //         }
+
+    //         if ($video_path !== null){
+    //             if (file_exists($video_path)) {
+    //                 unlink($video_path);
+    //             } else {
+    //                 echo $video_path . " don't exist";
+    //             }
+    //         }
+    //     }
+    // }
+
     public function deleteLamaran($lamaran_id) {
         // error_log($lamaran_id .' deleted');
         $lamaran = $this->repository->getByLamaranID($lamaran_id);
