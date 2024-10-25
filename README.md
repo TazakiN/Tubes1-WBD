@@ -55,14 +55,14 @@ TODO
 | ----------------------------------| -------- |
 | Login                             | 13522032 |
 | Register                          | 13522032 |
-| Home (Jobseeker)                  | 13522032 |
-| Home (Company)                    | 13522032 |
+| Home (Jobseeker)                  | 13522032, 13522031 |
+| Home (Company)                    | 13522032, 13522031 |
 | Search, Sort, dan Filter di Home  | 13522032 |
 | Tambah Lowongan (Company)         | 13522032 |
 | Detail Lowongan (Company)         | 13522032 |
 | Detail Lowongan (Jobseeker)       | 13522032 |
 | Edit Lowongan (Company)           | 13522032 |
-| Lamaran                           |  |
+| Lamaran                           | 13522037 |
 | Detail Lamaran (Jobseeker)        |  |
 | Detail Lamaran (Company)          |  |
 | Riwayat                           |  |
@@ -74,16 +74,16 @@ TODO
 | ----------------------------------| -------- |
 | Login                             | 13522032 |
 | Register                          | 13522032 |
-| Home (Company)                    | 13522032 |
-| Home (Jobseeker)                  | |
-| Search, Sort, dan Filter          | |
+| Home (Company)                    | 13522032, 13522031 |
+| Home (Jobseeker)                  | 13522031 |
+| Search, Sort, dan Filter          | 13522031 |
 | Tambah Lowongan (Company)         | 13522032 |
 | Detail Lowongan (Company)         | 13522032 |
 | Edit Lowongan (Company)           | 13522032 |
-| Detail Lamaran (Company)          |  |
+| Detail Lamaran (Company)          | 13522037 |
 | Detail Lamaran (Jobseeker)        | 13522032 |
-| Lamaran                           |  |
-| Riwayat                           |  |
+| Lamaran                           | 13522037 |
+| Riwayat                           | 13522031, 13522037 |
 | Profil                            | 13522032 |
 
 ### _Chores_
@@ -94,6 +94,7 @@ TODO
 | Backend Structure + Design Pattern | 13522032            |
 | Database Schema + Seeding          | 13522032            |
 | Docker                             | 13522032            |
+| UI/UX                              | 13522031            |
 
 ## Anggota Kelompok
 
