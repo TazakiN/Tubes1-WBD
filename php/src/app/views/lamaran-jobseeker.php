@@ -116,10 +116,39 @@
 
     lamaran_body.insertAdjacentHTML("beforeend", delete_button);
 
-    // document.getElementById('delete-button').addEventListener("click", function() {
-    //     if (confirm("Are you sure you want to delete this application?")) {
-    //         const xhr = new XMLHttpRequest();
-    //         xhr.open('DELETE', `/lamaran/delete`, true);
-    //     }
-    // });
+    document.getElementById('delete-button').addEventListener("click", function() {
+        if (confirm("Are you sure you want to delete this application?")) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', `/lamaran/delete`, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onload = function () {
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    
+                    const toastData = {};
+                    
+                    if (xhr.status === 200) {
+                        window.location.href = '/';
+                    } else {
+                        toastData.error = response.message || 'An error occured while deleting application';
+                    }
+
+                    showToast(toastData);
+
+                } catch (e) {
+                    showToast({
+                        error: 'A server response error occured'
+                    });
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('An error occurred during request');
+            };
+
+            const payload = JSON.stringify({ lamaran_id: <?php echo $data['lamaran_id']; ?> });
+            xhr.send(payload);
+        }
+    });
 </script>
