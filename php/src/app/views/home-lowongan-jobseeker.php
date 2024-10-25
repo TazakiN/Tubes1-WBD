@@ -7,7 +7,7 @@
     <div class="header">
         <div class="search-bar">
             <input type="text" class="search-input" placeholder="Search..." id="searchInput" autocomplete="off">
-            <button class="filter-button">Filter</button>
+            <button id="reverseOrderBtn" class="filter-button">Reverse Order</button>
             <div class="check-container">
                 <label class="check-item"><input type="checkbox" name="location" value="On-site" checked>On-site</label>
                 <label class="check-item"><input type="checkbox" name="location" value="Hybrid" checked>Hybrid</label>
@@ -107,25 +107,6 @@
 </section>
 
 <script>
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
 
-    const selectedLocations = params.get('jenis_lokasi') ? params.get('jenis_lokasi').split(',') : [];
-    const selectedTypes = params.get('jenis_pekerjaan') ? params.get('jenis_pekerjaan').split(',') : [];
-
-    document.querySelectorAll('input[name="location"]').forEach(checkbox => {
-        if (selectedLocations.includes(checkbox.value)) {
-            checkbox.checked = true;
-        } else {
-            checkbox.checked = false;
-        }
-    });
-
-    document.querySelectorAll('input[name="type"]').forEach(checkbox => {
-        if (selectedTypes.includes(checkbox.value)) {
-            checkbox.checked = true;
-        } else {
-            checkbox.checked = false;
-        }
-    });
+    
 </script>

@@ -5,8 +5,8 @@
 <section class="home-section">
     <div class="header">
         <div class="search-bar">
-            <input type="text" class="search-input" placeholder="Search..." id="searchInput">
-            <button class="filter-button">Filter</button>
+        <input type="text" class="search-input" placeholder="Search..." id="searchInput">
+        <button id="reverseOrderBtn" class="filter-button">Reverse Order</button>
             <div class="check-container">
                 <label class="check-item"><input type="checkbox" name="location" value="On-site" checked>On-site</label>
                 <label class="check-item"><input type="checkbox" name="location" value="Hybrid" checked>Hybrid</label>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="job-info">
                         <h3 class="job-title"><?= htmlspecialchars($v->posisi) ?></h3>
-                        <div class="company">Institut Teknologi Bandung</div>
+                        <div class="company"><?= htmlspecialchars($v->company_name) ?></div>
                         <div class="tags">
                             <span class="tag"><?= ucfirst(htmlspecialchars($v->jenis_pekerjaan)) ?></span>
                             <span class="tag"><?= ucfirst(htmlspecialchars($v->jenis_lokasi)) ?></span>
@@ -168,28 +168,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-</script>
-
-<script>
-    const url = new URL(window.location.href);
-    const params = new URLSearchParams(url.search);
-
-    const selectedLocations = params.get('jenis_lokasi') ? params.get('jenis_lokasi').split(',') : [];
-    const selectedTypes = params.get('jenis_pekerjaan') ? params.get('jenis_pekerjaan').split(',') : [];
-
-    document.querySelectorAll('input[name="location"]').forEach(checkbox => {
-        if (selectedLocations.includes(checkbox.value)) {
-            checkbox.checked = true;
-        } else {
-            checkbox.checked = false;
-        }
-    });
-
-    document.querySelectorAll('input[name="type"]').forEach(checkbox => {
-        if (selectedTypes.includes(checkbox.value)) {
-            checkbox.checked = true;
-        } else {
-            checkbox.checked = false;
-        }
-    });
 </script>

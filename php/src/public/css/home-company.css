@@ -2,6 +2,11 @@ input[type="checkbox"] {
   display: block;
 }
 
+.svg{
+  width: 100px;
+  height: 100px;
+}
+
 .home-section {
   margin: 0 auto;
   padding: 60px 60px 0px 60px;
@@ -342,7 +347,6 @@ a {
 
   .job-grid {
     grid-template-columns: 1fr;
-    height: 60vh;
   }
 
   .profile-icon {
@@ -410,6 +414,5 @@ a {
 
   .job-grid {
     grid-template-columns: 1fr;
-    height: 40vh;
   }
 }
