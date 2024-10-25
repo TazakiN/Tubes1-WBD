@@ -89,19 +89,6 @@ class LowonganService extends BaseService
         return $attachmentLowonganModels;
     }
 
-    public function getAttachmentLowonganByLowonganIDAndJobseekerID($lowongan_id, $jobseeker_id) {
-        $attachments = $this->attachmentLowonganRepository->getByLowonganIDAndJobseekerID($lowongan_id, $jobseeker_id);
-
-        $attachmentLowonganModels = [];
-        foreach ($attachments as $attachment) {
-            $attachmentLowonganModel = new AttachmentLowonganModel();
-            $attachmentLowonganModel->constructFromArray($attachment);
-            $attachmentLowonganModels[] = $attachmentLowonganModel;
-        }
-
-        return $attachmentLowonganModels;
-    }
-
     private function getUploadDirectory() {
         return dirname(__DIR__, 2) . '/uploads/';
     }
