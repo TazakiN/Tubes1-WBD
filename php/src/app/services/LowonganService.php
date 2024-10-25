@@ -4,6 +4,8 @@ namespace app\services;
 
 use app\models\AttachmentLowonganModel;
 use app\services\BaseService;
+use app\services\LamaranService;
+use app\services\UserService;
 use app\models\LowonganModel;
 use app\repositories\LowonganRepository;
 use app\repositories\UserRepository;
@@ -14,12 +16,17 @@ class LowonganService extends BaseService
 {
     protected static $instance;
     protected $attachmentLowonganRepository;
+    protected $lamaranService;
+    protected $userService;
+    
 
     private function __construct($repository)
     {
         parent::__construct();
         $this->repository = $repository;
         $this->attachmentLowonganRepository = AttachmentLowonganRepository::getInstance();
+        $this->lamaranService = LamaranService::getInstance();
+        $this->userService = UserService::getInstance();
     }
 
     public static function getInstance()
@@ -151,6 +158,31 @@ class LowonganService extends BaseService
         }
 
         return $lowongan_id;
+    }
+
+    public function getApplicantsDataCSV($lowongan_id) {
+        $lowongan = $this->getLowonganByID($lowongan_id);
+        $lamarans = $this->lamaranService->getLamaranByLowonganID($lowongan_id);
+        $csvData = [];
+        $csvData[] = ["Nama", "Email", "Posisi", "CV", "Video", "Status Lamaran", "Tanggal Lamaran"];
+
+    foreach ($lamarans as $lamaran) {
+        $user_id = $lamaran->get("user_id");
+        $jobseeker = $this->userService->getJobSeekerById($user_id);
+        
+        if ($jobseeker && $lowongan) {
+            $csvData[] = [
+                $jobseeker->get("nama"),
+                $jobseeker->get("email"),
+                $lowongan->get("posisi"),
+                $lamaran->get("cv_path"),
+                $lamaran->get("video_path"),
+                $lamaran->get("status"),
+                date("Y-m-d H:i:s", strtotime($lamaran->get("created_at")))
+            ];
+        }
+    }
+    return $csvData;
     }
 
     private function getUploadErrorMessage($error_code) {

@@ -33,7 +33,14 @@
 
         <!-- data lamarans -->
         <div class="applicants">
-            <h2>Applicants</h2>
+            <div class="header">
+                <h2>Applicants</h2>
+                <?php if (!empty($data['lamarans'])): ?>
+                    <a href="/lowongan/export-csv?lowongan_id=<?php echo $data['lowongan_id']; ?>" class="export-csv-button">
+                        <button class="action-button">Export to CSV</button>
+                    </a>
+                <?php endif; ?>
+            </div>
             <?php if (!empty($data['lamarans'])): ?>
                 <?php foreach ($data['lamarans'] as $lamaran): ?>
                     <div class="applicant">
@@ -55,72 +62,36 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const switchElement = document.getElementById('isOpenSwitch');
-    const lowonganId = new URLSearchParams(window.location.search).get('lowongan_id');
-    const statusElement = document.getElementById('status');
+        const switchElement = document.getElementById('isOpenSwitch');
+        const lowonganId = new URLSearchParams(window.location.search).get('lowongan_id');
+        const statusElement = document.getElementById('status');
 
-    switchElement.addEventListener('change', function () {
-        const isOpen = switchElement.checked;
+        switchElement.addEventListener('change', function () {
+            const isOpen = switchElement.checked;
 
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `/lowongan/edit-status?lowongan_id=${lowonganId}`, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-
-        xhr.onload = function () {
-            try {
-                const response = JSON.parse(xhr.responseText);
-                const toastData = {};
-                if (xhr.status === 200) {
-                    statusElement.textContent = isOpen ? 'Open' : 'Closed';
-                    statusElement.className = isOpen ? 'status open' : 'status closed';
-                    toastData.success = response.message;
-                } else if (xhr.status === 403) {
-                    toastData.error = response.message;
-                } else {
-                    toastData.error = response.message || 'Terjadi kesalahan saat memperbarui status';
-                }
-
-                showToast(toastData);
-            } catch (error) {
-                showToast({
-                    error: 'Terjadi kesalahan saat memproses respons server'
-                });   
-            }
-        };
-
-        xhr.onerror = function () {
-            console.error('Terjadi kesalahan dalam request');
-        };
-
-        const payload = JSON.stringify({ is_open: isOpen });
-        xhr.send(payload);
-    });
-
-    deleteButton.addEventListener('click', function () {
-        const lowonganId = <?php echo $data['lowongan_id']; ?>;
-        if (confirm('Are you sure you want to delete this offer?')) {
             const xhr = new XMLHttpRequest();
-            xhr.open('DELETE', `/lowongan/delete`, true);
+            xhr.open('POST', `/lowongan/edit-status?lowongan_id=${lowonganId}`, true);
             xhr.setRequestHeader('Content-Type', 'application/json');
 
             xhr.onload = function () {
                 try {
                     const response = JSON.parse(xhr.responseText);
-                    
                     const toastData = {};
-                    
                     if (xhr.status === 200) {
-                        window.location.href = '/';
+                        statusElement.textContent = isOpen ? 'Open' : 'Closed';
+                        statusElement.className = isOpen ? 'status open' : 'status closed';
+                        toastData.success = response.message;
+                    } else if (xhr.status === 403) {
+                        toastData.error = response.message;
                     } else {
-                        toastData.error = response.message || 'Terjadi kesalahan saat menghapus lowongan';
+                        toastData.error = response.message || 'Terjadi kesalahan saat memperbarui status';
                     }
 
                     showToast(toastData);
-
-                } catch (e) {
+                } catch (error) {
                     showToast({
                         error: 'Terjadi kesalahan saat memproses respons server'
-                    });
+                    });   
                 }
             };
 
@@ -128,11 +99,63 @@
                 console.error('Terjadi kesalahan dalam request');
             };
 
-            const payload = JSON.stringify({ lowongan_id: lowonganId });
+            const payload = JSON.stringify({ is_open: isOpen });
             xhr.send(payload);
+        });
+
+        deleteButton.addEventListener('click', function () {
+            const lowonganId = <?php echo $data['lowongan_id']; ?>;
+            if (confirm('Are you sure you want to delete this offer?')) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('DELETE', `/lowongan/delete`, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                xhr.onload = function () {
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        
+                        const toastData = {};
+                        
+                        if (xhr.status === 200) {
+                            window.location.href = '/';
+                        } else {
+                            toastData.error = response.message || 'Terjadi kesalahan saat menghapus lowongan';
+                        }
+
+                        showToast(toastData);
+
+                    } catch (e) {
+                        showToast({
+                            error: 'Terjadi kesalahan saat memproses respons server'
+                        });
+                    }
+                };
+
+                xhr.onerror = function () {
+                    console.error('Terjadi kesalahan dalam request');
+                };
+
+                const payload = JSON.stringify({ lowongan_id: lowonganId });
+                xhr.send(payload);
+            }
+        });
+
+        // Tambahkan event listener untuk tombol export
+        const exportButton = document.querySelector('.export-csv-button');
+        if (exportButton) {
+            exportButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const link = exportButton.getAttribute('href');
+                
+                window.location.href = link;
+                
+                showToast({
+                    success: "CSV file has been downloaded successfully!"
+                });
+            });
         }
     });
-});
 
 </script>
     
