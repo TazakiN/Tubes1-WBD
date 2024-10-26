@@ -75,16 +75,15 @@ class LamaranController extends BaseController
             $cv_file = $_FILES['cvInput'];
             $video_file = $_FILES['videoInput'];
             try {
-                $this->service->createLamaran($note, $cv_file, $video_file, $lowongan_id);
+                $lamaran = $this->service->createLamaran($note, $cv_file, $video_file, $lowongan_id);
+                $data['lamaran_id'] = $lamaran->lamaran_id;
                 Toast::success("Lamaran successfully created!");
-                $data = $this->getLowonganDetailJobseeker($urlParams['lowongan_id'], $_SESSION['user_id']);
-                $data["is_melamar"] = false;
-                // return parent::render(["lowongan_id" => $lowongan_id], "lowongan-detail-jobseeker", "layouts/base");
-                return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
+                return parent::redirect("/lamaran", $data);
             } catch (Exception $e) {
                 $msg = $e->getMessage();
                 Toast::error($msg);
-                return parent::render($urlParams, "add-lamaran", "layouts/base");
+                header("Location: /lamaran/add?lowongan_id=" . $lowongan_id);
+                exit();
             }
         } else if ($uri == "/lamaran/update") {
             try {

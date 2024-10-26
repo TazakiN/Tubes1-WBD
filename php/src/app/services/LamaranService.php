@@ -166,6 +166,7 @@ class LamaranService extends BaseService
         $sanitized_note = strip_tags($note, $allowedTags);
         $sanitized_note = htmlentities($sanitized_note, ENT_QUOTES, 'UTF-8');
         $noteSuccess = true;
+        $id= null;
 
         if (($cvSuccess && $videoSuccess) && $noteSuccess) {
             $lamaran = new LamaranModel();
