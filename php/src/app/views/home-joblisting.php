@@ -1,7 +1,7 @@
 <?php
     $__headContent =
     '<link rel="stylesheet" href="/public/css/home-lowongan.css">
-    <script src="/public/js/lowonganJobseeker.js" defer></script>';
+    <script src="/public/js/searchFilterLowongan.js" defer></script>';
     if ($_SESSION["role"] == "company") {
         $__headContent .= '<script src="/public/js/deleteLowonganButton.js" defer></script>';
     }
