@@ -30,6 +30,9 @@ class HomeController extends BaseController
         }
         if ($uri == "/job-listing"){
             $data = $this->getJobListingData($urlParams, $data);
+            if (isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING'])) {
+                Toast::success("Search and filter applied");
+            }
             return parent::render($data, "home-joblisting", "layouts/base");
         } else if ($uri == "/") {
             if (isset($_SESSION['user_id']) && $_SESSION['role'] == 'jobseeker') {
