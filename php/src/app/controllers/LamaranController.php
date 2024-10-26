@@ -56,7 +56,7 @@ class LamaranController extends BaseController
             $company = $this->user_service->getCompanyByID($company_id);
             $data['company_name'] = $company->nama;
             if ($_SESSION['role'] == "company"){
-
+                parent::render($data, "lamaran-company", "layouts/base");
             } else if ($_SESSION['role'] == "jobseeker") {
                 parent::render($data, "lamaran-jobseeker", "layouts/base");
             } else {

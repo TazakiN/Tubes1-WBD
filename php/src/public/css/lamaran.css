@@ -281,6 +281,27 @@
     margin-top: 0px;
   }
 
+  .status-decision-container {
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .status-decision-container h3 {
+    margin-top: 24px;
+    margin-bottom: 6px;
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  .decision-buttons {
+    margin: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
   .delete-button {
     margin: 72px;
     width: fit-content;
@@ -298,5 +319,45 @@
 
   .delete-button:hover {
     background-color: #b21d1d;
+    transform: scale(0.95);
+  }
+
+  .accept-button {
+    margin:16px;
+    width: fit-content;
+    height: fit-content;
+    padding: 6px 36px;
+    background-color: var(--light-green);
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .accept-button:hover {
+    background-color: #007c33;
+    transform: scale(0.95);
+  }
+
+  .reject-button {
+    margin:16px;
+    width: fit-content;
+    height: fit-content;
+    padding: 6px 36px;
+    background-color: var(--light-red);
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+
+  .reject-button:hover {
+    background-color: #ff0505;
     transform: scale(0.95);
   }
