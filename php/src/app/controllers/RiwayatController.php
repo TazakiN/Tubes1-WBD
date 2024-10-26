@@ -35,20 +35,25 @@ class RiwayatController extends BaseController
                 $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
                 if($jobseeker){
                     $all_lamaran_model = $this->lamaran_service->getLamaranByUser($_SESSION['user_id'], null);
-                    foreach($all_lamaran_model as $lamaran_model) {
-                        $single_data['status'] = $lamaran_model->status;
-                        $single_data['created_at'] = $lamaran_model->created_at;
-                        $lowongan_id = $lamaran_model->lowongan_id;
-                        $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
-                        if (!$lowongan){
-                            continue;
+                    if (empty($all_lamaran_model)){
+                        // do nothing
+                    } else {
+                        foreach($all_lamaran_model as $lamaran_model) {
+                            $single_data['status'] = $lamaran_model->status;
+                            $single_data['created_at'] = $lamaran_model->created_at;
+                            $lowongan_id = $lamaran_model->lowongan_id;
+                            $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
+                            if (!$lowongan){
+                                continue;
+                            }
+                            $single_data['position'] = $lowongan->posisi;
+                            $company_id = $lowongan->company_id;
+                            $company = $this->service->getCompanyById($company_id);
+                            $single_data['company_name'] = $company->nama;
+                            $single_data['lamaran_id'] = $lamaran_model->lamaran_id;
+    
+                            $data[] = $single_data;
                         }
-                        $single_data['position'] = $lowongan->posisi;
-                        $company_id = $lowongan->company_id;
-                        $company = $this->service->getCompanyById($company_id);
-                        $single_data['company_name'] = $company->nama;
-
-                        $data[] = $single_data;
                     }
                 }
                 parent::render($data, "riwayat", "layouts/base");

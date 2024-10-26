@@ -32,6 +32,14 @@
     overflow-x: hidden;
 }
 
+h3 {
+    margin-top: 25%;
+    color: #6d6f70;
+    text-align: center;
+    font-size: larger;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+}
+
 .riwayat {
     display: flex;
     align-items: center;
@@ -40,6 +48,13 @@
     height: 226px;
     border-radius: 25px;
     background-color: #CACCCE;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.riwayat:hover {
+    background-color: #86888A;
+    transform: scale(0.95);
 }
 
 .company-pic{
@@ -64,6 +79,7 @@
 .riwayat-text {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .riwayat-text h2{
@@ -76,20 +92,32 @@
 }
 
 .riwayat-text .status {
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: fit-content;
     height: fit-content;
     padding: 5px 10px;
-    background-color: #00A0DC;
     border-radius: 10px;
     font-weight: bold;
     color: #FFFFFF;
 }
 
 .riwayat-text p1 {
-    margin-top: 20px;
     font-size: 20px;
 }
 
 h1 {
     font-size: 48px;
+}
+
+.accepted {
+    background-color: var(--light-green);
+}
+
+.rejected {
+    background-color: var(--light-red);
+}
+
+.waiting {
+    background-color: var(--light-blue);
 }

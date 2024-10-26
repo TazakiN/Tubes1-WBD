@@ -77,9 +77,10 @@ class LamaranController extends BaseController
             try {
                 $this->service->createLamaran($note, $cv_file, $video_file, $lowongan_id);
                 Toast::success("Lamaran successfully created!");
-                return parent::render(["lowongan_id" => $lowongan_id], "lowongan-detail-jobseeker", "layouts/base");
-                // parent::redirect("/lowongan", ["lowongan_id" => $lowongan_id]);
-                // parent::render(["alert" => "Lamaran successfully created!"], "/lowongan", "layouts/base");
+                $data = $this->getLowonganDetailJobseeker($urlParams['lowongan_id'], $_SESSION['user_id']);
+                $data["is_melamar"] = false;
+                // return parent::render(["lowongan_id" => $lowongan_id], "lowongan-detail-jobseeker", "layouts/base");
+                return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             } catch (Exception $e) {
                 $msg = $e->getMessage();
                 Toast::error($msg);
@@ -132,5 +133,31 @@ class LamaranController extends BaseController
                 ]);
             }
         }
+    }
+
+
+
+
+
+    // Illegal Function wkwkwk
+    private function getLowonganDetailJobseeker($lowongan_id, $jobseeker_id) {
+        $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
+        $lowongan->set('created_at', date("Y-m-d", strtotime($lowongan->get('created_at'))));
+        $lowongan->set('updated_at', date("Y-m-d", strtotime($lowongan->get('updated_at'))));
+        $dataLowongan = $lowongan->toResponse();
+        
+        $company = $this->user_service->getCompanyById($lowongan->get('company_id'));
+        $dataCompany = $company->toResponse();
+
+        $dataAttachments = $this->lowongan_service->getAttachmentLowonganByLowonganID($lowongan_id);
+
+        $dataLamaran = $this->service->getByJobseekerAndLowonganID($jobseeker_id, $lowongan_id);
+        $dataLamaran = $dataLamaran ? $dataLamaran->toResponse() : null;
+        if (is_null($dataLamaran)) {
+            $dataLamaran = [];
+        }
+
+        $data = array_merge($dataCompany, $dataLowongan, ['attachments' => $dataAttachments], ['lamaran' => $dataLamaran]);
+        return $data;
     }
 }
