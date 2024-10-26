@@ -38,7 +38,7 @@
         <div class="line"></div>
 
         <div class="button-container">
-            <a href="/home">
+            <a href="/job-listing">
                 <button class="job-listing-button"> <img src="/public/svg/eye.svg"> Job Listing</button>
             </a>
             <button class="purry-search-button" id="searchButton">Purry Search</button>
@@ -47,13 +47,28 @@
 </section>
 
 <script>
- document.getElementById('searchButton').addEventListener('click', function() {
-        const searchValue = document.getElementById('searchInput').value;
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
 
-        if (searchValue.trim() !== '') {
-            window.location.href = `/home?searchParams=${encodeURIComponent(searchValue)}`;
-        } else {
-            window.location.href = '/home';
+    function performSearch() {
+        const searchValue = searchInput.value.trim();
+        const baseUrl = '/job-listing';
+
+        const url = searchValue ? 
+            `${baseUrl}?searchParams=${encodeURIComponent(searchValue)}` : 
+            baseUrl;
+            
+        window.location.href = url;
+    }
+
+    searchInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            performSearch();
         }
     });
+
+    searchButton.addEventListener('click', performSearch);
+});
 </script>

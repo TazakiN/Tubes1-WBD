@@ -25,7 +25,7 @@ class App
     private function init_router()
     {
         $this->router->addRoute('/', HomeController::class);
-        $this->router->addRoute('/home', HomeController::class);
+        $this->router->addRoute('/job-listing', HomeController::class);
         $this->router->addRoute('/riwayat', RiwayatController::class);
         $this->router->addRoute('/login', LoginController::class);
         $this->router->addRoute('/logout', LoginController::class);
