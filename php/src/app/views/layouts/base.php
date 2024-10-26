@@ -8,6 +8,10 @@
     <meta name="description" content="LinkInPurry is a platform for job seekers and companies to connect.">
     <meta name="keywords" content="job, job seeker, company, recruitment, career">
 
+    <!-- Favicon -->
+    <link rel="icon" href="/public/ico/favicon.ico" type="image/x-icon">
+
+
     <!-- Source Sans Font (used by linkedin) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
