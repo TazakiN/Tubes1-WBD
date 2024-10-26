@@ -30,8 +30,8 @@ class LowonganController extends BaseController
 
         // Check if user is logged in first
         if (!isset($_SESSION["role"])) {
-            Toast::warning("You are not allowed to access this page. Please login first.");
-            return parent::redirect("/home");
+            Toast::warning("You are not allowed to access this page. Please login or register first.");
+            return parent::redirect("/login");
         }
 
         if ($_SESSION["role"] == "company") {
@@ -56,7 +56,7 @@ class LowonganController extends BaseController
                     return parent::render($data, "lowongan-detail-company", "layouts/base");
                 } else {
                     Toast::error("You are not allowed to access this page.");
-                    return parent::redirect("/");
+                    return parent::redirect("/job-listing");
                 }
             }
 
@@ -73,8 +73,8 @@ class LowonganController extends BaseController
                 return parent::render($data, "lowongan-detail-jobseeker", "layouts/base");
             }
         } else {
-            Toast::warning("You are not allowed to access this page. Please login first.");
-            return parent::redirect("/home");
+            Toast::warning("You are not allowed to access this page. Please login or register first.");
+            return parent::redirect("/login");
         }
     }
 
