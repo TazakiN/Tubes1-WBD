@@ -25,6 +25,9 @@ class HomeController extends BaseController
         $data = [];
         $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
+        if (!isset($_SESSION['role'])) {
+            $_SESSION['role'] = 'guest';
+        }
         if ($uri == "/job-listing"){
             $data = $this->getJobListingData($urlParams, $data);
             return parent::render($data, "home-joblisting", "layouts/base");
