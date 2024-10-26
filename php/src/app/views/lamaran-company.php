@@ -74,7 +74,7 @@
     var status_sign = document.getElementById('status');
     var status_reason_box = document.createElement('div');
     status_reason_box.classList.add('status-reason');
-    status_reason_box.innerText = data.status_reason;
+    status_reason_box.innerHTML = data.status_reason;
 
     switch (data.status) {
         case "accepted":
@@ -97,15 +97,15 @@
         `
             <div class="status-decision-container" id="status-decision-container">
 
-                <h3> Decision Reasoning </h3>
+                <h3> Application Verdict </h3>
 
                 <div class="editor-container" id="status-decision-input-box" style="height: 360px;"></div>
 
                 <input type="hidden" name="statusDecision" id="editorContent">
                 
                 <div class="decision-buttons">
-                    <button class="accept-button" id="accept-button" type="submit"> Accept </button>
-                    <button class="reject-button" id="reject-button" type="submit"> Reject </button>
+                    <button class="accept-button" id="accept-button" type="button"> Accept </button>
+                    <button class="reject-button" id="reject-button" type="button"> Reject </button>
                 </div>
             </div>
         `;
@@ -115,6 +115,64 @@
         var quill = new Quill("#status-decision-input-box", {
             theme: 'snow'
         });
-    }
 
+        accept_button = document.getElementById('accept-button');
+        reject_button = document.getElementById('reject-button');
+
+        function AJAXPostReason(new_status){
+            var reason = quill.root.innerHTML;
+            if (reason === "" || reason === null || reason === "<p><br></p>"){
+                reason = "Employer gave no reason for this decision";
+            }
+            const xhr_data = { reason: reason };
+            const lamaran_id = location.search.split('lamaran_id=')[1];
+            const xhr = new XMLHttpRequest();
+
+            accept_button.disabled= true;
+            reject_button.disabled = true;
+
+            xhr.open('POST', `/lamaran/update?lamaran_id=${lamaran_id}&new_status=${new_status}`, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            xhr.onload = function() {
+                try {
+                    console.log(xhr.responseText);
+                    const response = JSON.parse(xhr.responseText);
+                    const toastData = {};
+                    if (response.status === 'success') {
+                        toastData.success = response.message;
+                        showToast(toastData);
+                        setTimeout(() => {
+                            window.location.href = `lamaran?lamaran_id=${lamaran_id}`;
+                        }, 1000);
+                    } else {
+                        toastData.error = response.message || 'An error occurred while saving this decision';
+                        accept_button.disabled= false;
+                        reject_button.disabled = false;
+                        showToast(toastData);
+                    }
+                } catch (error) {
+                    showToast({
+                        error: 'An error occurred while processing server response'
+                    });
+                    accept_button.disabled= false;
+                    reject_button.disabled = false;
+                }
+            };
+            xhr.onerror = function() {
+                console.error('An error occurred during the request');
+                accept_button.disabled= false;
+                reject_button.disabled = false;
+            }
+            xhr.send(JSON.stringify(xhr_data));
+        }
+
+        accept_button.addEventListener("click", function(){
+            AJAXPostReason('accepted');
+        });
+
+        reject_button.addEventListener("click", function(){
+            AJAXPostReason('rejected');
+        });
+    }
 </script>

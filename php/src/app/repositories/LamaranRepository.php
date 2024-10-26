@@ -49,6 +49,23 @@ class LamaranRepository extends BaseRepository
         return $this->findOne(['user_id' => [$jobseeker_id, PDO::PARAM_INT], 'lowongan_id' => [$lowongan_id, PDO::PARAM_INT]]);
     }
 
+    public function updateLamaran($lamaran_model) {
+        $result = $this->update($lamaran_model, array(
+            'user_id' => PDO::PARAM_INT,
+            'lowongan_id' => PDO::PARAM_INT,
+            'cv_path' => PDO::PARAM_STR,
+            'video_path' => PDO::PARAM_STR,
+            'note' => PDO::PARAM_STR,
+            'status' => PDO::PARAM_STR,
+            'status_reason' => PDO::PARAM_STR,
+        ));
+
+        $lamaran_data = $this->getByLamaranID($lamaran_model->get('lamaran_id'));
+        $lamaran = new LamaranModel();
+
+        return $lamaran->constructFromArray($lamaran_data);
+    }
+
     public function deleteByLamaranID($id)
     {
         $user = $this->getByLamaranID($id);

@@ -282,7 +282,6 @@ abstract class BaseRepository
         foreach ($arrParams as $key => $value) {
             $stmt->bindValue(":$key", $model->get($key), $value);
         }
-
         $stmt->execute();
         return $stmt->rowCount();
     }

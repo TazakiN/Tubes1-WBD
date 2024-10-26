@@ -69,11 +69,11 @@ class LamaranController extends BaseController
     {
         $uri = Request::getURL();
 
-        $note = $_POST['noteInput'];
-        $cv_file = $_FILES['cvInput'];
-        $video_file = $_FILES['videoInput'];
-        $lowongan_id = $urlParams["lowongan_id"];
         if ($uri == "/lamaran/add"){
+            $lowongan_id = $urlParams["lowongan_id"];
+            $note = $_POST['noteInput'];
+            $cv_file = $_FILES['cvInput'];
+            $video_file = $_FILES['videoInput'];
             try {
                 $this->service->createLamaran($note, $cv_file, $video_file, $lowongan_id);
                 parent::render(["alert" => "Lamaran successfully created!", "lowongan_id" => $lowongan_id], "lowongan-detail-jobseeker", "layouts/base");
@@ -83,6 +83,28 @@ class LamaranController extends BaseController
             } catch (Exception $e) {
                 $msg = $e->getMessage();
                 parent::render(["errorMsg" => $msg], "add-lamaran", "layouts/base");
+            }
+        } else if ($uri == "/lamaran/update") {
+            try {
+                header('Content-Type: application/json');
+                $jsonData = file_get_contents('php://input');
+                $data = json_decode($jsonData, true); 
+                $reason = $data['reason'];
+                $lamaran_id = $urlParams['lamaran_id'];
+                $new_status = $urlParams['new_status'];
+                $this->service->patchLamaranDecision($lamaran_id, $new_status, $reason);
+                Toast::success('Lamaran decision successfully saved');
+                echo json_encode([
+                    'status' => 'success',
+                ]);
+            } catch (Exception $e) {
+                header('Content-Type: application/json');
+                Toast::error($e->getMessage());
+                http_response_code(500);
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Unexpected Error: ' . $e->getMessage()
+                ]);
             }
         }
     }
@@ -129,7 +151,7 @@ class LamaranController extends BaseController
                 http_response_code(500);
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+                    'message' => 'Unexpected Error: ' . $e->getMessage()
                 ]);
             }
         }

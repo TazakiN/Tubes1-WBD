@@ -25,6 +25,10 @@ abstract class BaseController
     {
         throw new MethodNotAllowedException("Method not allowed");
     }
+    protected function patch($urlParams)
+    {
+        throw new MethodNotAllowedException("Method not allowed");
+    }
     protected function delete($urlParams)
     {
         throw new MethodNotAllowedException("Method not allowed");

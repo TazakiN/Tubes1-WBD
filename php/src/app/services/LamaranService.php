@@ -222,7 +222,6 @@ class LamaranService extends BaseService
     // }
 
     public function deleteLamaran($lamaran_id) {
-        // error_log($lamaran_id .' deleted');
         $lamaran = $this->repository->getByLamaranID($lamaran_id);
         $cv_path = $lamaran['cv_path'];
         $video_path = $lamaran['video_path'];
@@ -231,5 +230,14 @@ class LamaranService extends BaseService
         if ($video_path !== null && $video_path !== "") {
             unlink($video_path);
         }
+    }
+
+    public function patchLamaranDecision($lamaran_id, $new_status, $reason) {
+        $lamaran_array = $this->repository->getByLamaranID($lamaran_id);
+        $lamaran = new LamaranModel();
+        $lamaran->constructFromArray($lamaran_array);
+        $lamaran->status = $new_status;
+        $lamaran->status_reason = $reason;
+        $this->repository->updateLamaran($lamaran);
     }
 }

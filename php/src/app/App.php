@@ -36,6 +36,7 @@ class App
         $this->router->addRoute('/lamaran', LamaranController::class);
         $this->router->addRoute('/lamaran/add', LamaranController::class);
         $this->router->addRoute('/lamaran/delete', LamaranController::class);
+        $this->router->addRoute('/lamaran/update', LamaranController::class);
         $this->router->addRoute('/lowongan', LowonganController::class);
         $this->router->addRoute('/lowongan/add', LowonganController::class);
         $this->router->addRoute('/lowongan/edit', LowonganController::class);

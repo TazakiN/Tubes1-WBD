@@ -6,6 +6,7 @@ use app\models\BaseModel;
 
 class LamaranModel extends BaseModel
 {
+    public $lamaran_id;
     public $user_id;
     public $lowongan_id;
     public $cv_path;
@@ -17,11 +18,12 @@ class LamaranModel extends BaseModel
 
     public function __construct()
     {
-        $this->_primary_key = 'user_id';
+        $this->_primary_key = 'lamaran_id';
     }
 
     public function constructFromArray($array)
     {
+        $this->lamaran_id = $array['lamaran_id'];
         $this->user_id = $array['user_id'];
         $this->lowongan_id = $array['lowongan_id'];
         $this->cv_path = $array['cv_path'];
@@ -36,6 +38,7 @@ class LamaranModel extends BaseModel
     public function toResponse()
     {
         return array(
+            'lamaran_id' => $this->lamaran_id,
             'user_id' => $this->user_id,
             'lowongan_id' => $this->lowongan_id,
             'cv_path' => $this->cv_path,
