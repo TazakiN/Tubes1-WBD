@@ -77,7 +77,7 @@
         $totalPages = $data['totalPage'];
 
         $queryParams = [];
-        $_SERVER['QUERY_STRING'] ? parse_str($_SERVER['QUERY_STRING'], $queryParams) : parse_str("", $queryParams);
+        isset($_SERVER['QUERY_STRING']) ? parse_str($_SERVER['QUERY_STRING'], $queryParams) : parse_str("", $queryParams);
 
         if ($currentPage > 1): 
             $queryParams['page'] = $currentPage - 1;
