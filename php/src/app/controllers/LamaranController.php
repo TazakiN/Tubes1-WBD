@@ -21,7 +21,7 @@ class LamaranController extends BaseController
         $this->user_service = UserService::getInstance();
     }
 
-    protected function get($urlParams): void
+    protected function get($urlParams)
     {
         $uri = Request::getURL();
 
@@ -65,7 +65,7 @@ class LamaranController extends BaseController
         }
     }
 
-    protected function post($urlParams): void
+    protected function post($urlParams)
     {
         $uri = Request::getURL();
 
@@ -76,13 +76,14 @@ class LamaranController extends BaseController
             $video_file = $_FILES['videoInput'];
             try {
                 $this->service->createLamaran($note, $cv_file, $video_file, $lowongan_id);
-                parent::render(["alert" => "Lamaran successfully created!", "lowongan_id" => $lowongan_id], "lowongan-detail-jobseeker", "layouts/base");
-
+                Toast::success("Lamaran successfully created!");
+                return parent::render(["lowongan_id" => $lowongan_id], "lowongan-detail-jobseeker", "layouts/base");
                 // parent::redirect("/lowongan", ["lowongan_id" => $lowongan_id]);
                 // parent::render(["alert" => "Lamaran successfully created!"], "/lowongan", "layouts/base");
             } catch (Exception $e) {
                 $msg = $e->getMessage();
-                parent::render(["errorMsg" => $msg], "add-lamaran", "layouts/base");
+                Toast::error($msg);
+                return parent::render($urlParams, "add-lamaran", "layouts/base");
             }
         } else if ($uri == "/lamaran/update") {
             try {
@@ -108,30 +109,6 @@ class LamaranController extends BaseController
             }
         }
     }
-
-    // public function delete($urlParams) {
-    //     $uri = Request::getURL();
-    //     if ($uri == "/lamaran/delete"){
-    //         echo "masuk controller";
-    //         $lamaran_id = $urlParams["lamaran_id"];
-    //         try {
-    //             $this->service->deleteLamaran($lamaran_id, $_SESSION['user_id']);
-    //             Toast::success("Lamaran deleted successfully.");
-    //             header('Content-Type: application/json');
-    //             echo json_encode([
-    //                 'status' => 'success',
-    //             ]);
-    //         } catch (Exception $e) {
-    //             Toast::error($e->getMessage());
-    //             header('Content-Type: application/json');
-    //             http_response_code(500);
-    //             echo json_encode([
-    //                 'status' => 'error',
-    //                 'message' => 'Exception Occurred: ' . $e->getMessage()
-    //             ]);
-    //         }
-    //     }
-    // }
 
     protected function delete($urlParams): void
     {

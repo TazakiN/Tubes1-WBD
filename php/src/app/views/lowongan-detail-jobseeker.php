@@ -10,7 +10,9 @@
         
         <div class="application-status-container">
             <?php if (!$data['is_melamar']) { ?>
-                <button class="action-button" id="lamarButton">Apply</button>
+                <a href="/lamaran/add?lowongan_id=<?php echo $data['lowongan_id']; ?>">
+                    <button class="action-button" id="lamarButton">Apply</button>
+                </a>
             <?php } else { ?>
                 <div class="application-details">
                     <h3>Applications Detail</h3>

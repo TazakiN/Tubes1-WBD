@@ -22,52 +22,33 @@ class HomeController extends BaseController
 
     protected function get($urlParams)
     {
-        $limit = 12;
         $data = [];
         $data = $this->getToastContent($urlParams, $data);
         $uri = Request::getURL();
-        if ($uri == "/home"){
-            if(!isset($_SESSION["role"]) || $_SESSION["role"] != "company"){
-                $filters = $this->makeFilters($urlParams);
-                $page = $urlParams['page'] ?? 1;
-                $countData = $this->lowonganService->countLowonganRow($filters);
-                $sort = $urlParams['sort'] ?? 'asc';
-                $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit, $sort) ?? [];
-                $data['page'] = (int)$page;
-                $data['totalPage'] = (int)ceil($countData / $limit);
-                return parent::render($data, "home-lowongan-jobseeker", "layouts/base");
-            } else {
-                return parent::redirect("/");
-            }
-        } else {
-            if (isset($_SESSION['user_id'])) {
-                if (isset($_SESSION["role"]) && $_SESSION["role"] == "company"){
-                    $filters = $this->makeFilters($urlParams);
-                    $filters['company_id'] = $_SESSION['user_id'];
-
-                    $page = $urlParams['page'] ?? 1;
-                    $sort_type = $urlParams['sort_type'] ?? 'asc';
-                    $countData = $this->lowonganService->countLowonganRow($filters);
-                    $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit, $sort_type) ?? [];
-
-                    $data['page'] = (int)$page;
-                    $data['totalPage'] = (int)ceil($countData / $limit);
-
-                    return parent::render($data, "home-lowongan-company", "layouts/base");
-
+        if (!isset($_SESSION['role'])) {
+            $_SESSION['role'] = 'guest';
+        }
+        if ($uri == "/job-listing"){
+            $data = $this->getJobListingData($urlParams, $data);
+            return parent::render($data, "home-joblisting", "layouts/base");
+        } else if ($uri == "/") {
+            if (isset($_SESSION['user_id']) && $_SESSION['role'] == 'jobseeker') {
+                $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
+                if($jobseeker){
+                    $data['email'] = $jobseeker->email;
+                    $data['nama'] = $jobseeker->nama;
                 } else {
-                    $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
-                    if($jobseeker){
-                        $data['email'] = $jobseeker->email;
-                        $data['nama'] = $jobseeker->nama;
-                    }
-                    return parent::render($data, "home-jobseeker", "layouts/base");
+                    parent::redirect("/job-listing");
                 }
+            } else if (isset($_SESSION['user_id']) && $_SESSION['role'] == 'company') {
+                parent::redirect("/job-listing");
             } else {
                 $data['email'] = '';
                 $data['nama'] = 'Guest';
-                return parent::redirect("/home");
             }
+            return parent::render($data, "home-jobseeker", "layouts/base");
+        } else {
+            return parent::redirect("/login");
         }
     }
 
@@ -85,5 +66,21 @@ class HomeController extends BaseController
         : ['On-site', 'Hybrid', 'Remote'];
 
         return $filters;
+    }
+
+    private function getJobListingData($urlParams, $data)
+    {
+        $limit = 12;
+        $filters = $this->makeFilters($urlParams);
+        $page = $urlParams['page'] ?? 1;
+        $countData = $this->lowonganService->countLowonganRow($filters);
+        $sort = $urlParams['sort'] ?? 'asc';
+        if ($_SESSION["role"] == "company") {
+            $filters['company_id'] = $_SESSION['user_id'];
+        }
+        $data['lowongans'] = $this->lowonganService->getLowonganByFilters($filters,  (int)$page, $limit, $sort) ?? [];
+        $data['page'] = (int)$page;
+        $data['totalPage'] = (int)ceil($countData / $limit);
+        return $data;
     }
 }
