@@ -3,11 +3,10 @@
 namespace app\controllers;
 
 use app\controllers\BaseController;
-use app\models\JobSeekerModel;
 use app\services\UserService;
 use app\services\LowonganService;
 use app\services\LamaranService;
-use app\Request;
+use app\helpers\Toast;
 
 require_once __DIR__ . "/../config/config.php";
 
@@ -59,6 +58,7 @@ class RiwayatController extends BaseController
                 parent::render($data, "riwayat", "layouts/base");
             }
         } else {
+            Toast::error("You cannot access this page, please login");
             parent::redirect("/login");
         }
     }

@@ -48,13 +48,16 @@ class ProfileController extends BaseController {
                     $data['about'] = $company->about;
                 }
                 parent::render($data, "edit-profile-company", "layouts/base");
-            } else {
+            } else if ($_SESSION["role"] == "jobseeker") {
                 $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
                 if ($jobseeker) {
                     $data['email'] = $jobseeker->email;
                     $data['nama'] = $jobseeker->nama;
                 }
                 parent::render($data, "edit-profile-jobseeker", "layouts/base");
+            } else {
+                Toast::error("You are not authorized to access this page. Please Login");
+                parent::redirect("/login");
             }
         } else if ($uri == "/company-profile") {
             $company_id_url = $urlParams["company_id"];
