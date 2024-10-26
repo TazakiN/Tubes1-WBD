@@ -1,5 +1,5 @@
 <?php
-    $__headContent = '<link rel="stylesheet" href="/public/css/home-company.css">
+    $__headContent = '<link rel="stylesheet" href="/public/css/home-lowongan-company.css">
     <script src="/public/js/lowonganJobseeker.js" defer></script>';
 ?>
 <section class="home-section">

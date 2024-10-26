@@ -48,7 +48,7 @@ class LowonganController extends BaseController
                 } catch (Exception $e) {
                     $msg = $e->getMessage();
                     Toast::error($msg);
-                    parent::render($urlParams, "home-company", "layouts/base");
+                    parent::render($urlParams, "home-lowongan-company", "layouts/base");
                 }
             } else if ($uri == "/lowongan") {
                 if ($this->service->isBelongsToCompany($urlParams['lowongan_id'], $_SESSION['user_id'])) {

@@ -53,7 +53,7 @@ class HomeController extends BaseController
                     $data['page'] = (int)$page;
                     $data['totalPage'] = (int)ceil($countData / $limit);
 
-                    return parent::render($data, "home-company", "layouts/base");
+                    return parent::render($data, "home-lowongan-company", "layouts/base");
 
                 } else {
                     $jobseeker = $this->service->getJobSeekerById($_SESSION['user_id']);
