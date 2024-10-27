@@ -15,7 +15,7 @@
 - [Pembagian Tugas](#pembagian-tugas)
   - [_Server Side_](#server-side)
   - [_CLIENT SIDE_](#client-side)
-  - [_Chores_](#chores)
+  - [_Others_](#others)
 - [Bonus](#bonus)
 - [Anggota Kelompok](#anggota-kelompok)
 
@@ -29,9 +29,9 @@ Install php dulu, kalo udah install php, ikutin langkah berikut :
 
 ## Cara Menjalankan Server
 
-1. Jalankan docker dengan perintah `docker-compose up` pada root folder.
+1. Jalankan docker dengan perintah `docker compose up --build` pada root folder.
 2. Buka browser dan akses `localhost:8080`.
-3. Jika ingin menghentikan server, jalankan `docker-compose down`.
+3. Jika ingin menghentikan server, jalankan `docker compose down`.
 
 ## Tangkapan Layar Aplikasi
 
@@ -68,9 +68,9 @@ TODO: Masukkin gambar-gambar aplikasi
 | Detail Lowongan (Jobseeker)       | 13522032 |
 | Edit Lowongan (Company)           | 13522032 |
 | Lamaran                           | 13522037 |
-| Detail Lamaran (Jobseeker)        |  |
-| Detail Lamaran (Company)          |  |
-| Riwayat                           |  |
+| Detail Lamaran (Jobseeker)        | 13522037 |
+| Detail Lamaran (Company)          | 13522037 |
+| Riwayat                           | 13522037 |
 | Profil                            | 13522032 |
 
 ### _CLIENT SIDE_
@@ -81,27 +81,27 @@ TODO: Masukkin gambar-gambar aplikasi
 | Register                          | 13522032 |
 | Home (Company)                    | 13522032, 13522031 |
 | Home (Jobseeker)                  | 13522031 |
-| Search, Sort, dan Filter          | 13522031 |
+| Search, Sort, dan Filter di Home  | 13522031 |
 | Tambah Lowongan (Company)         | 13522032 |
 | Detail Lowongan (Company)         | 13522032 |
 | Edit Lowongan (Company)           | 13522032 |
 | Detail Lamaran (Company)          | 13522037 |
-| Detail Lamaran (Jobseeker)        | 13522032 |
+| Detail Lamaran (Jobseeker)        | 13522037 |
 | Lamaran                           | 13522037 |
 | Riwayat                           | 13522031, 13522037 |
 | Profil                            | 13522032 |
 
-### _Chores_
+### _Others_
 
-| Job                                | NIM                 |
-| ---------------------------------- | ------------------- |
-| Navbar                             | 13522032            |
-| Backend Structure + Design Pattern | 13522032            |
-| Database Schema + Seeding          | 13522032            |
-| Docker                             | 13522032            |
-| UI/UX                              | 13522031            |
-| Export CSV                         | 13522032            |
-| Google LightHouse                  | 13522032            |
+| Job                                   | NIM                 |
+| --------------------------------------| ------------------- |
+| Navbar                                | 13522032            |
+| Backend Structure + Design Pattern    | 13522032            |
+| Database Schema + Seeding             | 13522032            |
+| Docker                                | 13522032            |
+| UI/UX                                 | 13522031            |
+| Export CSV                            | 13522032            |
+| Google LightHouse                     | 13522032            |
 
 ## Bonus
 
