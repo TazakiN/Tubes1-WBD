@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\exceptions\ForbiddenAccessException;
 use app\services\LamaranService;
 use app\services\LowonganService;
 use app\services\UserService;
@@ -25,44 +26,53 @@ class LamaranController extends BaseController
     {
         $uri = Request::getURL();
 
-        if ($uri == "/lamaran/add"){
-            if (isset($_SESSION['user_id'])) {
-                $lowongan_id = $urlParams["lowongan_id"];
-                $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
+        try {
+            if ($uri == "/lamaran/add"){
+                if (isset($_SESSION['user_id']) && $_SESSION['role'] == "jobseeker") {
+                    if ($this->service->isMelamar($_SESSION['user_id'], $urlParams["lowongan_id"])) {
+                        throw new ForbiddenAccessException("You have already applied to this job");
+                    }
+                    $lowongan_id = $urlParams["lowongan_id"];
+                    $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
+                    $data = [];
+                    $data['position'] = $lowongan->posisi;
+                    $company_id = $lowongan->company_id;
+                    $company = $this->user_service->getCompanyByID($company_id);
+                    $data['company_name'] = $company->nama;
+                    parent::render($data, "add-lamaran", "layouts/base");
+                } else {
+                    parent::redirect("/login");
+                }
+            } else if ($uri == "/lamaran"){
                 $data = [];
+                $lamaran_id = $urlParams['lamaran_id'];
+                $lamaran = $this->service->getLamaranByID($lamaran_id);
+                $data['lamaran_id'] = $lamaran_id;
+                $data['status'] = $lamaran->status;
+                $data['date'] = $lamaran->created_at;
+                $data['status_reason'] = $lamaran->status_reason;
+                $data['note'] = $lamaran->note;
+                $data['cv'] = $lamaran->cv_path;
+                $data['video'] = $lamaran->video_path;
+                $lowongan_id = $lamaran->lowongan_id;
+                $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
                 $data['position'] = $lowongan->posisi;
                 $company_id = $lowongan->company_id;
                 $company = $this->user_service->getCompanyByID($company_id);
                 $data['company_name'] = $company->nama;
-                parent::render($data, "add-lamaran", "layouts/base");
-            } else {
-                parent::redirect("/login");
+                if ($_SESSION['role'] == "company"){
+                    parent::render($data, "lamaran-company", "layouts/base");
+                } else if ($_SESSION['role'] == "jobseeker") {
+                    parent::render($data, "lamaran-jobseeker", "layouts/base");
+                } else {
+                    parent::redirect("/login");
+                }
             }
-        } else if ($uri == "/lamaran"){
-            $data = [];
-            $lamaran_id = $urlParams['lamaran_id'];
-            $lamaran = $this->service->getLamaranByID($lamaran_id);
-            $data['lamaran_id'] = $lamaran_id;
-            $data['status'] = $lamaran->status;
-            $data['date'] = $lamaran->created_at;
-            $data['status_reason'] = $lamaran->status_reason;
-            $data['note'] = $lamaran->note;
-            $data['cv'] = $lamaran->cv_path;
-            $data['video'] = $lamaran->video_path;
-            $lowongan_id = $lamaran->lowongan_id;
-            $lowongan = $this->lowongan_service->getLowonganByID($lowongan_id);
-            $data['position'] = $lowongan->posisi;
-            $company_id = $lowongan->company_id;
-            $company = $this->user_service->getCompanyByID($company_id);
-            $data['company_name'] = $company->nama;
-            if ($_SESSION['role'] == "company"){
-                parent::render($data, "lamaran-company", "layouts/base");
-            } else if ($_SESSION['role'] == "jobseeker") {
-                parent::render($data, "lamaran-jobseeker", "layouts/base");
-            } else {
-                parent::redirect("/login");
-            }
+        } catch (Exception $e) {
+            Toast::error($e->getMessage());
+            parent::redirect("/job-listing");
         }
+
     }
 
     protected function post($urlParams)
