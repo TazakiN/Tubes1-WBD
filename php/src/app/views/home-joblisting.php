@@ -30,6 +30,12 @@
         <?php } ?>
     </div>
 
+    <?php if($_SESSION["role"] == "company") { ?>
+        <a href="/lowongan/add" class="add-position">
+            <span class="add-icon">+</span>
+            Add new hiring position
+        </a>
+    <?php } ?>
     <hr>
     <br>
     
