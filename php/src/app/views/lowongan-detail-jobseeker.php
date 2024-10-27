@@ -15,7 +15,12 @@
                 </a>
             <?php } else { ?>
                 <div class="application-details">
-                    <h3>Applications Detail</h3>
+                    <div class="details-header">
+                        <h3>Applications Detail</h3>
+                        <a href="/lamaran?lamaran_id=<?php echo $data['lamaran']['lamaran_id']; ?>">
+                            <button class="action-button">See Applications Details</button>
+                        </a>
+                    </div>
                     
                     <div class="documents-section">
                         <?php if ($data['lamaran']['cv_path']) { ?>

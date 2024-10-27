@@ -294,13 +294,20 @@ input:checked + .slider:before {
 }
 
 .application-details {
-  padding: 1rem 0;
+  padding-bottom: 1rem;
 }
 
 .application-details h3 {
-  margin-bottom: 1.5rem;
   color: #333;
   font-size: 1.25rem;
+}
+
+.details-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .documents-section {
