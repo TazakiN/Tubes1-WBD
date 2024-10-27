@@ -101,6 +101,7 @@ TODO: Masukkin gambar-gambar aplikasi
 | Docker                             | 13522032            |
 | UI/UX                              | 13522031            |
 | Export CSV                         | 13522032            |
+| Google LightHouse                  | 13522032            |
 
 ## Bonus
 
