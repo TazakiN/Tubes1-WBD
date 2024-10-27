@@ -7,28 +7,41 @@
     }
 ?>
 <section class="home-section">
-    <div class="header">
+<div class="header">
+    <h1>
+        <?php if ($_SESSION["role"] == "company") { ?>
+            Position Listing at, <?php echo $_SESSION["nama"] ?>
+            <?php } else { ?>
+            Job Listing
+        <?php } ?>
+    </h1>
+                
+    <div class="search-section">
         <div class="search-bar">
             <input type="text" class="search-input" placeholder="Search..." id="searchInput" autocomplete="off">
             <button id="reverseOrderBtn" class="filter-button">Reverse Order</button>
-            <div class="check-container">
-                <label class="check-item"><input type="checkbox" name="location" value="On-site" checked>On-site</label>
-                <label class="check-item"><input type="checkbox" name="location" value="Hybrid" checked>Hybrid</label>
-                <label class="check-item"><input type="checkbox" name="location" value="Remote" checked>Remote</label>
+        </div>
+        <div class="filter-section">
+            <div class="filter-group">
+                <div class="filter-label">Job Location</div>
+                <div class="check-container">
+                    <label class="check-item"><input type="checkbox" name="location" value="On-site" checked>On-site</label>
+                    <label class="check-item"><input type="checkbox" name="location" value="Hybrid" checked>Hybrid</label>
+                    <label class="check-item"><input type="checkbox" name="location" value="Remote" checked>Remote</label>
+                </div>
             </div>
 
-            <div class="check-container">
-                <label class="check-item"><input type="checkbox" name="type" value="Internship" checked>Internship</label>
-                <label class="check-item"><input type="checkbox" name="type" value="Part-time" checked>Part-time</label>
-                <label class="check-item"><input type="checkbox" name="type" value="Full-time" checked>Full-time</label>
+            <div class="filter-group">
+                <div class="filter-label">Job Type</div>
+                <div class="check-container">
+                    <label class="check-item"><input type="checkbox" name="type" value="Internship" checked>Internship</label>
+                    <label class="check-item"><input type="checkbox" name="type" value="Part-time" checked>Part-time</label>
+                    <label class="check-item"><input type="checkbox" name="type" value="Full-time" checked>Full-time</label>
+                </div>
             </div>
         </div>
-        <?php if ($_SESSION["role"] == "company") { ?>
-            <h1>Position Listing at, <?php echo $_SESSION["nama"] ?></h1>
-        <?php } else { ?>
-            <h1>Job Listing</h1>
-        <?php } ?>
     </div>
+</div>
 
     <?php if($_SESSION["role"] == "company") { ?>
         <a href="/lowongan/add" class="add-position">
@@ -63,7 +76,7 @@
                         </svg>
                     </div>
                     <div class="job-info">
-                        <h3 class="job-title"><?= htmlspecialchars($v->posisi) ?></h3>
+                        <h2 class="job-title"><?= htmlspecialchars($v->posisi) ?></h2>
                         <div class="company"><?= htmlspecialchars($v->company_name) ?></div>
                         <div class="tags">
                             <span class="tag"><?= ucfirst(htmlspecialchars($v->jenis_pekerjaan)) ?></span>
@@ -76,7 +89,7 @@
                     </div>
                 </a>
                 <?php if($_SESSION["role"] == "company") { ?>
-                    <button class="delete-btn" data-id="<?= $v->lowongan_id ?>">
+                    <button class="delete-btn" aria-label="Delete Button" data-id="<?= $v->lowongan_id ?>">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M3 6h18"></path>
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>

@@ -112,7 +112,51 @@ TODO: Masukkin gambar-gambar aplikasi
 
     Pada website ini, kami telah melakukan optimisasi pada website kami. Berikut adalah hasil Google LightHouse pada website kami :
 
-    TODO: Masukkin gambar Google LightHouse
+    - LOGIN PAGE
+    ![Login Page](./docs/lighthouse/login.png)
+
+    - REGISTER PAGE
+    ![Register Page](./docs/lighthouse/register.png)
+
+    - HOME PAGE (before)
+    ![Home Page (before)](./docs/lighthouse/home-before.png)
+
+      Pada home page, dilakukan penambahan alt pada gambar mata, sehingga hasilnya menjadi seperti berikut :
+
+    - HOME PAGE (after)
+    ![Home Page (after)](./docs/lighthouse/home-after.png)
+
+    - JOB LISTING PAGE (before)
+    ![Job Listing Page (before)](./docs/lighthouse/joblisting-before.png)
+
+      Pada job listing page, dilakukan penambahan styling pada checkbox, restrukturisasi pada header, dan penambahan aria-label pada tombol delete, sehingga hasilnya menjadi seperti berikut :
+
+    - JOB LISTING PAGE (after)
+    ![Job Listing Page (after)](./docs/lighthouse/joblisting-after.png)
+
+    - LOWONGAN DETAIL PAGE COMPANY
+    ![Lowongan Detail Page](./docs/lighthouse/lowongan-detail-company.png)
+
+    - LOWONGAN ADD PAGE COMPANY
+    ![Lowongan Add Page](./docs/lighthouse/lowongan-add.png)
+
+    - LOWONGAN EDIT PAGE COMPANY
+    ![Lowongan Edit Page](./docs/lighthouse/lowongan-edit.png)
+
+    - PROFILE PAGE COMPANY
+    ![Profile Page](./docs/lighthouse/profile.png)
+
+    - LAMARAN DETAIL PAGE COMPANY
+    ![Lamaran Page](./docs/lighthouse/lamaran-company.png)
+
+    - LOWONGOAN DETAIL JOBSEEKER
+    ![Lowongan Detail Page](./docs/lighthouse/lowongan-detail-jobseeker.png)
+
+    - LAMARAN DETAIL PAGE JOBSEEKER
+    ![Lamaran Page](./docs/lighthouse/lamaran-jobseeker.png)
+
+    - RIWAYAT PAGE JOBSEEKER
+    ![Riwayat Page](./docs/lighthouse/riwayat.png)
 
 ## Anggota Kelompok
 

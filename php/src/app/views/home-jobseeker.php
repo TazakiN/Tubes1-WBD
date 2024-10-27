@@ -8,7 +8,7 @@
         <div class="line"></div>
         <div class="profile-card">
             <div class="profile-picture">
-                <img src="/public/svg/profile.svg" alt="profile">
+                <img src="/public/svg/profile.svg" alt="Profile Icon">
             </div>
             
             <div class="card-description">
@@ -39,7 +39,7 @@
 
         <div class="button-container">
             <a href="/job-listing">
-                <button class="job-listing-button"> <img src="/public/svg/eye.svg"> Job Listing</button>
+                <button class="job-listing-button"> <img src="/public/svg/eye.svg" alt="Eye Icon"> Job Listing</button>
             </a>
             <button class="purry-search-button" id="searchButton">Purry Search</button>
         </div>
