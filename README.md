@@ -35,7 +35,14 @@ Install php dulu, kalo udah install php, ikutin langkah berikut :
 
 ## Tangkapan Layar Aplikasi
 
-TODO: Masukkin gambar-gambar aplikasi
+1. Home Page as Guest
+![Home Page](image.png)
+2. Job Listings
+![Job Listing](image-1.png)
+3. Job Details
+![Job Details](image-2.png)
+4. Add Jobs
+![Company Add Jobs](image-3.png)
 
 ## Pembagian Tugas
 
@@ -73,7 +80,7 @@ TODO: Masukkin gambar-gambar aplikasi
 | Riwayat                           | 13522037 |
 | Profil                            | 13522032 |
 
-### _CLIENT SIDE_
+### _Client Side_
 
 | Fitur                             | NIM      |
 | ----------------------------------| -------- |
